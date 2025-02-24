@@ -1,0 +1,73 @@
+body{
+    background-color: lightgray;
+  }
+.sobre-nos-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 20px 0;
+  }
+  .nossa-historia-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 20px 0;
+  }
+ 
+  .slick-slider {
+    background-color: rgb(43, 170, 153);
+    display: flex;
+    justify-content: center;
+  }
+  
+  .slick-slide img {
+    border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+  max-width: 80%;
+  height: auto;
+  }
+  .slick-slide h1 {
+    text-align: center;
+  }
+  .slick-slide h3 {
+    margin: 0 auto;
+  max-width: 600px;
+  text-align: center;
+  }
+
+  .historia-instituição {
+    max-width: 800px; 
+    margin: 0 auto; 
+  }
+  
+  .historia-instituição h2 {
+    text-align: justify; 
+    line-height: 1.6; 
+  }
+  .svg-left {
+    position: absolute;
+    left: 0;
+  }
+  
+  .svg-right {
+    position: absolute;
+    right: 0;
+  }
+  .outra-linha {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(43, 170, 153);
+  }
+  .resto-da-historia{
+    max-width: 800px; 
+    margin: 0 auto; 
+  }
+  .resto-da-historia h2{
+    text-align: justify; 
+    line-height: 1.6; 
+  }
+  

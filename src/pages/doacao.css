@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
+
+.sec-quem-somos .quem-somos{
+    height: 130px;
+    margin-top: -30px;
+}
+
+.layer img{
+    width: 70vh;
+}
+
+.layer{
+    margin-top: 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sec-quem-somos{
+    display: flex;
+    flex-direction: column;
+    
+}
+.sec-quem-somos .titulo{
+    font-family: "Sen", sans-serif;
+    color: #333333;
+    font-size: 24pt;
+}
+
+
+.div-doacao{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 800px;
+    font-size: 40px;
+    text-align: center;
+    background-color: rgba(20, 244, 83, 1);
+    margin-bottom: 200px;
+    margin-top: 200px;
+
+}
+
+.div-doacao h4{
+    margin-top: 3%;
+    font-family: "Sen", sans-serif;
+}
+
+.opcoes-doacao{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 4%;
+}
+
+.opcoes-doacao p{
+    font-family: "Sen", sans-serif;
+    font-size: 16pt;
+    width: 140px;
+    color: rgb(0, 0, 0);
+}
+.alimentos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dinheiro{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.roupa{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.color-blue{
+    color: rgba(41, 38, 198, 1);
+}
+.opcoes-doacao img{
+   width: 300px;
+    height: 300px;
+    filter: drop-shadow(10px 7px 20px rgb(72, 71, 71));
+}
+
+.sec-quem-somos{
+    height: 700px;
+    background-color:rgba(219, 226, 232, 1);
+    width: auto;
+}
+
+.btn{
+    width: 70px;
+    height: 40px;
+    border-radius: 50px;
+    transition: 0.7s all ease-in-out;
+    font-family: "Sen", sans-serif;
+    margin-top: 5%;
+    background-color: #e8f1e9;
+    box-shadow: 4px 4px 6px 0;
+    color: rgb(4, 4, 4);
+    border: 1px solid rgb(9, 175, 51);
+    font-weight: bold;
+}
+
+.btn:hover{
+    background-color: #11a304;
+    
+}
+

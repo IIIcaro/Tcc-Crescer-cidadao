@@ -1,0 +1,45 @@
+.footer{
+    background-size: cover;
+    background-color: #B2C7D2;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25%;
+  }
+  
+  .footertxtmain{
+    gap: 30px;
+    
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .footertxt1{
+    margin-left: 20px;
+    line-height: 1.5em;
+    font-size: 22px;
+  }
+  
+  .footertxt2{
+    padding-left: 20px;
+    line-height: 1.5em;
+    font-size: 22px;
+    margin-left: 20px;
+  }
+  
+  .imgfooter{
+    display: flex; 
+    align-items: center; 
+    justify-content: flex-end; 
+    gap: 15px; 
+  }
+
+footer img{
+    height: 40px;
+    width: 80%;
+}
+
+footer p{
+    font-size: 13pt;
+    font-family: "Sen", sans-serif;
+}

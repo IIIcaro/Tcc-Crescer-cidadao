@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+nav{
+    width: auto;
+    height: 90px;
+    background-color: #18A5E9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav .layout-navegacao{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+}
+
+nav a{
+    text-decoration: none;
+    color: #333333;
+    font-family: "Sen", sans-serif;
+    font-size: 17pt;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+nav .link-layout{
+    width: 188px;
+    height: 43px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border-radius: 86px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 18px 10px -15px #111;
+}
+

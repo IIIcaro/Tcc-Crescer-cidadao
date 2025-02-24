@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
+
+form .layout-user{
+    width: 20px !important;
+    height: 20px !important;
+    margin: 4px auto auto auto;
+}
+
+.icons{
+    display: flex;
+    flex-direction: column;
+}
+
+.icons input{
+    width: 220px;
+    border-radius: 13px;
+    margin: auto;
+    padding: 8px;
+    border: 2px solid black;
+    box-shadow: 0.1em 0.1em 0.5em black;
+    margin: 20px auto auto auto;
+}
+
+.edit-button{
+    background-color: transparent; 
+    border: none; 
+    box-shadow: none; 
+    padding: 0; 
+    margin: 1.5em auto auto auto;
+    font-family: "Sen", sans-serif; 
+    font-size: 16px; 
+    color: #333; 
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.perfil.button{
+    font-family: "Sen" sans-serif;
+}
+
+.titulo{
+    font-family: "Sen", sans-serif;
+    margin: auto 3em 0.5em auto; 
+}
+
+.container-div-meio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.buttons-op{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+
+    gap: 20px;
+    justify-content: center;
+
+}
+
+ .buttons-op button{
+    height: 40px;
+    width: 200px;
+    background-color: white;
+    margin: 1px 10px 1px 11px;
+    border: none;
+    
+}
+
+.buttons-op{
+    background-color: rgb(200, 188, 188);
+    width: 230px;
+}
+
+.layout-perfil .perfil{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+}
+
+.container-sec-painel{
+    margin-top: -57vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
