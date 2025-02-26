@@ -25,7 +25,7 @@ export const Footer = () => {
       <a href="https://www.whatsapp.com/" target="_blank" rel="noopenner noreferrer">
       <img src={WhatsApp} alt='footerW'/>
       </a>
-      <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+      <a href="https://www.instagram.com/crescercidadao/" target="_blank" rel="noopener noreferrer">
       <img src={Instagram} alt='footerI'/>
       </a>
       <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">

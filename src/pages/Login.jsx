@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa o hook de navegação
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import Logo from '../assets/img/logo.png';
 import userIcon from '../assets/img/img4.png';
@@ -9,20 +9,40 @@ import googleIcon from '../assets/img/googleIcon.png';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Hook para mudar de página
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.classList.add('login-body');
-
     return () => {
       document.body.classList.remove('login-body');
     };
   }, []);
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    console.log('Email:', email);
-    console.log('Senha:', password);
+    setError(''); // Limpa a mensagem de erro ao tentar fazer login
+    
+    try {
+      const response = await fetch('http://localhost/login.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, senha: password }) // Correto
+      });
+      
+      const data = await response.json();
+      console.log('Resposta do servidor:', data);
+      
+      if (data.error) {
+        setError(data.error);
+      } else {
+        alert('Login realizado com sucesso! Bem-vindo, ' + data.nome);
+        navigate('/Inicio');
+      }
+    } catch (error) {
+      console.error('Erro ao conectar com o servidor:', error);
+      setError('Erro ao conectar com o servidor. Tente novamente mais tarde.');
+    }
   };
 
   return (
@@ -31,6 +51,7 @@ const Login = () => {
         <img src={Logo} alt="Logo" />
       </div>
       <h1>JÁ FAÇO PARTE</h1>
+      {error && <p className="error-message">{error}</p>} {/* Exibir mensagens de erro */}
       <form onSubmit={handleLogin}>
         <div className="input-group">
           <div className="input-icon-wrapper">
@@ -68,8 +89,6 @@ const Login = () => {
           <img src={googleIcon} alt="Google Icon" className="google-icon" />
           <span className="google-text">Faça login com o Google</span>
         </div>
-
-        {/* Botão de cadastro que redireciona corretamente */}
         <button type="button" onClick={() => navigate('/Cadastro')} className="register-btn">
           <span>Não tem uma conta? <strong>Cadastrar</strong></span>
         </button>

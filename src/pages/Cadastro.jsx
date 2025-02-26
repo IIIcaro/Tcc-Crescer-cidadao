@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa o hook de navegação
+import { useNavigate } from 'react-router-dom';
 import './Cadastro.css';
 import Logo from '../assets/img/logo.png';
 import userIcon from '../assets/img/img4.png';
@@ -11,31 +11,47 @@ const Cadastro = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const navigate = useNavigate(); // Hook para mudar de página
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.classList.add('cadastro-body');
-
     return () => {
       document.body.classList.remove('cadastro-body');
     };
   }, []);
 
-  const handleRegister = (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
+    setError(''); // Limpa a mensagem de erro ao tentar cadastrar
+
     if (password !== confirmPassword) {
-      alert('As senhas não coincidem!');
+      setError('As senhas não coincidem!');
       return;
     }
+    
     if (nome && email && password) {
-      // Aqui você pode adicionar a lógica para enviar os dados do cadastro, se necessário.
-      console.log('Nome:', nome);
-      console.log('Email:', email);
-      console.log('Senha:', password);
-      // Redireciona para a página de login após o cadastro
-      navigate('/Login'); // Redireciona para a página de Login
+      try {
+        const response = await fetch('http://localhost/register.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, email, senha: password }) // Correto
+        });
+        
+        const data = await response.json();
+        
+        if (data.error) {
+          setError(data.error);
+        } else {
+          alert('Cadastro realizado com sucesso!'); 
+          navigate('/Login'); // Redireciona para a página de Login
+        }
+      } catch (error) {
+        console.error('Erro ao conectar com o servidor:', error);
+        setError('Erro ao conectar com o servidor. Tente novamente mais tarde.');
+      }
     } else {
-      alert('Por favor, preencha todos os campos!');
+      setError('Por favor, preencha todos os campos!');
     }
   };
 
@@ -45,6 +61,7 @@ const Cadastro = () => {
         <img src={Logo} alt="Logo" />
       </div>
       <h1>CADASTRE-SE</h1>
+      {error && <p className="error-message">{error}</p>} {/* Exibir mensagens de erro */}
       <form onSubmit={handleRegister}>
         <div className="input-group">
           <div className="input-icon-wrapper">
