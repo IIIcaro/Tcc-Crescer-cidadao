@@ -8,77 +8,118 @@ import footerimgW from "../assets/img/footerimgW.png";
 import footerimgY from "../assets/img/footerimgY.png";
 
 const Cards = () => {
-  const [showFisioterapia, setShowFisioterapia] = useState(false);
-  const [showNutricao, setShowNutricao] = useState(false);
-  const [showPsicologia, setShowPsicologia] = useState(false);
+  const [expandedCard, setExpandedCard] = useState(null);
+
+  const toggleCard = (cardName) => {
+    if (expandedCard === cardName) {
+      setExpandedCard(null);
+    } else {
+      setExpandedCard(cardName);
+    }
+  };
+
+  const professionals = [
+    {
+      id: 'fisioterapia',
+      icon: iconFisioterapia,
+      title: 'Fisioterapia',
+      name: 'Marcos Felipe',
+      description: 'Olá, sou um fisioterapeuta dedicado com experiência em reabilitação física e melhoria da qualidade de vida dos meus pacientes. Meu foco é proporcionar tratamentos personalizados e eficazes, utilizando técnicas modernas e baseadas em evidências. Com um compromisso inabalável com o bem-estar dos meus pacientes, estou aqui para oferecer suporte e orientação em sua jornada de recuperação e saúde.',
+      specialty: 'Especialista em Reabilitação Neurológica',
+      color: '#3498db'
+    },
+    {
+      id: 'nutricao',
+      icon: iconNutricao,
+      title: 'Nutrição',
+      name: 'Ana Carolina',
+      description: 'Olá, sou uma nutricionista comprometida com a saúde e o bem-estar dos meus clientes. Com anos de experiência em nutrição clínica e esportiva, meu objetivo é ajudá-lo a alcançar seus objetivos de saúde e forma física de maneira sustentável e personalizada. Utilizo abordagens baseadas em evidências e individualizadas para criar planos alimentares que atendam às suas necessidades específicas e estilo de vida.',
+      specialty: 'Especialista em Nutrição Funcional',
+      color: '#2ecc71'
+    },
+    {
+      id: 'psicologia',
+      icon: iconPsicologia,
+      title: 'Psicologia',
+      name: 'Power Guido',
+      description: 'Olá, sou um psicólogo comprometido em fornecer suporte emocional e orientação para aqueles que buscam melhorar sua saúde mental e bem-estar emocional. Com uma abordagem empática e centrada no cliente, estou aqui para ajudá-lo a navegar pelos desafios da vida, superar obstáculos e encontrar soluções para seus problemas. Meu objetivo é criar um ambiente seguro e acolhedor, onde você se sinta confortável para explorar seus pensamentos e sentimentos.',
+      specialty: 'Especialista em Terapia Cognitivo-Comportamental',
+      color: '#9b59b6'
+    }
+  ];
 
   return (
     <>
-    <div className="container">
+      <section className="professionals-section">
+        <div className="section-header">
+          <h2 className="section-title">Nossa Equipe</h2>
+          <div className="title-underline"></div>
+          <p className="section-description">
+            Conheça os profissionais dedicados que fazem parte da nossa equipe multidisciplinar
+          </p>
+        </div>
+
+        <div className="professionals-container">
+          {professionals.map((professional) => (
+            <div 
+              key={professional.id} 
+              className={`professional-card ${expandedCard === professional.id ? 'expanded' : ''}`}
+              style={{'--card-color': professional.color}}
+            >
+              <div className="card-header">
+                <div className="icon-container">
+                  <img src={professional.icon || "/placeholder.svg"} alt={`Ícone ${professional.title}`} className="professional-icon" />
+                </div>
+                <h3 className="professional-title">{professional.title}</h3>
+              </div>
+              
+              <div className="card-content">
+                <div className="professional-name">{professional.name}</div>
+                <div className="professional-specialty">{professional.specialty}</div>
+                
+                <div className="professional-description">
+                  <p>{professional.description}</p>
+                </div>
+                
+                <button 
+                  className="read-more-button"
+                  onClick={() => toggleCard(professional.id)}
+                  aria-expanded={expandedCard === professional.id}
+                >
+                  {expandedCard === professional.id ? 'Ler Menos' : 'Ler Mais'}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <footer className='footer'>
+        <div className='footertxtmain'>
+          <div className='footertxt1'>
+            <p>Contato</p>
+            <p>crescercidadao@gmail.com</p>
+            <p>3224-8975</p>
+          </div>
+          <div className='footertxt2'>
+            <p>Endereço</p>
+            <p>R.São Domingos, 76 - Santa Monica, Feira de Santana</p>
+            <p>BA, 44050-081</p>
+          </div>
+        </div>
       
-      <div className="block">
-        
-          <div className="profile-img">
-            <img src={iconFisioterapia} alt="Ícone Fisioterapia" className="icon" />
-          </div>
-        
-        <div className="name">Fisioterapia</div>
-        {showFisioterapia && <div className="text">Olá, sou um fisioterapeuta dedicado com experiência em reabilitação física e melhoria da qualidade de vida dos meus pacientes. Meu foco é proporcionar tratamentos personalizados e eficazes, utilizando técnicas modernas e baseadas em evidências. Com um compromisso inabalável com o bem-estar dos meus pacientes, estou aqui para oferecer suporte e orientação em sua jornada de recuperação e saúde. Estou entusiasmado para colaborar com você em sua busca por uma vida mais ativa e sem dor.</div>}
-        <div className="professional">Marcos Felipe</div>
-        <button className="button" onClick={() => setShowFisioterapia(!showFisioterapia)}> Leia Mais </button>
-      </div>
-
-      <div className="block" >
-        
-          <div className="profile-img">
-            <img src={iconNutricao} alt="Ícone Nutrição" className="icon" />
-          </div>
-       
-        <div className="name">Nutrição</div>
-        {showNutricao && <div className="text">Olá, sou um nutricionista comprometido com a saúde e o bem-estar dos meus clientes. Com anos de experiência em nutrição clínica e esportiva, meu objetivo é ajudá-lo a alcançar seus objetivos de saúde e forma física de maneira sustentável e personalizada. Utilizo abordagens baseadas em evidências e individualizadas para criar planos alimentares que atendam às suas necessidades específicas e estilo de vida. Estou aqui para guiá-lo em sua jornada rumo a uma alimentação mais saudável, equilibrada e prazerosa, proporcionando o apoio e a motivação necessários para alcançar seus objetivos. Estou ansioso para trabalhar juntos para transformar sua saúde e promover um estilo de vida vibrante e cheio de energia.</div>}
-        <div className="professional">Nome do Profissional de Nutrição</div>
-        <button className="button"  onClick={() => setShowNutricao(!showNutricao)}> Leia Mais </button>
-      </div>
-
-      <div className="block">
-        
-          <div className="profile-img">
-            <img src={iconPsicologia} alt="Ícone Psicologia" className="icon" />
-          </div>
-       
-        <div className="name">Psicologia</div>
-        {showPsicologia && <div className="text">Olá, sou um psicólogo comprometido em fornecer suporte emocional e orientação para aqueles que buscam melhorar sua saúde mental e bem-estar emocional. Com uma abordagem empática e centrada no cliente, estou aqui para ajudá-lo a navegar pelos desafios da vida, superar obstáculos e encontrar soluções para seus problemas. Meu objetivo é criar um ambiente seguro e acolhedor, onde você se sinta confortável para explorar seus pensamentos, sentimentos e experiências sem julgamento. Utilizo técnicas terapêuticas comprovadas e individualizadas para ajudá-lo a desenvolver habilidades de enfrentamento saudáveis, promover o autoconhecimento e cultivar relacionamentos mais satisfatórios consigo mesmo e com os outros. Estou pronto para acompanhá-lo em sua jornada de autodescoberta e crescimento pessoal, capacitando-o a alcançar uma vida mais plena e gratificante.</div>}
-        <div className="professional">Power Guido</div>
-        <button className="button"  onClick={() => setShowPsicologia(!showPsicologia)}> Leia Mais </button>
-      </div>
-    </div>
-    <footer className='footer'>
-      <div className='footertxtmain'>
-      <div className='footertxt1'>
-        <p>Contato:</p>
-        <p>crescercidadao@gmail.com</p>
-        <p>3224-8975</p>
-      </div>
-      <div className='footertxt2'>
-        <p>Endereço:</p>
-        <p>R.São Domingos, 76 - Santa Monica, Feira de Santana</p>
-        <p>BA, 44050-081</p>
-      </div>
-      </div>
-    
-      <div className='imgfooter'> 
-      <a href="https://www.whatsapp.com/" target="_blank" rel="noopenner noreferrer">
-      <img src={footerimgW} alt='footerW'/>
-      </a>
-      <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-      <img src={footerimgI} alt='footerI'/>
-      </a>
-      <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
-      <img src={footerimgY} alt='footerY'/>
-      </a>
-      </div> 
-    </footer>
-
+        <div className='imgfooter'> 
+          <a href="https://www.whatsapp.com/" target="_blank" rel="noopenner noreferrer" aria-label="WhatsApp">
+            <img src={footerimgW || "/placeholder.svg"} alt='WhatsApp'/>
+          </a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <img src={footerimgI || "/placeholder.svg"} alt='Instagram'/>
+          </a>
+          <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <img src={footerimgY || "/placeholder.svg"} alt='YouTube'/>
+          </a>
+        </div> 
+      </footer>
     </>
   );
 };

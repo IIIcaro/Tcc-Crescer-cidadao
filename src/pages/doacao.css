@@ -1,115 +1,295 @@
-@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Sen:wght@400..800&family=Montserrat:wght@300;400;500;600;700&display=swap");
 
-.sec-quem-somos .quem-somos{
-    height: 130px;
-    margin-top: -30px;
+/* Reset e estilos base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.layer img{
-    width: 70vh;
+body {
+  font-family: "Montserrat", sans-serif;
+  color: #333;
+  line-height: 1.6;
 }
 
-.layer{
-    margin-top: 3%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Container principal */
+.doacao-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-.sec-quem-somos{
-    display: flex;
+/* Seção Hero */
+.doacao-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80");
+  background-size: cover;
+  background-position: center;
+  height: 40vh;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 0 20px;
+}
+
+.doacao-hero-content {
+  max-width: 800px;
+}
+
+.doacao-title {
+  font-family: "Sen", sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.doacao-divider {
+  height: 4px;
+  width: 80px;
+  background-color: #2ecc71;
+  margin: 1.5rem auto;
+  border-radius: 2px;
+}
+
+.doacao-subtitle {
+  font-size: 1.2rem;
+  font-weight: 400;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Seção de opções de doação */
+.doacao-options {
+  padding: 5rem 2rem;
+  background-color: #f8f9fa;
+}
+
+.doacao-intro {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+}
+
+.doacao-intro h2 {
+  font-family: "Sen", sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.doacao-highlight {
+  color: #2980b9;
+  font-weight: 700;
+}
+
+.doacao-description {
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Cards de doação */
+.doacao-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.doacao-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.doacao-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.doacao-card-image {
+  margin-bottom: 1.5rem;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doacao-img {
+  max-width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.doacao-card:hover .doacao-img {
+  transform: scale(1.05);
+}
+
+.doacao-card-title {
+  font-family: "Sen", sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.doacao-card-text {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  min-height: 80px;
+}
+
+.doacao-button {
+  background-color: white;
+  color: #2ecc71;
+  border: 2px solid #2ecc71;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  font-family: "Sen", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.doacao-button:hover {
+  background-color: #2ecc71;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+.doacao-button.primary {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.doacao-button.primary:hover {
+  background-color: #27ae60;
+  border-color: #27ae60;
+}
+
+/* Seção de impacto */
+.doacao-impact {
+  padding: 5rem 2rem;
+  background-color: #fff;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.doacao-impact h2 {
+  font-family: "Sen", sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #333;
+}
+
+.doacao-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.doacao-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.doacao-stat-number {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #2ecc71;
+  margin-bottom: 0.5rem;
+  font-family: "Sen", sans-serif;
+}
+
+.doacao-stat-label {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.doacao-impact-text {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.8;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .doacao-title {
+    font-size: 2.2rem;
+  }
+
+  .doacao-intro h2 {
+    font-size: 2rem;
+  }
+
+  .doacao-cards {
     flex-direction: column;
-    
-}
-.sec-quem-somos .titulo{
-    font-family: "Sen", sans-serif;
-    color: #333333;
-    font-size: 24pt;
-}
-
-
-.div-doacao{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    height: 800px;
-    font-size: 40px;
-    text-align: center;
-    background-color: rgba(20, 244, 83, 1);
-    margin-bottom: 200px;
-    margin-top: 200px;
-
-}
-
-.div-doacao h4{
-    margin-top: 3%;
-    font-family: "Sen", sans-serif;
-}
-
-.opcoes-doacao{
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: space-around;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-top: 4%;
-}
+  }
 
-.opcoes-doacao p{
-    font-family: "Sen", sans-serif;
-    font-size: 16pt;
-    width: 140px;
-    color: rgb(0, 0, 0);
-}
-.alimentos{
-    display: flex;
+  .doacao-card {
+    max-width: 100%;
+  }
+
+  .doacao-stats {
     flex-direction: column;
-    align-items: center;
+    gap: 2rem;
+  }
+
+  .doacao-stat-number {
+    font-size: 2.5rem;
+  }
 }
 
-.dinheiro{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+@media (max-width: 480px) {
+  .doacao-hero {
+    height: 30vh;
+  }
 
-.roupa{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+  .doacao-title {
+    font-size: 1.8rem;
+  }
 
-.color-blue{
-    color: rgba(41, 38, 198, 1);
-}
-.opcoes-doacao img{
-   width: 300px;
-    height: 300px;
-    filter: drop-shadow(10px 7px 20px rgb(72, 71, 71));
-}
+  .doacao-subtitle {
+    font-size: 1rem;
+  }
 
-.sec-quem-somos{
-    height: 700px;
-    background-color:rgba(219, 226, 232, 1);
-    width: auto;
-}
+  .doacao-options {
+    padding: 3rem 1rem;
+  }
 
-.btn{
-    width: 70px;
-    height: 40px;
-    border-radius: 50px;
-    transition: 0.7s all ease-in-out;
-    font-family: "Sen", sans-serif;
-    margin-top: 5%;
-    background-color: #e8f1e9;
-    box-shadow: 4px 4px 6px 0;
-    color: rgb(4, 4, 4);
-    border: 1px solid rgb(9, 175, 51);
-    font-weight: bold;
-}
+  .doacao-intro h2 {
+    font-size: 1.8rem;
+  }
 
-.btn:hover{
-    background-color: #11a304;
-    
+  .doacao-description {
+    font-size: 1rem;
+  }
 }
 

@@ -10,6 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,27 +22,48 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    setError(''); // Limpa a mensagem de erro ao tentar fazer login
-    
+    setError('');
+    setIsLoading(true);
+  
     try {
-      const response = await fetch('http://localhost/login.php', {
+      // URL absoluta para garantir
+      const response = await fetch('http://localhost/backend/login.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, senha: password }) // Correto
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ 
+          email: email, 
+          senha: password 
+        })
       });
-      
-      const data = await response.json();
-      console.log('Resposta do servidor:', data);
-      
-      if (data.error) {
-        setError(data.error);
-      } else {
-        alert('Login realizado com sucesso! Bem-vindo, ' + data.nome);
-        navigate('/Inicio');
+  
+      // Verifica se a resposta está vazia
+      const responseText = await response.text();
+      if (!responseText) {
+        throw new Error('O servidor não retornou dados');
       }
+  
+      const data = JSON.parse(responseText);
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Erro no servidor');
+      }
+  
+      // Login bem-sucedido
+      localStorage.setItem('usuarioToken', data.token);
+      localStorage.setItem('usuarioNome', data.nome);
+      navigate('/Inicio');
+      
     } catch (error) {
-      console.error('Erro ao conectar com o servidor:', error);
-      setError('Erro ao conectar com o servidor. Tente novamente mais tarde.');
+      console.error('Erro detalhado:', error);
+      setError(`Erro: ${error.message}. Verifique:
+        1. XAMPP está rodando (Apache e MySQL)
+        2. Arquivos PHP estão em htdocs/backend
+        3. Não há erros no console do navegador (F12)`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -51,7 +73,8 @@ const Login = () => {
         <img src={Logo} alt="Logo" />
       </div>
       <h1>JÁ FAÇO PARTE</h1>
-      {error && <p className="error-message">{error}</p>} {/* Exibir mensagens de erro */}
+      {error && <p className="error-message">{error}</p>}
+      
       <form onSubmit={handleLogin}>
         <div className="input-group">
           <div className="input-icon-wrapper">
@@ -62,10 +85,12 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              autoComplete="username"
             />
             <img src={userIcon} alt="User Icon" className="input-icon" />
           </div>
         </div>
+        
         <div className="input-group">
           <div className="input-icon-wrapper">
             <input
@@ -75,6 +100,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete="current-password"
             />
             <img src={keyIcon} alt="Key Icon" className="input-icon" />
           </div>
@@ -84,12 +110,21 @@ const Login = () => {
             <span className="forgot-password">Esqueceu a senha?</span>
           </div>
         </div>
-        <button type="submit">ENTRAR</button>
+        
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'CARREGANDO...' : 'ENTRAR'}
+        </button>
+        
         <div className="alternative-login">
           <img src={googleIcon} alt="Google Icon" className="google-icon" />
           <span className="google-text">Faça login com o Google</span>
         </div>
-        <button type="button" onClick={() => navigate('/Cadastro')} className="register-btn">
+        
+        <button 
+          type="button" 
+          onClick={() => navigate('/Cadastro')} 
+          className="register-btn"
+        >
           <span>Não tem uma conta? <strong>Cadastrar</strong></span>
         </button>
       </form>

@@ -1,111 +1,205 @@
-body.cadastro-body {
-    background-color: #afeeee;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; 
-    margin: 0; 
-  }
-  
+/* Cadastro.css */
+
+/* Reset e estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #afeeee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Container principal - IDÊNTICO AO LOGIN */
+.cadastro-container {
+  background-color: #77d4d4;
+  width: 100%;
+  max-width: 700px;
+  padding: 80px 40px 40px;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 20px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo - mesmo estilo do login */
+.logo-cadastro {
+  position: absolute;
+  top: -75px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.logo-cadastro img {
+  width: 80%;
+  height: auto;
+}
+
+/* Título */
+.cadastro-container h1 {
+  color: white;
+  font-size: 28px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+/* Formulário */
+.cadastro-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Grupos de input - mesmo estilo do login */
+.input-group {
+  margin-bottom: 20px;
+  width: 100%;
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 11%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  z-index: 2;
+}
+
+.input-group input {
+  width: 80%;
+  padding: 15px 15px 15px 50px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(81, 183, 183, 0.8);
+  background-color: white;
+}
+
+/* Placeholder */
+::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+}
+
+/* Botões - mesmo estilo do login */
+.btn-cadastrar {
+  width: 80%;
+  padding: 15px;
+  border-radius: 25px;
+  border: none;
+  background-color: #51b7b7;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.btn-cadastrar:hover {
+  background-color: #3a9e9e;
+}
+
+.btn-cadastrar:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Link de login - mesmo estilo do login */
+.login-link {
+  margin-top: 20px;
+  color: white;
+  font-size: 14px;
+}
+
+.login-link a {
+  color: white;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Mensagens */
+.error-message {
+  color: #ff6b6b;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  width: 80%;
+}
+
+.success-message {
+  color: #4caf50;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  width: 80%;
+}
+
+/* Responsividade - mantendo proporções do login */
+@media (max-width: 768px) {
   .cadastro-container {
-    background-color: #77d4d4;
-    width: 700px;
-    padding: 40px;
-    text-align: center;
-    border-radius: 5%;
-    position: relative; 
-    box-sizing: border-box; 
+    padding: 70px 30px 30px;
   }
   
-  .logo {
-    position: absolute;
-    top: -75px; 
-    left: 50%;
-    transform: translateX(-50%);
+  .logo-cadastro {
+    width: 120px;
+    height: 120px;
+    top: -60px;
   }
   
-  .logo img {
-    width: 150px;
-    height: 150px;
-  }
-  
-  .cadastro-container h1 {
-    margin-top: 80px;
-  }
-  
-  .input-group {
-    margin: 20px;
-  }
-  
-  .input-icon-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .input-group input,
+  .btn-cadastrar {
+    width: 90%;
   }
   
   .input-icon {
-    width: 24px; 
-    height: 24px; 
-    margin-left: 7px;
+    left: 8%;
+  }
+}
+
+@media (max-width: 480px) {
+  .cadastro-container {
+    padding: 60px 20px 20px;
+    border-radius: 15px;
   }
   
-  .input-group input {
-    width: 80%; 
-    padding: 12px; 
-    padding-left: 40px; 
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    box-sizing: border-box; 
+  .logo-cadastro {
+    width: 100px;
+    height: 100px;
+    top: -50px;
   }
   
-  input::placeholder {
-    opacity: 0.2; 
-    font-size: large;
+  .cadastro-container h1 {
+    font-size: 24px;
   }
   
-  input::placeholder {
-    color: rgba(0, 0, 0, 0.6); 
+  .input-icon {
+    left: 10%;
   }
-  
-  button {
-    border-radius: 20px;
-    color: white;
-    background-color: transparent;
-    border: none;
-  }
-  
-  button[type="submit"] {
-    padding: 15px 40px;
-    border: none;
-    border-radius: 10px;
-    background-color: #51b7b7;
-    color: white;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  .alternative-login {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    color: gray;
-    background-color: #f8f9fa;
-    max-width: 250px;
-    border-radius: 10px;
-    padding: 6px 30px;
-  }
-  
-  .google-icon {
-    width: 20px;
-    height: auto; 
-    margin-right: 6px; 
-  }
-  
-  .google-text {
-    opacity: 0.3; 
-  }
+}

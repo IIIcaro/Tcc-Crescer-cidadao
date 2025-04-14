@@ -1,81 +1,93 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Cadastro.css';
 import Logo from '../assets/img/logo.png';
 import userIcon from '../assets/img/img4.png';
+import emailIcon from '../assets/img/emailIcon.png';
 import keyIcon from '../assets/img/keyIcon.png';
-import googleIcon from '../assets/img/googleIcon.png';
 
 const Cadastro = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    document.body.classList.add('cadastro-body');
-    return () => {
-      document.body.classList.remove('cadastro-body');
-    };
-  }, []);
-
-  const handleRegister = async (event) => {
+  const handleCadastro = async (event) => {
     event.preventDefault();
-    setError(''); // Limpa a mensagem de erro ao tentar cadastrar
+    setError('');
+    setSuccess('');
+    
+    if (!nome || !email || !senha || !confirmarSenha) {
+      setError('Preencha todos os campos');
+      return;
+    }
 
-    if (password !== confirmPassword) {
+    if (senha !== confirmarSenha) {
       setError('As senhas não coincidem!');
       return;
     }
-    
-    if (nome && email && password) {
-      try {
-        const response = await fetch('http://localhost/register.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome, email, senha: password }) // Correto
-        });
-        
-        const data = await response.json();
-        
-        if (data.error) {
-          setError(data.error);
-        } else {
-          alert('Cadastro realizado com sucesso!'); 
-          navigate('/Login'); // Redireciona para a página de Login
-        }
-      } catch (error) {
-        console.error('Erro ao conectar com o servidor:', error);
-        setError('Erro ao conectar com o servidor. Tente novamente mais tarde.');
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://localhost/backend/cadastro.php', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ nome, email, senha })
+      });
+
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || 'Erro no servidor');
       }
-    } else {
-      setError('Por favor, preencha todos os campos!');
+
+      if (result.error) {
+        setError(result.message);
+      } else {
+        setSuccess(result.message);
+        setTimeout(() => navigate('/Login'), 2000);
+      }
+    } catch (error) {
+      setError(error.message || 'Erro ao conectar com o servidor');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="cadastro-container">
+    <div className="login-container">
       <div className="logo">
         <img src={Logo} alt="Logo" />
       </div>
-      <h1>CADASTRE-SE</h1>
-      {error && <p className="error-message">{error}</p>} {/* Exibir mensagens de erro */}
-      <form onSubmit={handleRegister}>
+      <h1>CRIAR CONTA</h1>
+      
+      {error && <p className="error-message">{error}</p>}
+      {success && <p className="success-message">{success}</p>}
+      
+      <form onSubmit={handleCadastro}>
         <div className="input-group">
           <div className="input-icon-wrapper">
             <input
               type="text"
               id="nome"
-              placeholder="NOME"
+              placeholder="NOME COMPLETO"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               required
+              autoComplete="name"
             />
             <img src={userIcon} alt="User Icon" className="input-icon" />
           </div>
         </div>
+        
         <div className="input-group">
           <div className="input-icon-wrapper">
             <input
@@ -85,40 +97,54 @@ const Cadastro = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              autoComplete="email"
             />
+            <img src={emailIcon} alt="Email Icon" className="input-icon" />
           </div>
         </div>
+        
         <div className="input-group">
           <div className="input-icon-wrapper">
             <input
               type="password"
-              id="password"
-              placeholder="SENHA"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              id="senha"
+              placeholder="SENHA (MÍNIMO 6 CARACTERES)"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
               required
+              minLength="6"
+              autoComplete="new-password"
             />
             <img src={keyIcon} alt="Key Icon" className="input-icon" />
           </div>
         </div>
+        
         <div className="input-group">
           <div className="input-icon-wrapper">
             <input
               type="password"
-              id="confirmPassword"
+              id="confirmarSenha"
               placeholder="CONFIRMAR SENHA"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={confirmarSenha}
+              onChange={(e) => setConfirmarSenha(e.target.value)}
               required
+              autoComplete="new-password"
             />
             <img src={keyIcon} alt="Key Icon" className="input-icon" />
           </div>
         </div>
-        <button type="submit">CADASTRAR</button>
-        <div className="alternative-login">
-          <img src={googleIcon} alt="Google Icon" className="google-icon" />
-          <span className="google-text">Cadastre-se com o Google</span>
-        </div>
+        
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'CADASTRANDO...' : 'CADASTRAR'}
+        </button>
+        
+        <button 
+          type="button" 
+          onClick={() => navigate('/Login')} 
+          className="register-btn"
+        >
+          <span>Já tem uma conta? <strong>Login</strong></span>
+        </button>
       </form>
     </div>
   );

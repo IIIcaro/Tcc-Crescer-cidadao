@@ -1,144 +1,433 @@
-@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Sen:wght@400..800&family=Montserrat:wght@300;400;500;600;700&display=swap");
 
-.secao{
-    height: 400px;
-    width: auto;
-    background-color: #8DCAE8;
-    margin-top: 3%;
-}
-section .layout-carrosel{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.7%;
-}
-section .layout-images{
-    width: 20%;
+/* Reset e estilos base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.secao img{
-    height: 350px;
+body {
+  font-family: "Montserrat", sans-serif;
+  color: #333;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
-.quem-somos img{
-    width: 70vh;
+/* Seção Hero com Carrossel */
+.hero-section {
+  position: relative;
+  height: 80vh;
+  min-height: 500px;
+  width: 100%;
+  overflow: hidden;
 }
 
-.quem-somos{
-    margin-top: 3%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.titulo{
-    font-family: "Sen", sans-serif;
-    color: #333333;
-    font-size: 24pt;
+.hero-carousel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
-.layout-quem-somos{
-    height: 690px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.hero-swiper {
+  width: 100%;
+  height: 100%;
 }
 
-.layout-central{
-    height: 80%;
-    width: 75%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: #8a8a8a;
+.hero-slide {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
-
-.layout-image img{
-    width: 400px;
-    height: 400px;
-    border: 1px solid black;
-    z-index: -1;
-    margin: 0px 0 0 20px;
-
-    
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
-.layout-text{
-    text-align: justify;
-    height: 500px;
-    width: 1000px;
-    background-color: #0A4A68;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-    font-weight: bold;
-    font-family: "Sen", sans-serif;
-    box-sizing: border-box;
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
 }
 
-
-
-
-.layout-text p{
-    color: white;
-    font-size: 15pt;
-    margin-left: 10%;
-    display: flex;
+.hero-content {
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 0 20px;
 }
 
-.footer{
-    background-size: cover;
-    background-color: #B2C7D2;
-    padding: 30px;
-    display: flex;
-    justify-content: space-between;
+.hero-content h1 {
+  font-family: "Sen", sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.hero-button {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Sen", sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.hero-button:hover {
+  background-color: #27ae60;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Seção Quem Somos */
+.about-section {
+  padding: 5rem 2rem;
+  background-color: #f8f9fa;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+}
+
+.section-title {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.section-title h2 {
+  font-family: "Sen", sans-serif;
+  font-size: 2.5rem;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.title-underline {
+  height: 4px;
+  width: 80px;
+  background-color: #2ecc71;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+.section-tagline {
+  font-size: 1.2rem;
+  color: #555;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+.about-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-image-container {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  position: relative;
+}
+
+.about-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+.about-image-decoration {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 100%;
+  height: 100%;
+  border: 3px solid #2ecc71;
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.about-text-container {
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+}
+
+.about-text {
+  background-color: #0a4a68;
+  color: white;
+  padding: 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.about-text p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.about-cta {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.about-button {
+  background-color: white;
+  color: #0a4a68;
+  border: 2px solid white;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Sen", sans-serif;
+}
+
+.about-button:hover {
+  background-color: transparent;
+  color: white;
+}
+
+/* Footer */
+.footer {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 3rem 2rem;
+  font-family: "Montserrat", sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de onda no topo do footer */
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(90deg, #2ecc71, #3498db, #2ecc71);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  transform: scaleX(1.5);
+}
+
+/* Container principal para o conteúdo do footer */
+.footertxtmain {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  gap: 2rem;
+}
+
+/* Estilos para as seções de texto */
+.footertxt1,
+.footertxt2 {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footertxt1 p:first-child,
+.footertxt2 p:first-child {
+  font-family: "Sen", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #2ecc71;
+  position: relative;
+  display: inline-block;
+}
+
+/* Linha decorativa sob os títulos */
+.footertxt1 p:first-child::after,
+.footertxt2 p:first-child::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background-color: #2ecc71;
+  border-radius: 2px;
+}
+
+.footertxt1 p,
+.footertxt2 p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Container para os ícones de redes sociais */
+.imgfooter {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Estilo para os links de redes sociais */
+.imgfooter a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.imgfooter a:hover {
+  background-color: #2ecc71;
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+/* Estilo para os ícones */
+.imgfooter img {
+  width: 22px;
+  height: 22px;
+  transition: all 0.3s ease;
+  filter: brightness(0) invert(1); /* Torna os ícones brancos */
+}
+
+/* Adiciona um copyright no final */
+.footer::after {
+  content: "© 2025 Crescer Cidadão. Todos os direitos reservados.";
+  display: block;
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .hero-content h1 {
+    font-size: 2.8rem;
   }
-  
-  .footertxtmain{
-    gap: 30px;
-    
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .footertxt1{
-    margin-left: 20px;
-    line-height: 1.5em;
-    font-size: 22px;
-  }
-  
-  .footertxt2{
-    padding-left: 20px;
-    line-height: 1.5em;
-    font-size: 22px;
-    margin-left: 20px;
-  }
-  
-  .imgfooter{
-    display: flex; 
-    align-items: center; 
-    justify-content: flex-end; 
-    gap: 15px; 
+
+  .hero-content p {
+    font-size: 1.1rem;
   }
 
-footer img{
-    height: 40px;
-    width: 80%;
+  .about-content {
+    flex-direction: column;
+  }
+
+  .about-image-container,
+  .about-text-container {
+    max-width: 100%;
+  }
 }
 
-.phrase-tit{
-    text-transform: uppercase;
-    font-family: "Sen", sans-serif;
-    font-style: italic;
-    text-decoration: underline;
-    display: flex;
-    justify-content: center;
-    margin-top: 10%;
+@media (max-width: 768px) {
+  .hero-section {
+    height: 60vh;
+  }
+
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .section-title h2 {
+    font-size: 2rem;
+  }
+
+  .section-tagline {
+    font-size: 1rem;
+  }
+
+  .about-text {
+    padding: 1.5rem;
+  }
+
+  .footertxtmain {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .footertxt1,
+  .footertxt2 {
+    text-align: center;
+  }
+
+  .footertxt1 p:first-child::after,
+  .footertxt2 p:first-child::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
-footer p{
-    font-size: 13pt;
-    font-family: "Sen", sans-serif;
+@media (max-width: 480px) {
+  .hero-section {
+    height: 50vh;
+  }
+
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .section-title h2 {
+    font-size: 1.8rem;
+  }
+
+  .about-text p {
+    font-size: 0.9rem;
+  }
 }
+

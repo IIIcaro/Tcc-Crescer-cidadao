@@ -1,95 +1,346 @@
-.container {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 50px;
-  padding-bottom: 30%;
-  font-family: sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Sen:wght@400..800&family=Montserrat:wght@300;400;500;600;700&display=swap");
+
+/* Estilos da seção de profissionais */
+.professionals-section {
+  padding: 5rem 2rem;
+  background-color: #f8f9fa;
+  font-family: "Montserrat", sans-serif;
 }
 
-.block {
+.section-header {
   text-align: center;
-  background-color:#FED501;
-  width: 440px;
-  height: auto;
-  padding: 20px;
-  border: 5px solid #ccc;
-  border-radius: 50px;
+  max-width: 800px;
+  margin: 0 auto 4rem;
 }
 
-.profile-img {
-  margin-bottom: 10px;
+.section-title {
+  font-family: "Sen", sans-serif;
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
 }
 
-.name {
-  font-weight: bold;
-  margin-bottom: 10px;
+.title-underline {
+  height: 4px;
+  width: 80px;
+  background-color: #2ecc71;
+  margin: 0.5rem auto 1.5rem;
+  border-radius: 2px;
 }
 
-.text {
-  margin-top: 10px;
+.section-description {
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.professional{
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.button {
-  margin-top: 10px;
-  background-color: white;
-  color: black;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.profile-circle {
-  width: 270px;
-  height: 270px;
+.professionals-container {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  background-color: #ffffff; 
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.professional-card {
+  width: 100%;
+  max-width: 350px;
+  background-color: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.professional-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.professional-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-color: var(--card-color, #2ecc71);
+}
+
+.card-header {
+  padding: 2rem 2rem 1rem;
+  text-align: center;
+  position: relative;
+}
+
+.icon-container {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(var(--card-color-rgb, 46, 204, 113), 0.1);
   border-radius: 50%;
-  margin-left: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  border: 2px solid var(--card-color, #2ecc71);
 }
 
-.profile-img {
-  width: 30px; 
+.professional-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.professional-title {
+  font-family: "Sen", sans-serif;
+  font-size: 1.5rem;
+  color: var(--card-color, #2ecc71);
+  margin-bottom: 0.5rem;
+}
+
+.card-content {
+  padding: 0 2rem 2rem;
+  text-align: center;
+}
+
+.professional-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.professional-specialty {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.professional-description {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  text-align: left;
+  color: #555;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.professional-card.expanded .professional-description {
   height: auto;
+  opacity: 1;
+  margin-bottom: 1.5rem;
 }
 
-.footer{
-  background-size: cover;
-  background-color: #B2C7D2;
-  padding: 30px;
+.read-more-button {
+  background-color: transparent;
+  color: var(--card-color, #2ecc71);
+  border: 2px solid var(--card-color, #2ecc71);
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Sen", sans-serif;
+  margin-top: 1rem;
+}
+
+.read-more-button:hover {
+  background-color: var(--card-color, #2ecc71);
+  color: white;
+}
+
+/* Estilos do footer */
+.footer {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 3rem 2rem;
+  font-family: "Montserrat", sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de onda no topo do footer */
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(90deg, #2ecc71, #3498db, #2ecc71);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  transform: scaleX(1.5);
+}
+
+/* Container principal para o conteúdo do footer */
+.footertxtmain {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  gap: 2rem;
 }
 
-.footertxtmain{
-  gap: 30px;
-  
+/* Estilos para as seções de texto */
+.footertxt1,
+.footertxt2 {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footertxt1 p:first-child,
+.footertxt2 p:first-child {
+  font-family: "Sen", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #2ecc71;
+  position: relative;
+  display: inline-block;
+}
+
+/* Linha decorativa sob os títulos */
+.footertxt1 p:first-child::after,
+.footertxt2 p:first-child::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background-color: #2ecc71;
+  border-radius: 2px;
+}
+
+.footertxt1 p,
+.footertxt2 p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Container para os ícones de redes sociais */
+.imgfooter {
   display: flex;
-  flex-direction: row;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.footertxt1{
-  margin-left: 20px;
-  line-height: 1.5em;
-  font-size: 22px;
+/* Estilo para os links de redes sociais */
+.imgfooter a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
 }
 
-.footertxt2{
-  padding-left: 20px;
-  line-height: 1.5em;
-  font-size: 22px;
-  margin-left: 20px;
+.imgfooter a:hover {
+  background-color: #2ecc71;
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
 }
 
-.imgfooter{
-  display: flex; 
-  align-items: center; 
-  justify-content: flex-end; 
-  gap: 15px; 
+/* Estilo para os ícones */
+.imgfooter img {
+  width: 22px;
+  height: 22px;
+  transition: all 0.3s ease;
+  filter: brightness(0) invert(1); /* Torna os ícones brancos */
 }
+
+/* Adiciona um copyright no final */
+.footer::after {
+  content: "© 2025 Crescer Cidadão. Todos os direitos reservados.";
+  display: block;
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .section-title {
+    font-size: 2.2rem;
+  }
+
+  .section-description {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .professionals-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .professional-card {
+    max-width: 100%;
+  }
+
+  .footertxtmain {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .footertxt1,
+  .footertxt2 {
+    text-align: center;
+  }
+
+  .footertxt1 p:first-child::after,
+  .footertxt2 p:first-child::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 480px) {
+  .professionals-section {
+    padding: 2rem 1rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .card-header {
+    padding: 1.5rem 1.5rem 1rem;
+  }
+
+  .card-content {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .icon-container {
+    width: 80px;
+    height: 80px;
+  }
+
+  .professional-icon {
+    width: 45px;
+    height: 45px;
+  }
+}
+

@@ -1,80 +1,109 @@
-import React, { useState } from 'react';
-import './Coisa.css'; // Importe o arquivo CSS com os estilos necessários
-import Retangulo from "../assets/img/retangulo-1.svg";
-import Retangulo2 from "../assets/img/retangulo-2.svg";
+"use client"
+
+import { useState } from "react"
+import "./Coisa.css"
+import Retangulo from "../assets/img/retangulo-1.svg"
+import Retangulo2 from "../assets/img/retangulo-2.svg"
 import serv from "../assets/img/serv.png"
 import serv1 from "../assets/img/serv1.png"
 import serv2 from "../assets/img/serv2.png"
 
 const Coisa = () => {
-  const [showText1, setShowText1] = useState(false); // Estado para controlar a exibição do texto para a primeira imagem
-  const [showText2, setShowText2] = useState(false); // Estado para controlar a exibição do texto para a segunda imagem
-  const [showText3, setShowText3] = useState(false); // Estado para controlar a exibição do texto para a terceira imagem
-  const ocultar = () => {
-    <div className="ocultar">
-      setShowText1(!showText1);
-    </div>
-    
+  const [expandedService, setExpandedService] = useState(null)
+
+  const toggleService = (serviceId) => {
+    if (expandedService === serviceId) {
+      setExpandedService(null)
+    } else {
+      setExpandedService(serviceId)
+    }
   }
+
+  const services = [
+    {
+      id: "service1",
+      image: serv,
+      title: "Fisioterapia",
+      description:
+        "A fisioterapia é uma área da saúde que desempenha um papel crucial na reabilitação e na promoção do bem-estar físico. Nossos profissionais utilizam técnicas especializadas para ajudar crianças e adolescentes a desenvolverem suas capacidades motoras e melhorarem sua qualidade de vida.",
+      color: "#3498db",
+    },
+    {
+      id: "service2",
+      image: serv1,
+      title: "Terapia Ocupacional",
+      description:
+        "A terapia ocupacional auxilia no desenvolvimento de habilidades necessárias para atividades diárias e participação social. Trabalhamos com abordagens personalizadas que promovem a independência e autonomia, respeitando as necessidades específicas de cada criança e adolescente.",
+      color: "#2ecc71",
+    },
+    {
+      id: "service3",
+      image: serv2,
+      title: "Apoio Psicológico",
+      description:
+        "O apoio psicológico é fundamental para o desenvolvimento emocional saudável. Nossa equipe oferece suporte tanto para as crianças e adolescentes quanto para suas famílias, criando um ambiente acolhedor onde todos podem expressar seus sentimentos e desenvolver estratégias de enfrentamento.",
+      color: "#9b59b6",
+    },
+  ]
+
   return (
     <>
-      <div className='ablue'>
-
-        <div className="linha-1">
-          <img src={Retangulo} alt="Imagem Retângulo"/>
-        </div>
-
-        <div className="titulo1">
-          <h2>NOSSOS SERVIÇOS</h2>
-        </div>
-
-        <div className="linha-2">
-          <img src={Retangulo2} alt="Imagem Retângulo 2"/>
-        </div>
-
-      </div>
-
-      <section className='icaro'>
-
-        <div className='layoutserv'>
-
-          <div className='layoutimg'>
-            <button className="expand-button" onClick={() => setShowText1(!showText1)}>Expandir</button>
-            <img src={serv} alt="Imagem do serviço 1" />
+      <section className="section-header">
+        <div className="section-title-container">
+          <div className="line-decoration">
+            <img src={Retangulo || "/placeholder.svg"} alt="Decoração" />
           </div>
-          {showText1 && <div className="text-left">A fisioterapia é uma área da saúde que desempenha um papel crucial na reabilitação e na promoção do bem-estar físico.</div>}
-          <div className='layoutimg1'>
-            <button className="expand-button" onClick={() => setShowText2(!showText2)}>Expandir</button>
-            <img src={serv1} alt="Imagem do serviço 2" />
+          <h2 className="section-title">NOSSOS SERVIÇOS</h2>
+          <div className="line-decoration">
+            <img src={Retangulo2 || "/placeholder.svg"} alt="Decoração" />
           </div>
-          {showText2 && <div className="text-left">A fisioterapia é uma área da saúde que desempenha um papel crucial na reabilitação e na promoção do bem-estar físico.</div>}
-          <div className='layoutimg2'>
-            <button className="expand-button" onClick={() => setShowText3(!showText3)}>Expandir</button>
-            <img src={serv2} alt="Imagem do serviço 3" />
-          </div>
-          {showText3 && <div className="text-left">A fisioterapia é uma área da saúde que desempenha um papel crucial na reabilitação e na promoção do bem-estar físico.</div>}
-
         </div>
-
       </section>
 
-      <div className="ablue1">
+      <section className="services-section">
+        <div className="services-container">
+          {services.map((service) => (
+            <div
+              key={service.id}
+              className={`service-card ${expandedService === service.id ? "expanded" : ""}`}
+              style={{ "--service-color": service.color }}
+            >
+              <div className="service-image-container">
+                <img src={service.image || "/placeholder.svg"} alt={service.title} className="service-image" />
+                <div className="service-overlay">
+                  <h3 className="service-title">{service.title}</h3>
+                  <button
+                    className="service-button"
+                    onClick={() => toggleService(service.id)}
+                    aria-expanded={expandedService === service.id}
+                  >
+                    {expandedService === service.id ? "Ver Menos" : "Ver Mais"}
+                  </button>
+                </div>
+              </div>
 
-        <div className="linha-1">
-          <img src={Retangulo} alt="Imagem Retângulo" />
+              <div className="service-description">
+                <p>{service.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
+      </section>
 
-        <div className="titulo">
-          <h2>NOSSOS PROFISSIONAIS</h2>
+      <section className="section-header">
+        <div className="section-title-container">
+          <div className="line-decoration">
+            <img src={Retangulo || "/placeholder.svg"} alt="Decoração" />
+          </div>
+          <h2 className="section-title">PROFISSIONAIS</h2>
+          <div className="line-decoration">
+            <img src={Retangulo2 || "/placeholder.svg"} alt="Decoração" />
+          </div>
         </div>
-
-        <div className="linha-2">
-          <img src={Retangulo2} alt="Imagem Retângulo 2" />
-        </div>
-
-      </div>
+      </section>
     </>
-  );
+  )
 }
 
-export default Coisa;
+export default Coisa
+
