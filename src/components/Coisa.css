@@ -4,6 +4,19 @@
 .section-header {
   padding: 2rem 0;
   background-color: #f8f9fa;
+  position: relative;
+}
+
+.section-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  border-radius: 3px;
 }
 
 .section-title-container {
@@ -23,6 +36,7 @@
   color: #333;
   margin: 0;
   text-align: center;
+  position: relative;
 }
 
 .line-decoration {
@@ -40,6 +54,19 @@
 .services-section {
   padding: 3rem 2rem 5rem;
   background-color: #f8f9fa;
+  position: relative;
+}
+
+.services-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232ecc71' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.5;
+  z-index: 0;
 }
 
 .services-container {
@@ -49,6 +76,8 @@
   gap: 2.5rem;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .service-card {
@@ -143,6 +172,61 @@
   border-top: 3px solid var(--service-color, #2ecc71);
 }
 
+.service-benefits {
+  margin-top: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.02);
+  padding: 1.2rem;
+  border-radius: 10px;
+  border-left: 3px solid var(--service-color, #2ecc71);
+}
+
+.service-benefits h4 {
+  font-family: "Sen", sans-serif;
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  position: relative;
+  display: inline-block;
+}
+
+.service-benefits h4::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background-color: var(--service-color, #2ecc71);
+}
+
+.service-benefits ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 0.8rem;
+}
+
+.service-benefits li {
+  padding-left: 1.8rem;
+  position: relative;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.service-benefits li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--service-color, #2ecc71);
+  font-weight: bold;
+  background-color: rgba(46, 204, 113, 0.1);
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
 /* Responsividade */
 @media (max-width: 992px) {
   .section-title {
@@ -206,4 +290,3 @@
     font-size: 0.8rem;
   }
 }
-
