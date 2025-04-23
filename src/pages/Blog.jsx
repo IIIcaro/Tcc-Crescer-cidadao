@@ -101,63 +101,130 @@ const Blog = () => {
   }
 
   return (
-    <>
+    <div className="blog-page">
       <Header />
 
       <div className="blog-hero">
         <div className="blog-hero-overlay">
-          <h1>BLOG CRESCER CIDADÃO</h1>
-          <p>Compartilhando conhecimento, experiências e histórias inspiradoras</p>
+          <div className="blog-hero-content">
+            <h1>BLOG CRESCER CIDADÃO</h1>
+            <p>Compartilhando conhecimento, experiências e histórias inspiradoras</p>
+            <div className="hero-search">
+              <input type="text" placeholder="Buscar no blog..." />
+              <button>Buscar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="blog-featured-wrapper">
+        <div className="container">
+          <div className="featured-label">Destaque</div>
+          <div className="featured-post">
+            <div className="featured-image">
+              <img src="/src/assets/img/img3.png" alt="Post em destaque" />
+            </div>
+            <div className="featured-content">
+              <span className="featured-category">Histórias</span>
+              <h2>Histórias de superação: conheça nossos casos de sucesso</h2>
+              <p>
+                Histórias inspiradoras de crianças e adolescentes que superaram desafios com o apoio da Crescer Cidadão.
+              </p>
+              <div className="featured-meta">
+                <span className="featured-author">Carlos Mendes</span>
+                <span className="featured-date">05/02/2023</span>
+              </div>
+              <button className="featured-button" onClick={() => handleReadMore(posts[2])}>
+                Ler artigo completo
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="blog-content-wrapper">
-        <div className="blog-categories">
-          <h2>Categorias</h2>
-          <div className="category-buttons">
-            {categories.map((category) => (
-              <button
-                key={category}
-                className={`category-button ${selectedCategory === category ? "active" : ""}`}
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="recent-posts">
-          <h2>{selectedCategory === "Todos" ? "Posts Recentes" : `Posts em ${selectedCategory}`}</h2>
-          <div className="posts-grid">
-            {filteredPosts.map((post) => (
-              <div className="post-card" key={post.id}>
-                <div className="post-image">
-                  <img src={post.image || "/placeholder.svg"} alt={post.title} />
-                  <span className="post-category">{post.category}</span>
-                </div>
-                <div className="post-content">
-                  <h3>{post.title}</h3>
-                  <p>{post.excerpt}</p>
-                  <div className="post-meta">
-                    <span className="post-author">{post.author}</span>
-                    <span className="post-date">{post.date}</span>
-                  </div>
-                  <button className="read-more-btn" onClick={() => handleReadMore(post)}>
-                    Ler mais
+        <div className="container">
+          <div className="blog-main-content">
+            <div className="blog-categories">
+              <h2>Explorar por categoria</h2>
+              <div className="category-buttons">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    className={`category-button ${selectedCategory === category ? "active" : ""}`}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {category}
                   </button>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            <div className="recent-posts">
+              <h2>{selectedCategory === "Todos" ? "Artigos Recentes" : `Artigos em ${selectedCategory}`}</h2>
+              <div className="posts-grid">
+                {filteredPosts.map((post) => (
+                  <div className="post-card" key={post.id}>
+                    <div className="post-image">
+                      <img src={post.image || "/placeholder.svg"} alt={post.title} />
+                      <span className="post-category">{post.category}</span>
+                    </div>
+                    <div className="post-content">
+                      <h3>{post.title}</h3>
+                      <p>{post.excerpt}</p>
+                      <div className="post-meta">
+                        <span className="post-author">{post.author}</span>
+                        <span className="post-date">{post.date}</span>
+                      </div>
+                      <button className="read-more-btn" onClick={() => handleReadMore(post)}>
+                        Ler mais
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="blog-pagination">
+              <button className="pagination-btn active">1</button>
+              <button className="pagination-btn">2</button>
+              <button className="pagination-btn">3</button>
+              <button className="pagination-btn next">Próximo →</button>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="newsletter-section">
+      <div className="cta-section">
+        <div className="container">
+          <div className="cta-content">
+            <h2>Faça parte da nossa missão</h2>
+            <p>Ajude-nos a transformar vidas e construir um futuro mais inclusivo para crianças e adolescentes</p>
+            <div className="cta-buttons">
+              <button className="cta-btn primary">Quero Doar</button>
+              <button className="cta-btn secondary">Seja Voluntário</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="newsletter-section">
+        <div className="container">
           <div className="newsletter-content">
-            <h2>Inscreva-se em nossa newsletter</h2>
-            <p>Receba novidades, artigos e histórias inspiradoras diretamente no seu e-mail</p>
+            <div className="newsletter-text">
+              <h2>Inscreva-se em nossa newsletter</h2>
+              <p>
+                Receba novidades, artigos e histórias inspiradoras diretamente no seu e-mail. Prometemos não enviar
+                spam!
+              </p>
+            </div>
             <form className="newsletter-form">
-              <input type="email" placeholder="Seu melhor e-mail" required />
+              <div className="form-group">
+                <input type="text" placeholder="Seu nome" required />
+              </div>
+              <div className="form-group">
+                <input type="email" placeholder="Seu melhor e-mail" required />
+              </div>
               <button type="submit">Inscrever-se</button>
             </form>
           </div>
@@ -174,8 +241,8 @@ const Blog = () => {
               <span className="modal-category">{selectedPost.category}</span>
               <h2>{selectedPost.title}</h2>
               <div className="modal-meta">
-                <span>{selectedPost.author}</span>
-                <span>{selectedPost.date}</span>
+                <span className="modal-author">Por {selectedPost.author}</span>
+                <span className="modal-date">Publicado em {selectedPost.date}</span>
               </div>
             </div>
             <div className="modal-image">
@@ -185,11 +252,43 @@ const Blog = () => {
               <p>{selectedPost.content}</p>
             </div>
             <div className="modal-footer">
+              <div className="modal-tags">
+                <span>Tags:</span>
+                <a href="#">inclusão</a>
+                <a href="#">educação</a>
+                <a href="#">desenvolvimento</a>
+              </div>
               <div className="modal-share">
                 <span>Compartilhar:</span>
-                <button className="share-btn">Facebook</button>
-                <button className="share-btn">Twitter</button>
-                <button className="share-btn">WhatsApp</button>
+                <button className="share-btn facebook">Facebook</button>
+                <button className="share-btn twitter">Twitter</button>
+                <button className="share-btn whatsapp">WhatsApp</button>
+              </div>
+            </div>
+            <div className="modal-related">
+              <h3>Artigos Relacionados</h3>
+              <div className="related-posts">
+                {posts
+                  .filter((post) => post.id !== selectedPost.id && post.category === selectedPost.category)
+                  .slice(0, 2)
+                  .map((post) => (
+                    <div className="related-post" key={post.id}>
+                      <div className="related-post-image">
+                        <img src={post.image || "/placeholder.svg"} alt={post.title} />
+                      </div>
+                      <div className="related-post-content">
+                        <h4
+                          onClick={() => {
+                            closeModal()
+                            setTimeout(() => handleReadMore(post), 300)
+                          }}
+                        >
+                          {post.title}
+                        </h4>
+                        <span>{post.date}</span>
+                      </div>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
@@ -197,7 +296,7 @@ const Blog = () => {
       )}
 
       <Footer />
-    </>
+    </div>
   )
 }
 

@@ -1,135 +1,157 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Login.css';
-import Logo from '../assets/img/logo.png';
-import userIcon from '../assets/img/img4.png';
-import keyIcon from '../assets/img/keyIcon.png';
-import googleIcon from '../assets/img/googleIcon.png';
+"use client"
+
+import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import Logo from "../assets/img/logo.png"
+import userIcon from "../assets/img/img4.png"
+import keyIcon from "../assets/img/keyIcon.png"
+import googleIcon from "../assets/img/googleIcon.png"
+import "./Login.css"
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    document.body.classList.add('login-body');
+    document.body.classList.add("login-body")
     return () => {
-      document.body.classList.remove('login-body');
-    };
-  }, []);
+      document.body.classList.remove("login-body")
+    }
+  }, [])
 
   const handleLogin = async (event) => {
-    event.preventDefault();
-    setError('');
-    setIsLoading(true);
-  
+    event.preventDefault()
+    setError("")
+    setIsLoading(true)
+
     try {
-      // URL absoluta para garantir
-      const response = await fetch('http://localhost/backend/login.php', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+      const response = await fetch("http://localhost/backend/login.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify({ 
-          email: email, 
-          senha: password 
-        })
-      });
-  
-      // Verifica se a resposta está vazia
-      const responseText = await response.text();
+        body: JSON.stringify({
+          email: email,
+          senha: password,
+        }),
+      })
+
+      const responseText = await response.text()
       if (!responseText) {
-        throw new Error('O servidor não retornou dados');
+        throw new Error("O servidor não retornou dados")
       }
-  
-      const data = JSON.parse(responseText);
-      
+
+      const data = JSON.parse(responseText)
+
       if (!response.ok) {
-        throw new Error(data.message || 'Erro no servidor');
+        throw new Error(data.message || "Erro no servidor")
       }
-  
-      // Login bem-sucedido
-      localStorage.setItem('usuarioToken', data.token);
-      localStorage.setItem('usuarioNome', data.nome);
-      navigate('/Inicio');
-      
+
+      localStorage.setItem("usuarioToken", data.token)
+      localStorage.setItem("usuarioNome", data.nome)
+      navigate("/Inicio")
     } catch (error) {
-      console.error('Erro detalhado:', error);
+      console.error("Erro detalhado:", error)
       setError(`Erro: ${error.message}. Verifique:
         1. XAMPP está rodando (Apache e MySQL)
         2. Arquivos PHP estão em htdocs/backend
-        3. Não há erros no console do navegador (F12)`);
+        3. Não há erros no console do navegador (F12)`)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
-    <div className="login-container">
-      <div className="logo">
-        <img src={Logo} alt="Logo" />
-      </div>
-      <h1>JÁ FAÇO PARTE</h1>
-      {error && <p className="error-message">{error}</p>}
-      
-      <form onSubmit={handleLogin}>
-        <div className="input-group">
-          <div className="input-icon-wrapper">
-            <input
-              type="email"
-              id="email"
-              placeholder="EMAIL"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="username"
-            />
-            <img src={userIcon} alt="User Icon" className="input-icon" />
-          </div>
+    <div className="auth-container">
+      <button onClick={() => navigate("/")} className="home-button" aria-label="Voltar para página inicial">
+        ← Início
+      </button>
+      <div className="auth-card">
+        <div className="logo-container">
+          <img src={Logo || "/placeholder.svg"} alt="Logo" className="logo-image" />
         </div>
-        
-        <div className="input-group">
-          <div className="input-icon-wrapper">
-            <input
-              type="password"
-              id="password"
-              placeholder="SENHA"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-            />
-            <img src={keyIcon} alt="Key Icon" className="input-icon" />
-          </div>
-          <div className="checkbox-group">
-            <input type="checkbox" id="rememberMe" />
-            <label htmlFor="rememberMe">Lembrar de mim</label>
-            <span className="forgot-password">Esqueceu a senha?</span>
-          </div>
-        </div>
-        
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'CARREGANDO...' : 'ENTRAR'}
-        </button>
-        
-        <div className="alternative-login">
-          <img src={googleIcon} alt="Google Icon" className="google-icon" />
-          <span className="google-text">Faça login com o Google</span>
-        </div>
-        
-        <button 
-          type="button" 
-          onClick={() => navigate('/Cadastro')} 
-          className="register-btn"
-        >
-          <span>Não tem uma conta? <strong>Cadastrar</strong></span>
-        </button>
-      </form>
-    </div>
-  );
-};
 
-export default Login;
+        <h1 className="auth-title">Já Faço Parte</h1>
+
+        {error && <div className="error-alert">{error}</div>}
+
+        <form onSubmit={handleLogin} className="auth-form">
+          <div className="form-group">
+            <div className="input-container">
+              <img src={userIcon || "/placeholder.svg"} alt="User" className="input-icon" />
+              <input
+                type="email"
+                id="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="username"
+                className="auth-input"
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <div className="input-container">
+              <img src={keyIcon || "/placeholder.svg"} alt="Password" className="input-icon" />
+              <input
+                type="password"
+                id="password"
+                placeholder="Senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                className="auth-input"
+              />
+            </div>
+
+            <div className="form-options">
+              <div className="remember-me">
+                <input
+                  type="checkbox"
+                  id="rememberMe"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="checkbox"
+                />
+                <label htmlFor="rememberMe">Lembrar de mim</label>
+              </div>
+              <button
+                type="button"
+                className="forgot-password"
+                onClick={() => alert("Funcionalidade em desenvolvimento")}
+              >
+                Esqueceu a senha?
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" disabled={isLoading} className="auth-button">
+            {isLoading ? "Carregando..." : "Entrar"}
+          </button>
+
+          <button type="button" className="google-button">
+            <img src={googleIcon || "/placeholder.svg"} alt="Google" className="google-icon" />
+            <span>Faça login com o Google</span>
+          </button>
+
+          <div className="auth-link-container">
+            <span>Não tem uma conta?</span>
+            <button type="button" onClick={() => navigate("/Cadastro")} className="auth-link">
+              Cadastrar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+export default Login
