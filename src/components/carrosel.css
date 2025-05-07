@@ -12,6 +12,15 @@ body {
   color: #333;
   line-height: 1.6;
   overflow-x: hidden;
+  width: 100%;
+}
+
+/* Container principal para o conteúdo */
+.main-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 /* Seção Hero com Carrossel */
@@ -110,6 +119,7 @@ body {
 .about-section {
   padding: 5rem 2rem;
   background-color: #f8f9fa;
+  width: 100%;
 }
 
 .section-header {
@@ -227,125 +237,6 @@ body {
   color: white;
 }
 
-/* Footer */
-.footer {
-  background-color: #2c3e50;
-  color: #ecf0f1;
-  padding: 3rem 2rem;
-  font-family: "Montserrat", sans-serif;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Efeito de onda no topo do footer */
-.footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 10px;
-  background: linear-gradient(90deg, #2ecc71, #3498db, #2ecc71);
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  transform: scaleX(1.5);
-}
-
-/* Container principal para o conteúdo do footer */
-.footertxtmain {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto 2rem;
-  gap: 2rem;
-}
-
-/* Estilos para as seções de texto */
-.footertxt1,
-.footertxt2 {
-  flex: 1;
-  min-width: 250px;
-}
-
-.footertxt1 p:first-child,
-.footertxt2 p:first-child {
-  font-family: "Sen", sans-serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #2ecc71;
-  position: relative;
-  display: inline-block;
-}
-
-/* Linha decorativa sob os títulos */
-.footertxt1 p:first-child::after,
-.footertxt2 p:first-child::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 40px;
-  height: 3px;
-  background-color: #2ecc71;
-  border-radius: 2px;
-}
-
-.footertxt1 p,
-.footertxt2 p {
-  margin: 0.5rem 0;
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-/* Container para os ícones de redes sociais */
-.imgfooter {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Estilo para os links de redes sociais */
-.imgfooter a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 45px;
-  height: 45px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
-.imgfooter a:hover {
-  background-color: #2ecc71;
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
-}
-
-/* Estilo para os ícones */
-.imgfooter img {
-  width: 22px;
-  height: 22px;
-  transition: all 0.3s ease;
-  filter: brightness(0) invert(1); /* Torna os ícones brancos */
-}
-
-/* Adiciona um copyright no final */
-.footer::after {
-  content: "© 2025 Crescer Cidadão. Todos os direitos reservados.";
-  display: block;
-  text-align: center;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
-}
-
 /* Responsividade */
 @media (max-width: 992px) {
   .hero-content h1 {
@@ -390,22 +281,6 @@ body {
   .about-text {
     padding: 1.5rem;
   }
-
-  .footertxtmain {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .footertxt1,
-  .footertxt2 {
-    text-align: center;
-  }
-
-  .footertxt1 p:first-child::after,
-  .footertxt2 p:first-child::after {
-    left: 50%;
-    transform: translateX(-50%);
-  }
 }
 
 @media (max-width: 480px) {
@@ -430,4 +305,3 @@ body {
     font-size: 0.9rem;
   }
 }
-
