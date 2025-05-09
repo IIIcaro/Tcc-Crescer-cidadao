@@ -4,9 +4,9 @@ import { useState } from "react"
 import "./Coisa.css"
 import Retangulo from "../assets/img/retangulo-1.svg"
 import Retangulo2 from "../assets/img/retangulo-2.svg"
-import serv from "../assets/img/serv.png"
-import serv1 from "../assets/img/serv1.png"
-import serv2 from "../assets/img/serv2.png"
+import fisioterapia from "../assets/img/fisioterapia.png"
+import tocupacional from "../assets/img/tocupacional.png"
+import apoiopsicologico from "../assets/img/apoiopsicologico.png"
 
 const Coisa = () => {
   const [expandedService, setExpandedService] = useState(null)
@@ -23,7 +23,7 @@ const Coisa = () => {
   const services = [
     {
       id: "service1",
-      image: serv,
+      image: fisioterapia,
       title: "Fisioterapia",
       description:
         "A fisioterapia é uma área da saúde que desempenha um papel crucial na reabilitação e na promoção do bem-estar físico. Nossos profissionais utilizam técnicas especializadas para ajudar crianças e adolescentes a desenvolverem suas capacidades motoras e melhorarem sua qualidade de vida.",
@@ -37,7 +37,7 @@ const Coisa = () => {
     },
     {
       id: "service2",
-      image: serv1,
+      image: tocupacional,
       title: "Terapia Ocupacional",
       description:
         "A terapia ocupacional auxilia no desenvolvimento de habilidades necessárias para atividades diárias e participação social. Trabalhamos com abordagens personalizadas que promovem a independência e autonomia, respeitando as necessidades específicas de cada criança e adolescente.",
@@ -51,7 +51,7 @@ const Coisa = () => {
     },
     {
       id: "service3",
-      image: serv2,
+      image: apoiopsicologico,
       title: "Apoio Psicológico",
       description:
         "O apoio psicológico é fundamental para o desenvolvimento emocional saudável. Nossa equipe oferece suporte tanto para as crianças e adolescentes quanto para suas famílias, criando um ambiente acolhedor onde todos podem expressar seus sentimentos e desenvolver estratégias de enfrentamento.",
