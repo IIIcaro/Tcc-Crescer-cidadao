@@ -21,7 +21,7 @@ function Nav(){
            </div>
 
             <div className="link-layout">
-            <Link to={'Servicosl'}>Serviços</Link>
+            <Link to={'Servicos'}>Serviços</Link>
            </div>
 
             <div className="link-layout">

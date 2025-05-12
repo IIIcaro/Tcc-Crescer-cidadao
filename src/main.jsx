@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider,  } from 'react-router-dom'
 import App from './App.jsx'
-import Servicosl from './pages/Servicosl.jsx'
+import Servicos from './pages/Servicos.jsx'
 import Inicial from './pages/Inicial.jsx'
-import SobreNos from './pages/SobreNosl.jsx'
+import SobreNos from './pages/SobreNos.jsx'
 import { Doacao } from './pages/Doacao.jsx'
 import Login from './pages/Login.jsx'
 import Cadastro from './pages/Cadastro.jsx'
@@ -19,8 +19,8 @@ const router = createBrowserRouter([ {
   errorElement: <notfoundpage/>,
 },
 {
-  path: '/Servicosl',
-  element: <Servicosl />,
+  path: '/Servicos',
+  element: <Servicos />,
 },
 {
   path:'/SobreNos',

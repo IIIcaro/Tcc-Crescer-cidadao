@@ -6,13 +6,13 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import Header from "../components/Header"
 import { Footer } from "../components/footer"
-import "./SobreNos.css"
+import "./Sobrenos.css"
 import Logo1 from "../assets/img/img10.jpg"
 import Logo2 from "../assets/img/img20.jpg"
 import Logo3 from "../assets/img/mulher.png"
 import Logo4 from "../assets/img/PuloCrianças.png"
 
-const SobreNosl = () => {
+const SobreNos = () => {
   const [activeTab, setActiveTab] = useState("equipe")
   const [isVisible, setIsVisible] = useState(false)
 
@@ -289,4 +289,4 @@ const SobreNosl = () => {
   )
 }
 
-export default SobreNosl
+export default SobreNos

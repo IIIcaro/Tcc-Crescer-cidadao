@@ -8,7 +8,7 @@ import fisioterapia from "../assets/img/fisioterapia.png"
 import tocupacional from "../assets/img/tocupacional.png"
 import apoiopsicologico from "../assets/img/apoiopsicologico.png"
 
-export const Servicosl = () => {
+export const Servicos = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0)
   const [expandedService, setExpandedService] = useState(null)
 
@@ -310,4 +310,4 @@ export const Servicosl = () => {
   )
 }
 
-export default Servicosl
+export default Servicos
