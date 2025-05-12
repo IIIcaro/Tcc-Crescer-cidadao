@@ -2,8 +2,6 @@
 
 import { useState } from "react"
 import "./Coisa.css"
-import Retangulo from "../assets/img/retangulo-1.svg"
-import Retangulo2 from "../assets/img/retangulo-2.svg"
 import fisioterapia from "../assets/img/fisioterapia.png"
 import tocupacional from "../assets/img/tocupacional.png"
 import apoiopsicologico from "../assets/img/apoiopsicologico.png"
@@ -68,14 +66,10 @@ const Coisa = () => {
   return (
     <>
       <section className="section-header">
-        <div className="section-title-container">
-          <div className="line-decoration">
-            <img src={Retangulo || "/placeholder.svg"} alt="Decoração" />
-          </div>
-          <h2 className="section-title">NOSSOS SERVIÇOS</h2>
-          <div className="line-decoration">
-            <img src={Retangulo2 || "/placeholder.svg"} alt="Decoração" />
-          </div>
+        <div className="container">
+          <h2>Nossos Serviços</h2>
+          <div className="section-divider"></div>
+          <p>Atendimento especializado para cada necessidade</p>
         </div>
       </section>
 
@@ -120,14 +114,10 @@ const Coisa = () => {
       </section>
 
       <section className="section-header">
-        <div className="section-title-container">
-          <div className="line-decoration">
-            <img src={Retangulo || "/placeholder.svg"} alt="Decoração" />
-          </div>
-          <h2 className="section-title">PROFISSIONAIS</h2>
-          <div className="line-decoration">
-            <img src={Retangulo2 || "/placeholder.svg"} alt="Decoração" />
-          </div>
+        <div className="container">
+          <h2>Profissionais</h2>
+          <div className="section-divider"></div>
+          <p>Nossa equipe especializada e dedicada</p>
         </div>
       </section>
     </>
