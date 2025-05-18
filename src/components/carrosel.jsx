@@ -167,7 +167,7 @@ function Carrosel() {
                 sociedade mais inclusiva e solidária.
               </p>
               <div className="about-cta">
-                <a href="/sobre-nos" className="about-button">
+                <a href="/Sobrenos" className="about-button">
                   Conheça Nossos Projetos
                 </a>
               </div>
