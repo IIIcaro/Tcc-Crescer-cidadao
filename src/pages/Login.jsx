@@ -54,7 +54,7 @@ const Login = () => {
 
       localStorage.setItem("usuarioToken", data.token)
       localStorage.setItem("usuarioNome", data.nome)
-      navigate("/Inicio")
+      navigate("/")
     } catch (error) {
       console.error("Erro detalhado:", error)
       setError(`Erro: ${error.message}. Verifique:
@@ -67,88 +67,178 @@ const Login = () => {
   }
 
   return (
-    <div className="auth-container">
-      <button onClick={() => navigate("/")} className="home-button" aria-label="Voltar para página inicial">
-        ← Início
-      </button>
-      <div className="auth-card">
-        <div className="logo-container">
-          <img src={Logo || "/placeholder.svg"} alt="Logo" className="logo-image" />
-        </div>
-
-        <h1 className="auth-title">Já Faço Parte</h1>
-
-        {error && <div className="error-alert">{error}</div>}
-
-        <form onSubmit={handleLogin} className="auth-form">
-          <div className="form-group">
-            <div className="input-container">
-              <img src={userIcon || "/placeholder.svg"} alt="User" className="input-icon" />
-              <input
-                type="email"
-                id="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="username"
-                className="auth-input"
-              />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <div className="input-container">
-              <img src={keyIcon || "/placeholder.svg"} alt="Password" className="input-icon" />
-              <input
-                type="password"
-                id="password"
-                placeholder="Senha"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoComplete="current-password"
-                className="auth-input"
-              />
+    <div className="login-container">
+      <div className="login-background">
+        <div className="login-content">
+          <button onClick={() => navigate("/")} className="home-button" aria-label="Voltar para página inicial">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>Início</span>
+          </button>
+          
+          <div className="login-card">
+            <div className="logo-container">
+              <img src={Logo || "/placeholder.svg"} alt="Logo Crescer Cidadão" className="logo-image" />
             </div>
 
-            <div className="form-options">
-              <div className="remember-me">
-                <input
-                  type="checkbox"
-                  id="rememberMe"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="checkbox"
-                />
-                <label htmlFor="rememberMe">Lembrar de mim</label>
+            <h1 className="login-title">Já Faço Parte</h1>
+            <p className="login-subtitle">Acesse sua conta para continuar</p>
+
+            {error && (
+              <div className="error-alert">
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="20" 
+                  height="20" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <span>{error}</span>
               </div>
-              <button
-                type="button"
-                className="forgot-password"
-                onClick={() => alert("Funcionalidade em desenvolvimento")}
-              >
-                Esqueceu a senha?
+            )}
+
+            <form onSubmit={handleLogin} className="login-form">
+              <div className="form-group">
+                <label htmlFor="email" className="form-label">Email</label>
+                <div className="input-container">
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="20" 
+                    height="20" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    className="input-icon"
+                  >
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="Seu email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    autoComplete="username"
+                    className="login-input"
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="password" className="form-label">Senha</label>
+                <div className="input-container">
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="20" 
+                    height="20" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    className="input-icon"
+                  >
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                  <input
+                    type="password"
+                    id="password"
+                    placeholder="Sua senha"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    autoComplete="current-password"
+                    className="login-input"
+                  />
+                </div>
+              </div>
+
+              <div className="form-options">
+                <div className="remember-me">
+                  <input
+                    type="checkbox"
+                    id="rememberMe"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="checkbox"
+                  />
+                  <label htmlFor="rememberMe">Lembrar de mim</label>
+                </div>
+                <button
+                  type="button"
+                  className="forgot-password"
+                  onClick={() => alert("Funcionalidade em desenvolvimento")}
+                >
+                  Esqueceu a senha?
+                </button>
+              </div>
+
+              <button type="submit" disabled={isLoading} className="login-button">
+                {isLoading ? (
+                  <>
+                    <svg 
+                      className="spinner" 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      width="20" 
+                      height="20" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="2" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                    >
+                      <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                    </svg>
+                    <span>Entrando...</span>
+                  </>
+                ) : "Entrar"}
               </button>
-            </div>
+
+              <div className="divider">
+                <span>ou</span>
+              </div>
+
+              <button type="button" className="google-button">
+                <img src={googleIcon || "/placeholder.svg"} alt="Google" className="google-icon" />
+                <span>Continuar com Google</span>
+              </button>
+
+              <div className="signup-link">
+                <span>Não tem uma conta?</span>
+                <button type="button" onClick={() => navigate("/Cadastro")} className="signup-button">
+                  Cadastre-se agora
+                </button>
+              </div>
+            </form>
           </div>
-
-          <button type="submit" disabled={isLoading} className="auth-button">
-            {isLoading ? "Carregando..." : "Entrar"}
-          </button>
-
-          <button type="button" className="google-button">
-            <img src={googleIcon || "/placeholder.svg"} alt="Google" className="google-icon" />
-            <span>Faça login com o Google</span>
-          </button>
-
-          <div className="auth-link-container">
-            <span>Não tem uma conta?</span>
-            <button type="button" onClick={() => navigate("/Cadastro")} className="auth-link">
-              Cadastrar
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   )

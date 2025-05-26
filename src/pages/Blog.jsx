@@ -11,6 +11,9 @@ const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState("Todos")
   const [selectedPost, setSelectedPost] = useState(null)
   const [showModal, setShowModal] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [searchResults, setSearchResults] = useState([])
+  const [isSearching, setIsSearching] = useState(false)
 
   useEffect(() => {
     // Simulando dados de posts que seriam carregados de uma API
@@ -83,8 +86,47 @@ const Blog = () => {
     setCategories(uniqueCategories)
   }, [])
 
-  const filteredPosts =
-    selectedCategory === "Todos" ? posts : posts.filter((post) => post.category === selectedCategory)
+  // Função para realizar a pesquisa
+  const handleSearch = () => {
+    if (!searchQuery.trim()) {
+      setIsSearching(false)
+      return
+    }
+
+    const query = searchQuery.toLowerCase().trim()
+    const results = posts.filter(
+      (post) =>
+        post.title.toLowerCase().includes(query) ||
+        post.excerpt.toLowerCase().includes(query) ||
+        post.content.toLowerCase().includes(query) ||
+        post.author.toLowerCase().includes(query) ||
+        post.category.toLowerCase().includes(query),
+    )
+
+    setSearchResults(results)
+    setIsSearching(true)
+    setSelectedCategory("Todos") // Resetar categoria ao pesquisar
+  }
+
+  // Função para lidar com a tecla Enter no campo de pesquisa
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch()
+    }
+  }
+
+  // Função para limpar a pesquisa
+  const clearSearch = () => {
+    setSearchQuery("")
+    setIsSearching(false)
+  }
+
+  // Determinar quais posts mostrar com base na categoria e pesquisa
+  const displayPosts = isSearching
+    ? searchResults
+    : selectedCategory === "Todos"
+      ? posts
+      : posts.filter((post) => post.category === selectedCategory)
 
   const handleReadMore = (post) => {
     setSelectedPost(post)
@@ -104,49 +146,70 @@ const Blog = () => {
     <div className="blog-page">
       <Header />
 
-      <div className="blog-hero">
-        <div className="blog-hero-overlay">
-          <div className="blog-hero-content">
-            <h1>BLOG CRESCER CIDADÃO</h1>
+      <div className="blog-header">
+        <div className="container">
+          <div className="blog-title">
+            <h1>Blog</h1>
             <p>Compartilhando conhecimento, experiências e histórias inspiradoras</p>
+          </div>
+          <div className="search-container">
             <div className="hero-search">
-              <input type="text" placeholder="Buscar no blog..." />
-              <button>Buscar</button>
+              <input
+                type="text"
+                placeholder="Buscar no blog..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
+              />
+              <button onClick={handleSearch}>Buscar</button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="blog-featured-wrapper">
-        <div className="container">
-          <div className="featured-label">Destaque</div>
-          <div className="featured-post">
-            <div className="featured-image">
-              <img src="/src/assets/img/img3.png" alt="Post em destaque" />
-            </div>
-            <div className="featured-content">
-              <span className="featured-category">Histórias</span>
-              <h2>Histórias de superação: conheça nossos casos de sucesso</h2>
-              <p>
-                Histórias inspiradoras de crianças e adolescentes que superaram desafios com o apoio da Crescer Cidadão.
-              </p>
-              <div className="featured-meta">
-                <span className="featured-author">Carlos Mendes</span>
-                <span className="featured-date">05/02/2023</span>
+      {!isSearching && (
+        <div className="featured-section">
+          <div className="container">
+            <div className="featured-post">
+              <div className="featured-image">
+                <img src="/src/assets/img/img3.png" alt="Post em destaque" />
+                <div className="featured-category">Histórias</div>
               </div>
-              <button className="featured-button" onClick={() => handleReadMore(posts[2])}>
-                Ler artigo completo
+              <div className="featured-content">
+                <h2>Histórias de superação: conheça nossos casos de sucesso</h2>
+                <p>
+                  Histórias inspiradoras de crianças e adolescentes que superaram desafios com o apoio da Crescer
+                  Cidadão.
+                </p>
+                <div className="featured-meta">
+                  <span className="featured-author">Carlos Mendes</span>
+                  <span className="featured-date">05/02/2023</span>
+                </div>
+                <button className="featured-button" onClick={() => handleReadMore(posts[2])}>
+                  Ler artigo completo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="blog-content">
+        <div className="container">
+          {isSearching && (
+            <div className="search-results-header">
+              <h2>
+                Resultados da pesquisa: {searchResults.length} {searchResults.length === 1 ? "artigo" : "artigos"}{" "}
+                encontrado{searchResults.length !== 1 ? "s" : ""} para "{searchQuery}"
+              </h2>
+              <button className="clear-search-btn" onClick={clearSearch}>
+                Limpar pesquisa
               </button>
             </div>
-          </div>
-        </div>
-      </div>
+          )}
 
-      <div className="blog-content-wrapper">
-        <div className="container">
-          <div className="blog-main-content">
+          {!isSearching && (
             <div className="blog-categories">
-              <h2>Explorar por categoria</h2>
               <div className="category-buttons">
                 {categories.map((category) => (
                   <button
@@ -159,15 +222,20 @@ const Blog = () => {
                 ))}
               </div>
             </div>
+          )}
 
-            <div className="recent-posts">
+          <div className="posts-section">
+            {!isSearching && (
               <h2>{selectedCategory === "Todos" ? "Artigos Recentes" : `Artigos em ${selectedCategory}`}</h2>
+            )}
+
+            {displayPosts.length > 0 ? (
               <div className="posts-grid">
-                {filteredPosts.map((post) => (
+                {displayPosts.map((post) => (
                   <div className="post-card" key={post.id}>
                     <div className="post-image">
                       <img src={post.image || "/placeholder.svg"} alt={post.title} />
-                      <span className="post-category">{post.category}</span>
+                      <div className="post-category">{post.category}</div>
                     </div>
                     <div className="post-content">
                       <h3>{post.title}</h3>
@@ -183,28 +251,22 @@ const Blog = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            ) : (
+              <div className="no-results">
+                <h3>Nenhum artigo encontrado</h3>
+                <p>Tente uma pesquisa diferente ou explore nossas categorias.</p>
+              </div>
+            )}
+          </div>
 
+          {!isSearching && displayPosts.length > 0 && (
             <div className="blog-pagination">
               <button className="pagination-btn active">1</button>
               <button className="pagination-btn">2</button>
               <button className="pagination-btn">3</button>
               <button className="pagination-btn next">Próximo →</button>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="cta-section">
-        <div className="container">
-          <div className="cta-content">
-            <h2>Faça parte da nossa missão</h2>
-            <p>Ajude-nos a transformar vidas e construir um futuro mais inclusivo para crianças e adolescentes</p>
-            <div className="cta-buttons">
-              <button className="cta-btn primary">Quero Doar</button>
-              <button className="cta-btn secondary">Seja Voluntário</button>
-            </div>
-          </div>
+          )}
         </div>
       </div>
 
@@ -238,7 +300,7 @@ const Blog = () => {
               ×
             </button>
             <div className="modal-header">
-              <span className="modal-category">{selectedPost.category}</span>
+              <div className="modal-category">{selectedPost.category}</div>
               <h2>{selectedPost.title}</h2>
               <div className="modal-meta">
                 <span className="modal-author">Por {selectedPost.author}</span>
