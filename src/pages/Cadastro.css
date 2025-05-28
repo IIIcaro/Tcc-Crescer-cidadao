@@ -6,7 +6,7 @@
   --accent-color: #ff6b6b;
   --light-color: #f7fff7;
   --error-color: #ff6b6b;
-  --success-color: #00bfa5;
+  --success-color: #6bff8d;
   --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease;
 }
@@ -279,6 +279,92 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+  }
+}
+
+/* Estilos para seleção de tipo de usuário */
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.user-type-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.user-type-option {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+.user-type-option:hover {
+  border-color: #00bfa5;
+  background-color: rgba(0, 191, 165, 0.05);
+}
+
+.user-type-option.selected {
+  border-color: #00bfa5;
+  background-color: rgba(0, 191, 165, 0.1);
+}
+
+.user-type-icon {
+  margin-right: 12px;
+  color: #666;
+  display: flex;
+  align-items: center;
+}
+
+.user-type-option.selected .user-type-icon {
+  color: #00bfa5;
+}
+
+.user-type-content {
+  flex: 1;
+}
+
+.user-type-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.user-type-content p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.user-type-radio {
+  width: 20px;
+  height: 20px;
+  accent-color: #00bfa5;
+}
+
+/* Responsividade para seleção de tipo */
+@media (max-width: 480px) {
+  .user-type-option {
+    padding: 12px;
+  }
+
+  .user-type-content h3 {
+    font-size: 14px;
+  }
+
+  .user-type-content p {
+    font-size: 12px;
   }
 }
 

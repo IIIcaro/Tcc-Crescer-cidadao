@@ -20,7 +20,7 @@ export const Footer = () => {
       </div>
 
       <div className="imgfooter">
-        <a href="https://www.whatsapp.com/" target="_blank" rel="noopenner noreferrer" aria-label="WhatsApp">
+        <a href="https://wa.me/5575988081908" target="_blank" rel="noopenner noreferrer" aria-label="WhatsApp">
           <img src={WhatsApp || "/placeholder.svg"} alt="WhatsApp" />
         </a>
         <a

@@ -18,20 +18,20 @@ export const Servicos = () => {
         "A equipe do Crescer Cidadão transformou a vida do meu filho. O progresso que ele teve com a fisioterapia foi incrível!",
       name: "Maria Silva",
       relation: "mãe do Pedro",
-      avatar: "/src/assets/img/avatar1.jpg",
+      avatar: "/src/assets/img/IconeMaria.png",
     },
     {
       quote: "Profissionais extremamente dedicados e atenciosos. Minha filha adora as sessões de terapia ocupacional.",
       name: "Carlos Oliveira",
       relation: "pai da Ana",
-      avatar: "/src/assets/img/avatar2.jpg",
+      avatar: "/src/assets/img/IconeCarlos.png",
     },
     {
       quote:
         "O apoio psicológico foi fundamental para ajudar nossa família a lidar com os desafios. Somos muito gratos!",
       name: "Juliana Santos",
       relation: "mãe do Lucas",
-      avatar: "/src/assets/img/avatar3.jpg",
+      avatar: "/src/assets/img/IconeJuliana.png",
     },
   ]
 
@@ -271,7 +271,7 @@ export const Servicos = () => {
         <div className="cta-content">
           <h2>Agende uma Consulta</h2>
           <p>Entre em contato conosco para agendar uma avaliação inicial ou tirar suas dúvidas sobre nossos serviços</p>
-          <a href="/contato" className="cta-button">
+          <a href="https://wa.me/5575988081908" className="cta-button">
             AGENDAR AGORA
           </a>
         </div>

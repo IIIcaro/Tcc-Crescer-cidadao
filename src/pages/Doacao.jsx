@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./Doacao.css"
 import Header from "../components/Header"
 import { Footer } from "../components/footer"
@@ -16,13 +16,30 @@ export const Doacao = () => {
   const [selectedAmount, setSelectedAmount] = useState("100")
   const [showQrCode, setShowQrCode] = useState(false)
 
+  // Adicionar dentro do componente Doacao, antes dos outros estados
+  const [userType, setUserType] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  // Adicionar useEffect para verificar autenticação
+  useEffect(() => {
+    const token = localStorage.getItem("usuarioToken")
+    const tipo = localStorage.getItem("usuarioTipo")
+
+    if (token && tipo) {
+      setIsLoggedIn(true)
+      setUserType(tipo)
+    }
+  }, [])
+
   // Número de WhatsApp fictício para demonstração
   const whatsappNumber = "5575999999999"
-  
+
   // Mensagens pré-definidas para WhatsApp
-  const necessidadesMessage = encodeURIComponent("Olá! Gostaria de saber a lista de necessidades para doação de alimentos.")
+  const necessidadesMessage = encodeURIComponent(
+    "Olá! Gostaria de saber a lista de necessidades para doação de alimentos.",
+  )
   const coletaMessage = encodeURIComponent("Olá! Gostaria de agendar uma coleta de roupas para doação.")
-  
+
   // Links do WhatsApp
   const necessidadesLink = `https://wa.me/${whatsappNumber}?text=${necessidadesMessage}`
   const coletaLink = `https://wa.me/${whatsappNumber}?text=${coletaMessage}`
@@ -35,8 +52,38 @@ export const Doacao = () => {
     setSelectedAmount(amount)
   }
 
+  // Modificar a função handleDonate para verificar permissões
   const handleDonate = () => {
+    if (!isLoggedIn) {
+      alert("Você precisa estar logado para fazer doações. Redirecionando para o login...")
+      window.location.href = "/Login"
+      return
+    }
+
+    if (userType !== "voluntario") {
+      alert("Apenas voluntários podem fazer doações. Entre em contato conosco para se tornar um voluntário!")
+      return
+    }
+
     setShowQrCode(true)
+  }
+
+  // Modificar os botões de WhatsApp também
+  const handleWhatsAppClick = (link) => {
+    if (!isLoggedIn) {
+      alert("Você precisa estar logado para acessar esta funcionalidade. Redirecionando para o login...")
+      window.location.href = "/Login"
+      return
+    }
+
+    if (userType !== "voluntario") {
+      alert(
+        "Apenas voluntários podem acessar esta funcionalidade. Entre em contato conosco para se tornar um voluntário!",
+      )
+      return
+    }
+
+    window.open(link, "_blank")
   }
 
   const closeQrCode = () => {
@@ -50,12 +97,20 @@ export const Doacao = () => {
       <main className="doacao-container">
         {/* Hero Section */}
         <section className="hero-section">
+          <div className="hero-background">
+            <div className="hero-shape hero-shape-1"></div>
+            <div className="hero-shape hero-shape-2"></div>
+            <div className="hero-shape hero-shape-3"></div>
+            <div className="hero-particles">
+              <div className="particle"></div>
+              <div className="particle"></div>
+              <div className="particle"></div>
+              <div className="particle"></div>
+              <div className="particle"></div>
+            </div>
+          </div>
           <div className="hero-content">
-            <span className="hero-tag">FAÇA PARTE DA MUDANÇA</span>
-            <h1 className="hero-title">APOIE NOSSA CAUSA</h1>
-            <p className="hero-subtitle">Sua contribuição transforma vidas e fortalece nossa comunidade</p>
-            <a href="#opcoes-doacao" className="hero-button">
-              Como Posso Ajudar
+            <div className="hero-badge">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -67,9 +122,66 @@ export const Doacao = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <path d="M12 5v14M5 12l7 7 7-7" />
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
               </svg>
-            </a>
+              FAÇA PARTE DA MUDANÇA
+            </div>
+            <h1 className="hero-title">
+              APOIE NOSSA
+              <span className="hero-title-highlight"> CAUSA</span>
+            </h1>
+            <p className="hero-subtitle">
+              Sua contribuição transforma vidas e fortalece nossa comunidade. 
+              Juntos, construímos um futuro melhor para todos.
+            </p>
+            <div className="hero-stats">
+              <div className="hero-stat">
+                <span className="hero-stat-number">1.200+</span>
+                <span className="hero-stat-label">Vidas transformadas</span>
+              </div>
+              <div className="hero-stat">
+                <span className="hero-stat-number">350+</span>
+                <span className="hero-stat-label">Cestas distribuídas</span>
+              </div>
+              <div className="hero-stat">
+                <span className="hero-stat-number">500+</span>
+                <span className="hero-stat-label">Peças doadas</span>
+              </div>
+            </div>
+            <div className="hero-actions">
+              <a href="#opcoes-doacao" className="hero-button hero-button-primary">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+                Como Posso Ajudar
+              </a>
+              <a href="#nosso-impacto" className="hero-button hero-button-secondary">
+                Ver Nosso Impacto
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7V17" />
+                </svg>
+              </a>
+            </div>
           </div>
         </section>
 
@@ -232,7 +344,7 @@ export const Doacao = () => {
                       <span>Segunda a sexta: 8h às 17h</span>
                     </div>
                   </div>
-                  <a href={necessidadesLink} target="_blank" rel="noopener noreferrer" className="whatsapp-button">
+                  <button onClick={() => handleWhatsAppClick(necessidadesLink)} className="whatsapp-button">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -248,7 +360,7 @@ export const Doacao = () => {
                       <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
                     </svg>
                     Ver Lista de Necessidades
-                  </a>
+                  </button>
                 </div>
               )}
 
@@ -291,32 +403,15 @@ export const Doacao = () => {
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
+                        className="whatsapp-icon"
                       >
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                        <line x1="16" y1="2" x2="16" y2="6" />
-                        <line x1="8" y1="2" x2="8" y2="6" />
-                        <line x1="3" y1="10" x2="21" y2="10" />
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                       </svg>
-                      <span>Segunda a sexta: 8h às 17h</span>
                     </div>
                   </div>
-                  <a href={coletaLink} target="_blank" rel="noopener noreferrer" className="whatsapp-button">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="whatsapp-icon"
-                    >
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                    </svg>
+                  <button onClick={() => handleWhatsAppClick(coletaLink)} className="whatsapp-button">
                     Agendar Coleta
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
@@ -324,7 +419,7 @@ export const Doacao = () => {
         </section>
 
         {/* Impact Section */}
-        <section className="impact-section">
+        <section id="nosso-impacto" className="impact-section">
           <div className="section-header">
             <span className="section-tag">NOSSO IMPACTO</span>
             <h2 className="section-title">Seu impacto é real</h2>

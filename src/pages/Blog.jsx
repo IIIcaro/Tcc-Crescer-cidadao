@@ -25,7 +25,7 @@ const Blog = () => {
           "Conheça as principais terapias que auxiliam no desenvolvimento de crianças com necessidades especiais.",
         content:
           "As terapias especializadas são fundamentais para o desenvolvimento de crianças com necessidades especiais. Entre as principais abordagens estão a fisioterapia, que trabalha aspectos motores; a terapia ocupacional, que desenvolve habilidades para atividades diárias; a fonoaudiologia, que trata questões de comunicação e linguagem; e a psicoterapia, que aborda aspectos emocionais e comportamentais. Cada criança possui necessidades únicas, e um plano terapêutico individualizado, iniciado precocemente e com participação familiar, oferece os melhores resultados. O acompanhamento multidisciplinar integrado permite um desenvolvimento mais completo, melhorando significativamente a qualidade de vida dessas crianças e suas famílias.",
-        image: "/src/assets/img/iconFisioterapia.png",
+        image: "/src/assets/img/BlogTerapia.png",
         date: "28/03/2023",
         author: "Dr. João Santos",
         category: "Saúde",
@@ -37,7 +37,7 @@ const Blog = () => {
           "Dicas práticas para oferecer suporte emocional e prático para famílias que têm crianças com deficiência.",
         content:
           "Apoiar famílias de crianças com deficiência envolve tanto suporte emocional quanto prático. É importante ouvir sem julgar, respeitando o processo de adaptação de cada família. Oferecer ajuda específica, como cuidar da criança por algumas horas ou auxiliar em tarefas domésticas, é mais efetivo que perguntas genéricas. Informar-se sobre a condição da criança demonstra interesse genuíno e ajuda a evitar perguntas desconfortáveis. Incluir a criança e sua família em atividades sociais combate o isolamento frequentemente enfrentado. Conectar a família a grupos de apoio e recursos comunitários também é valioso. Lembre-se que cada família é única, e o apoio deve ser personalizado às suas necessidades específicas, sempre com respeito e empatia.",
-        image: "/src/assets/img/PuloCrianças.png",
+        image: "/src/assets/img/BlogDeficiencia.png",
         date: "10/03/2023",
         author: "Ana Oliveira",
         category: "Família",
@@ -49,7 +49,7 @@ const Blog = () => {
           "Histórias inspiradoras de crianças e adolescentes que superaram desafios com o apoio da Crescer Cidadão.",
         content:
           "Na Crescer Cidadão, testemunhamos diariamente histórias extraordinárias de superação. Como a de Pedro, diagnosticado com paralisia cerebral, que através de terapias intensivas e apoio familiar, deu seus primeiros passos aos 7 anos, momento que emocionou toda nossa equipe. Ou a história de Mariana, com síndrome de Down, que desenvolveu habilidades artísticas surpreendentes em nossas oficinas de arte, tendo suas obras expostas em uma galeria local. Temos também o caso de Lucas, com transtorno do espectro autista, que superou barreiras de comunicação e hoje participa ativamente de nossos grupos de socialização. Cada história representa não apenas conquistas individuais, mas o poder transformador do apoio adequado, da persistência e da crença no potencial de cada criança, independentemente de suas limitações iniciais.",
-        image: "/src/assets/img/img3.png",
+        image: "/src/assets/img/BlogSuperacao.png",
         date: "05/02/2023",
         author: "Carlos Mendes",
         category: "Histórias",
@@ -61,7 +61,7 @@ const Blog = () => {
           "Uma análise sobre as políticas públicas de inclusão no Brasil e os desafios que ainda precisamos superar.",
         content:
           "As políticas públicas de inclusão no Brasil avançaram significativamente nas últimas décadas, com marcos como a Lei Brasileira de Inclusão (2015) e a Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva. Entretanto, persistem desafios estruturais como a implementação efetiva dessas leis, especialmente em regiões menos desenvolvidas. A acessibilidade arquitetônica e comunicacional continua precária em muitos espaços públicos. Na educação, faltam profissionais especializados e recursos adequados para atender estudantes com deficiência. O mercado de trabalho ainda apresenta baixos índices de inclusão, apesar das cotas legais. Para avançarmos, é necessário maior fiscalização das leis existentes, aumento de investimentos em acessibilidade e formação profissional, além de campanhas de conscientização que combatam o preconceito e promovam uma cultura verdadeiramente inclusiva.",
-        image: "/src/assets/img/img4.png",
+        image: "/src/assets/img/BlogInclusao.png",
         date: "20/01/2023",
         author: "Dra. Fernanda Lima",
         category: "Política",
@@ -72,7 +72,7 @@ const Blog = () => {
         excerpt: "Como a educação inclusiva pode transformar a vida de crianças com deficiência e suas famílias.",
         content:
           "A educação inclusiva representa muito mais que uma abordagem pedagógica – é um poderoso instrumento de transformação social. Quando implementada adequadamente, permite que crianças com deficiência desenvolvam não apenas habilidades acadêmicas, mas também autoconfiança e independência. Para as famílias, ver seus filhos incluídos no ambiente escolar regular traz esperança e novas perspectivas de futuro. A convivência com a diversidade beneficia também os estudantes sem deficiência, que desenvolvem empatia, respeito às diferenças e habilidades sociais valiosas. Escolas verdadeiramente inclusivas adaptam seus métodos e espaços às necessidades de todos os alunos, contam com profissionais capacitados e trabalham em parceria com as famílias. Apesar dos desafios de implementação, os resultados são inegáveis: comunidades mais acolhedoras e uma sociedade que reconhece e valoriza o potencial de cada indivíduo, independentemente de suas características.",
-        image: "/src/assets/img/img5.png",
+        image: "/src/assets/img/BlogInclusaoSocial.png",
         date: "15/04/2023",
         author: "Maria Silva",
         category: "Educação",
@@ -172,7 +172,7 @@ const Blog = () => {
           <div className="container">
             <div className="featured-post">
               <div className="featured-image">
-                <img src="/src/assets/img/img3.png" alt="Post em destaque" />
+                <img src="/src/assets/img/BlogSuperacao.png" alt="Post em destaque" />
                 <div className="featured-category">Histórias</div>
               </div>
               <div className="featured-content">
