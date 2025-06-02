@@ -131,7 +131,7 @@ export const Servicos = () => {
       color: "#2ecc71",
     },
     {
-      name: "Power Guido",
+      name: "Guilherme Santos",
       role: "Psicologia",
       specialty: "Especialista em Terapia Cognitivo-Comportamental",
       color: "#9b59b6",

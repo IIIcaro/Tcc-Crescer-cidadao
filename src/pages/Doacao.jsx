@@ -516,15 +516,7 @@ export const Doacao = () => {
         </section>
 
         {/* Partners Section */}
-        <section className="partners-section">
-          <h3 className="partners-title">Parceiros que confiam em nosso trabalho</h3>
-          <div className="partners-grid">
-            <div className="partner-logo">Empresa A</div>
-            <div className="partner-logo">Empresa B</div>
-            <div className="partner-logo">Empresa C</div>
-            <div className="partner-logo">Empresa D</div>
-          </div>
-        </section>
+        
       </main>
 
       {/* QR Code Modal */}
