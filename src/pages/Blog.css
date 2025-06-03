@@ -17,6 +17,9 @@
   --container-width: 1140px;
   --font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-heading: var(--font-primary);
+  --danger-color: #e74c3c;
+  --warning-color: #f39c12;
+  --success-color: #27ae60;
 }
 
 /* Reset e estilos gerais */
@@ -84,37 +87,7 @@ img {
   display: block;
 }
 
-/* Hero section - Removendo a barra azul */
-.blog-hero {
-  background-color: var(--primary-color);
-  padding: 80px 0;
-  text-align: center;
-  color: white;
-}
-
-.blog-hero-content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.blog-hero h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 16px;
-  color: white;
-}
-
-.blog-hero p {
-  font-size: 1.2rem;
-  margin: 0 0 30px;
-  opacity: 0.9;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Substituindo pelo novo header clean */
+/* Blog Header */
 .blog-header {
   padding: 60px 0 40px;
   text-align: center;
@@ -162,7 +135,6 @@ img {
   outline: none;
 }
 
-/* Atualizando o botão de pesquisa para a cor verde */
 .hero-search button {
   background-color: var(--primary-color);
   color: white;
@@ -175,6 +147,24 @@ img {
 
 .hero-search button:hover {
   background-color: var(--primary-dark);
+}
+
+/* Botão de editar admin */
+.admin-edit-btn {
+  background-color: var(--warning-color);
+  color: white;
+  border: none;
+  padding: 0 20px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-edit-btn:hover {
+  background-color: #e67e22;
 }
 
 /* Featured section */
@@ -205,7 +195,6 @@ img {
   object-fit: cover;
 }
 
-/* Atualizando a categoria em destaque */
 .featured-category {
   position: absolute;
   top: 20px;
@@ -242,7 +231,6 @@ img {
   font-size: 0.95rem;
 }
 
-/* Atualizando o botão de destaque */
 .featured-button {
   background-color: var(--primary-color);
   color: white;
@@ -277,12 +265,6 @@ img {
   margin: 0;
 }
 
-/* Atualizando o botão de limpar pesquisa */
-.clear-search-btn:hover {
-  background-color: var(--primary-light);
-  color: var(--primary-color);
-}
-
 .clear-search-btn {
   background-color: var(--background-color);
   color: var(--text-color);
@@ -314,6 +296,37 @@ img {
   margin: 0 auto;
 }
 
+/* Adicionando estilo para mensagem de nenhum post */
+.no-posts-message {
+  text-align: center;
+  padding: 30px;
+  background-color: var(--background-light);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+
+.no-posts-message p {
+  color: var(--text-light);
+  margin-bottom: 15px;
+}
+
+/* Estilo para o botão de criar post na mensagem de nenhum post */
+.no-results .admin-btn.create {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: var(--transition);
+  margin-top: 15px;
+}
+
+.no-results .admin-btn.create:hover {
+  background-color: var(--primary-dark);
+}
+
 /* Categories */
 .blog-categories {
   margin-bottom: 40px;
@@ -337,7 +350,6 @@ img {
   color: var(--text-color);
 }
 
-/* Atualizando os botões de categoria */
 .category-button:hover {
   border-color: var(--primary-color);
   color: var(--primary-color);
@@ -376,6 +388,7 @@ img {
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border-color);
+  position: relative;
 }
 
 .post-card:hover {
@@ -395,7 +408,6 @@ img {
   object-fit: cover;
 }
 
-/* Atualizando a categoria nos cards */
 .post-category {
   position: absolute;
   top: 15px;
@@ -406,6 +418,46 @@ img {
   border-radius: 30px;
   font-size: 12px;
   font-weight: 500;
+}
+
+/* Admin actions nos posts */
+.admin-post-actions {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 8px;
+}
+
+.admin-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.admin-action-btn.edit {
+  color: var(--warning-color);
+}
+
+.admin-action-btn.edit:hover {
+  background-color: var(--warning-color);
+  color: white;
+}
+
+.admin-action-btn.delete {
+  color: var(--danger-color);
+}
+
+.admin-action-btn.delete:hover {
+  background-color: var(--danger-color);
+  color: white;
 }
 
 .post-content {
@@ -438,7 +490,6 @@ img {
   margin-bottom: 20px;
 }
 
-/* Atualizando os botões de leitura */
 .read-more-btn {
   background-color: transparent;
   color: var(--primary-color);
@@ -464,7 +515,6 @@ img {
   margin-top: 40px;
 }
 
-/* Atualizando os botões de paginação */
 .pagination-btn {
   width: 40px;
   height: 40px;
@@ -546,7 +596,6 @@ img {
   outline: none;
 }
 
-/* Atualizando o botão da newsletter */
 .newsletter-form button {
   background-color: var(--primary-color);
   color: white;
@@ -616,7 +665,6 @@ img {
   padding: 30px 30px 20px;
 }
 
-/* Atualizando a categoria no modal */
 .modal-category {
   display: inline-block;
   background-color: var(--primary-light);
@@ -684,12 +732,6 @@ img {
   font-size: 0.9rem;
 }
 
-/* Atualizando as tags no modal */
-.modal-tags a:hover {
-  background-color: var(--primary-light);
-  color: var(--primary-color);
-}
-
 .modal-tags a {
   background-color: var(--background-light);
   color: var(--text-light);
@@ -741,66 +783,195 @@ img {
   background-color: #25d366;
 }
 
-.modal-related {
-  padding: 20px 30px 30px;
-  border-top: 1px solid var(--border-color);
+/* Admin Modal */
+.admin-modal-overlay {
+  z-index: 1100;
 }
 
-.modal-related h3 {
+.admin-modal-content {
+  background-color: var(--background-color);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 1000px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.admin-modal-header {
+  padding: 30px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-modal-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.admin-modal-body {
+  padding: 30px;
+}
+
+/* Lista de posts admin */
+.admin-posts-list h3 {
+  margin-bottom: 20px;
   font-size: 1.3rem;
+}
+
+.admin-posts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.admin-post-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background-color: var(--background-light);
+}
+
+.admin-post-info h4 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+.admin-post-info p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.admin-post-actions-list {
+  display: flex;
+  gap: 10px;
+}
+
+/* Botões admin */
+.admin-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  transition: var(--transition);
+  border: none;
+  cursor: pointer;
+}
+
+.admin-btn.edit {
+  background-color: var(--warning-color);
+  color: white;
+}
+
+.admin-btn.edit:hover {
+  background-color: #e67e22;
+}
+
+.admin-btn.delete {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.admin-btn.delete:hover {
+  background-color: #c0392b;
+}
+
+.admin-btn.create {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.admin-btn.create:hover {
+  background-color: var(--primary-dark);
+}
+
+.admin-btn.cancel {
+  background-color: var(--text-lighter);
+  color: white;
+}
+
+.admin-btn.cancel:hover {
+  background-color: #7f8c8d;
+}
+
+.admin-btn.save {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.admin-btn.save:hover {
+  background-color: #229954;
+}
+
+.admin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Formulário de post */
+.admin-post-form {
+  max-width: 800px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
   margin-bottom: 20px;
 }
 
-.related-posts {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
+.admin-post-form .form-group {
+  margin-bottom: 20px;
 }
 
-.related-post {
-  display: flex;
-  gap: 15px;
+.admin-post-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-color);
 }
 
-.related-post-image {
-  width: 80px;
-  height: 80px;
-  border-radius: var(--radius);
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.related-post-image img {
+.admin-post-form input,
+.admin-post-form select,
+.admin-post-form textarea {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.related-post-content {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Atualizando os links relacionados no modal */
-.related-post-content h4:hover {
-  color: var(--primary-color);
-}
-
-.related-post-content h4 {
-  margin: 0 0 8px;
-  font-size: 1rem;
-  line-height: 1.4;
-  cursor: pointer;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-family: var(--font-primary);
   transition: var(--transition);
 }
 
-.related-post-content h4:hover {
-  color: var(--primary-color);
+.admin-post-form input:focus,
+.admin-post-form select:focus,
+.admin-post-form textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
 }
 
-.related-post-content span {
-  color: var(--text-lighter);
-  font-size: 0.85rem;
+.admin-post-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.admin-form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
 }
 
 /* Responsividade */
@@ -830,23 +1001,34 @@ img {
   .newsletter-form button {
     margin: 0 auto;
   }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-  .blog-hero {
-    padding: 60px 0;
+  .hero-search {
+    flex-direction: column;
   }
 
-  .blog-hero h1 {
-    font-size: 2.5rem;
-  }
-
-  .related-posts {
-    grid-template-columns: 1fr;
+  .admin-edit-btn {
+    border-radius: 0 0 var(--radius) var(--radius);
   }
 
   .form-group {
     flex: 1 0 100%;
+  }
+
+  .admin-post-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .admin-post-actions-list {
+    width: 100%;
+    justify-content: flex-end;
   }
 }
 
@@ -855,16 +1037,8 @@ img {
     grid-template-columns: 1fr;
   }
 
-  .blog-hero {
-    padding: 50px 0;
-  }
-
-  .blog-hero h1 {
+  .blog-title h1 {
     font-size: 2rem;
-  }
-
-  .blog-hero p {
-    font-size: 1rem;
   }
 
   .featured-image {
@@ -881,5 +1055,14 @@ img {
 
   .modal-image {
     height: 250px;
+  }
+
+  .admin-form-actions {
+    flex-direction: column;
+  }
+
+  .admin-btn {
+    width: 100%;
+    justify-content: center;
   }
 }

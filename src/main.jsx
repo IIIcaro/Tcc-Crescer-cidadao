@@ -11,7 +11,7 @@ import Cadastro from './pages/Cadastro.jsx'
 import Blog from './pages/Blog.jsx'
 import './pages/inicial.css'
 import MeuPainellPat from './pages/MeuPainellPat.jsx'
-import MeuPainellADM from './pages/MeuPainellADM.jsx'
+
 
 const router = createBrowserRouter([ {
   path: '/',
@@ -43,10 +43,7 @@ const router = createBrowserRouter([ {
   path: '/Blog',
   element: <Blog/>,
 },
-{
-  path: '/MeuPainellADM',
-  element: <MeuPainellADM/>,
-},
+
 {
   path: '/MeuPainellPat',
   element: <MeuPainellPat/>,

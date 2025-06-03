@@ -15,19 +15,13 @@ export const Doacao = () => {
   const [activeTab, setActiveTab] = useState("financeira")
   const [selectedAmount, setSelectedAmount] = useState("100")
   const [showQrCode, setShowQrCode] = useState(false)
-
-  // Adicionar dentro do componente Doacao, antes dos outros estados
-  const [userType, setUserType] = useState(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  // Adicionar useEffect para verificar autenticação
+  // Verificar autenticação (removido verificação de tipo de usuário)
   useEffect(() => {
     const token = localStorage.getItem("usuarioToken")
-    const tipo = localStorage.getItem("usuarioTipo")
-
-    if (token && tipo) {
+    if (token) {
       setIsLoggedIn(true)
-      setUserType(tipo)
     }
   }, [])
 
@@ -52,7 +46,7 @@ export const Doacao = () => {
     setSelectedAmount(amount)
   }
 
-  // Modificar a função handleDonate para verificar permissões
+  // Função simplificada - apenas verifica se está logado
   const handleDonate = () => {
     if (!isLoggedIn) {
       alert("Você precisa estar logado para fazer doações. Redirecionando para o login...")
@@ -60,26 +54,14 @@ export const Doacao = () => {
       return
     }
 
-    if (userType !== "voluntario") {
-      alert("Apenas voluntários podem fazer doações. Entre em contato conosco para se tornar um voluntário!")
-      return
-    }
-
     setShowQrCode(true)
   }
 
-  // Modificar os botões de WhatsApp também
+  // Função simplificada para WhatsApp - apenas verifica se está logado
   const handleWhatsAppClick = (link) => {
     if (!isLoggedIn) {
       alert("Você precisa estar logado para acessar esta funcionalidade. Redirecionando para o login...")
       window.location.href = "/Login"
-      return
-    }
-
-    if (userType !== "voluntario") {
-      alert(
-        "Apenas voluntários podem acessar esta funcionalidade. Entre em contato conosco para se tornar um voluntário!",
-      )
       return
     }
 
@@ -131,8 +113,8 @@ export const Doacao = () => {
               <span className="hero-title-highlight"> CAUSA</span>
             </h1>
             <p className="hero-subtitle">
-              Sua contribuição transforma vidas e fortalece nossa comunidade. 
-              Juntos, construímos um futuro melhor para todos.
+              Sua contribuição transforma vidas e fortalece nossa comunidade. Juntos, construímos um futuro melhor para
+              todos.
             </p>
             <div className="hero-stats">
               <div className="hero-stat">
@@ -514,9 +496,6 @@ export const Doacao = () => {
             <button className="cta-button">Faça Parte Dessa História</button>
           </div>
         </section>
-
-        {/* Partners Section */}
-        
       </main>
 
       {/* QR Code Modal */}

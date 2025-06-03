@@ -50,10 +50,9 @@ const Login = () => {
         throw new Error(data.message || "Erro no servidor")
       }
 
-      // Armazenar dados do usuário incluindo o tipo
+      // Armazenar dados do usuário (removido tipo de usuário)
       localStorage.setItem("usuarioToken", data.token)
       localStorage.setItem("usuarioNome", data.nome)
-      localStorage.setItem("usuarioTipo", data.tipo_usuario)
 
       navigate("/")
     } catch (error) {

@@ -15,76 +15,58 @@ const Blog = () => {
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
 
+  // Estados para CMS Admin
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [showAdminPanel, setShowAdminPanel] = useState(false)
+  const [editingPost, setEditingPost] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  // Estados para formulário de post
+  const [postForm, setPostForm] = useState({
+    title: "",
+    excerpt: "",
+    content: "",
+    category: "",
+    author: "",
+    image: "",
+  })
+
   useEffect(() => {
-    // Simulando dados de posts que seriam carregados de uma API
-    const blogPosts = [
-      {
-        id: 1,
-        title: "Terapias que fazem a diferença no desenvolvimento infantil",
-        excerpt:
-          "Conheça as principais terapias que auxiliam no desenvolvimento de crianças com necessidades especiais.",
-        content:
-          "As terapias especializadas são fundamentais para o desenvolvimento de crianças com necessidades especiais. Entre as principais abordagens estão a fisioterapia, que trabalha aspectos motores; a terapia ocupacional, que desenvolve habilidades para atividades diárias; a fonoaudiologia, que trata questões de comunicação e linguagem; e a psicoterapia, que aborda aspectos emocionais e comportamentais. Cada criança possui necessidades únicas, e um plano terapêutico individualizado, iniciado precocemente e com participação familiar, oferece os melhores resultados. O acompanhamento multidisciplinar integrado permite um desenvolvimento mais completo, melhorando significativamente a qualidade de vida dessas crianças e suas famílias.",
-        image: "/src/assets/img/BlogTerapia.png",
-        date: "28/03/2023",
-        author: "Dr. João Santos",
-        category: "Saúde",
-      },
-      {
-        id: 2,
-        title: "Como apoiar famílias de crianças com deficiência",
-        excerpt:
-          "Dicas práticas para oferecer suporte emocional e prático para famílias que têm crianças com deficiência.",
-        content:
-          "Apoiar famílias de crianças com deficiência envolve tanto suporte emocional quanto prático. É importante ouvir sem julgar, respeitando o processo de adaptação de cada família. Oferecer ajuda específica, como cuidar da criança por algumas horas ou auxiliar em tarefas domésticas, é mais efetivo que perguntas genéricas. Informar-se sobre a condição da criança demonstra interesse genuíno e ajuda a evitar perguntas desconfortáveis. Incluir a criança e sua família em atividades sociais combate o isolamento frequentemente enfrentado. Conectar a família a grupos de apoio e recursos comunitários também é valioso. Lembre-se que cada família é única, e o apoio deve ser personalizado às suas necessidades específicas, sempre com respeito e empatia.",
-        image: "/src/assets/img/BlogDeficiencia.png",
-        date: "10/03/2023",
-        author: "Ana Oliveira",
-        category: "Família",
-      },
-      {
-        id: 3,
-        title: "Histórias de superação: conheça nossos casos de sucesso",
-        excerpt:
-          "Histórias inspiradoras de crianças e adolescentes que superaram desafios com o apoio da Crescer Cidadão.",
-        content:
-          "Na Crescer Cidadão, testemunhamos diariamente histórias extraordinárias de superação. Como a de Pedro, diagnosticado com paralisia cerebral, que através de terapias intensivas e apoio familiar, deu seus primeiros passos aos 7 anos, momento que emocionou toda nossa equipe. Ou a história de Mariana, com síndrome de Down, que desenvolveu habilidades artísticas surpreendentes em nossas oficinas de arte, tendo suas obras expostas em uma galeria local. Temos também o caso de Lucas, com transtorno do espectro autista, que superou barreiras de comunicação e hoje participa ativamente de nossos grupos de socialização. Cada história representa não apenas conquistas individuais, mas o poder transformador do apoio adequado, da persistência e da crença no potencial de cada criança, independentemente de suas limitações iniciais.",
-        image: "/src/assets/img/BlogSuperacao.png",
-        date: "05/02/2023",
-        author: "Carlos Mendes",
-        category: "Histórias",
-      },
-      {
-        id: 4,
-        title: "Políticas públicas de inclusão: avanços e desafios",
-        excerpt:
-          "Uma análise sobre as políticas públicas de inclusão no Brasil e os desafios que ainda precisamos superar.",
-        content:
-          "As políticas públicas de inclusão no Brasil avançaram significativamente nas últimas décadas, com marcos como a Lei Brasileira de Inclusão (2015) e a Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva. Entretanto, persistem desafios estruturais como a implementação efetiva dessas leis, especialmente em regiões menos desenvolvidas. A acessibilidade arquitetônica e comunicacional continua precária em muitos espaços públicos. Na educação, faltam profissionais especializados e recursos adequados para atender estudantes com deficiência. O mercado de trabalho ainda apresenta baixos índices de inclusão, apesar das cotas legais. Para avançarmos, é necessário maior fiscalização das leis existentes, aumento de investimentos em acessibilidade e formação profissional, além de campanhas de conscientização que combatam o preconceito e promovam uma cultura verdadeiramente inclusiva.",
-        image: "/src/assets/img/BlogInclusao.png",
-        date: "20/01/2023",
-        author: "Dra. Fernanda Lima",
-        category: "Política",
-      },
-      {
-        id: 5,
-        title: "Inclusão social: transformando vidas através da educação",
-        excerpt: "Como a educação inclusiva pode transformar a vida de crianças com deficiência e suas famílias.",
-        content:
-          "A educação inclusiva representa muito mais que uma abordagem pedagógica – é um poderoso instrumento de transformação social. Quando implementada adequadamente, permite que crianças com deficiência desenvolvam não apenas habilidades acadêmicas, mas também autoconfiança e independência. Para as famílias, ver seus filhos incluídos no ambiente escolar regular traz esperança e novas perspectivas de futuro. A convivência com a diversidade beneficia também os estudantes sem deficiência, que desenvolvem empatia, respeito às diferenças e habilidades sociais valiosas. Escolas verdadeiramente inclusivas adaptam seus métodos e espaços às necessidades de todos os alunos, contam com profissionais capacitados e trabalham em parceria com as famílias. Apesar dos desafios de implementação, os resultados são inegáveis: comunidades mais acolhedoras e uma sociedade que reconhece e valoriza o potencial de cada indivíduo, independentemente de suas características.",
-        image: "/src/assets/img/BlogInclusaoSocial.png",
-        date: "15/04/2023",
-        author: "Maria Silva",
-        category: "Educação",
-      },
-    ]
+    // Verificar se é admin (verificação estrita)
+    const userToken = localStorage.getItem("usuarioToken")
+    const isAdminStored = localStorage.getItem("usuarioIsAdmin")
 
-    setPosts(blogPosts)
+    // Apenas usuários com flag is_admin podem acessar o painel admin
+    if (userToken && isAdminStored === "true") {
+      setIsAdmin(true)
+    }
 
-    // Extrair categorias únicas
-    const uniqueCategories = ["Todos", ...new Set(blogPosts.map((post) => post.category))]
-    setCategories(uniqueCategories)
+    loadPosts()
   }, [])
+
+  // Carregar posts do backend
+  const loadPosts = async () => {
+    try {
+      const response = await fetch("http://localhost/backend/blog/get_posts.php")
+      const data = await response.json()
+
+      if (!data.error) {
+        setPosts(data.posts || [])
+
+        // Extrair categorias únicas
+        if (data.posts && data.posts.length > 0) {
+          const uniqueCategories = ["Todos", ...new Set(data.posts.map((post) => post.category))]
+          setCategories(uniqueCategories)
+        } else {
+          setCategories(["Todos"])
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao carregar posts:", error)
+      setPosts([])
+      setCategories(["Todos"])
+    }
+  }
 
   // Função para realizar a pesquisa
   const handleSearch = () => {
@@ -105,23 +87,21 @@ const Blog = () => {
 
     setSearchResults(results)
     setIsSearching(true)
-    setSelectedCategory("Todos") // Resetar categoria ao pesquisar
+    setSelectedCategory("Todos")
   }
 
-  // Função para lidar com a tecla Enter no campo de pesquisa
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch()
     }
   }
 
-  // Função para limpar a pesquisa
   const clearSearch = () => {
     setSearchQuery("")
     setIsSearching(false)
   }
 
-  // Determinar quais posts mostrar com base na categoria e pesquisa
+  // Determinar quais posts mostrar
   const displayPosts = isSearching
     ? searchResults
     : selectedCategory === "Todos"
@@ -131,15 +111,123 @@ const Blog = () => {
   const handleReadMore = (post) => {
     setSelectedPost(post)
     setShowModal(true)
-    // Impedir rolagem do body quando o modal está aberto
     document.body.style.overflow = "hidden"
   }
 
   const closeModal = () => {
     setShowModal(false)
     setSelectedPost(null)
-    // Restaurar rolagem do body
     document.body.style.overflow = "auto"
+  }
+
+  // Funções do CMS Admin
+  const openAdminPanel = () => {
+    setShowAdminPanel(true)
+    setEditingPost(null)
+    resetPostForm()
+    document.body.style.overflow = "hidden"
+  }
+
+  const closeAdminPanel = () => {
+    setShowAdminPanel(false)
+    setEditingPost(null)
+    resetPostForm()
+    document.body.style.overflow = "auto"
+  }
+
+  const resetPostForm = () => {
+    setPostForm({
+      title: "",
+      excerpt: "",
+      content: "",
+      category: "",
+      author: "",
+      image: "",
+    })
+  }
+
+  const handleEditPost = (post) => {
+    setEditingPost(post)
+    setPostForm({
+      title: post.title,
+      excerpt: post.excerpt,
+      content: post.content,
+      category: post.category,
+      author: post.author,
+      image: post.image,
+    })
+  }
+
+  const handleDeletePost = async (postId) => {
+    if (!confirm("Tem certeza que deseja excluir este post?")) {
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      const response = await fetch("http://localhost/backend/blog/delete_post.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: postId }),
+      })
+
+      const data = await response.json()
+
+      if (!data.error) {
+        alert("Post excluído com sucesso!")
+        loadPosts()
+      } else {
+        alert("Erro ao excluir post: " + data.message)
+      }
+    } catch (error) {
+      console.error("Erro ao excluir post:", error)
+      alert("Erro ao conectar com o servidor")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSavePost = async (e) => {
+    e.preventDefault()
+
+    if (!postForm.title || !postForm.excerpt || !postForm.content || !postForm.category || !postForm.author) {
+      alert("Preencha todos os campos obrigatórios")
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      const url = editingPost
+        ? "http://localhost/backend/blog/update_post.php"
+        : "http://localhost/backend/blog/create_post.php"
+
+      const payload = editingPost ? { ...postForm, id: editingPost.id } : postForm
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+
+      const data = await response.json()
+
+      if (!data.error) {
+        alert(editingPost ? "Post atualizado com sucesso!" : "Post criado com sucesso!")
+        loadPosts()
+        closeAdminPanel()
+      } else {
+        alert("Erro ao salvar post: " + data.message)
+      }
+    } catch (error) {
+      console.error("Erro ao salvar post:", error)
+      alert("Erro ao conectar com o servidor")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -151,6 +239,24 @@ const Blog = () => {
           <div className="blog-title">
             <h1>Blog</h1>
             <p>Compartilhando conhecimento, experiências e histórias inspiradoras</p>
+            {isAdmin && (
+              <div className="admin-badge">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+                Modo Administrador
+              </div>
+            )}
           </div>
           <div className="search-container">
             <div className="hero-search">
@@ -162,30 +268,46 @@ const Blog = () => {
                 onKeyPress={handleKeyPress}
               />
               <button onClick={handleSearch}>Buscar</button>
+              {isAdmin && (
+                <button className="admin-edit-btn" onClick={openAdminPanel}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                  </svg>
+                  Editar
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {!isSearching && (
+      {!isSearching && posts.length > 0 && (
         <div className="featured-section">
           <div className="container">
             <div className="featured-post">
               <div className="featured-image">
-                <img src="/src/assets/img/BlogSuperacao.png" alt="Post em destaque" />
-                <div className="featured-category">Histórias</div>
+                <img src={posts[0]?.image || "/placeholder.svg"} alt="Post em destaque" />
+                <div className="featured-category">{posts[0]?.category}</div>
               </div>
               <div className="featured-content">
-                <h2>Histórias de superação: conheça nossos casos de sucesso</h2>
-                <p>
-                  Histórias inspiradoras de crianças e adolescentes que superaram desafios com o apoio da Crescer
-                  Cidadão.
-                </p>
+                <h2>{posts[0]?.title}</h2>
+                <p>{posts[0]?.excerpt}</p>
                 <div className="featured-meta">
-                  <span className="featured-author">Carlos Mendes</span>
-                  <span className="featured-date">05/02/2023</span>
+                  <span className="featured-author">{posts[0]?.author}</span>
+                  <span className="featured-date">{posts[0]?.date}</span>
                 </div>
-                <button className="featured-button" onClick={() => handleReadMore(posts[2])}>
+                <button className="featured-button" onClick={() => handleReadMore(posts[0])}>
                   Ler artigo completo
                 </button>
               </div>
@@ -236,6 +358,55 @@ const Blog = () => {
                     <div className="post-image">
                       <img src={post.image || "/placeholder.svg"} alt={post.title} />
                       <div className="post-category">{post.category}</div>
+                      {isAdmin && (
+                        <div className="admin-post-actions">
+                          <button
+                            className="admin-action-btn edit"
+                            onClick={() => {
+                              handleEditPost(post)
+                              setShowAdminPanel(true)
+                            }}
+                            title="Editar post"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                            </svg>
+                          </button>
+                          <button
+                            className="admin-action-btn delete"
+                            onClick={() => handleDeletePost(post.id)}
+                            title="Excluir post"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="3,6 5,6 21,6" />
+                              <path d="M19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2" />
+                              <line x1="10" y1="11" x2="10" y2="17" />
+                              <line x1="14" y1="11" x2="14" y2="17" />
+                            </svg>
+                          </button>
+                        </div>
+                      )}
                     </div>
                     <div className="post-content">
                       <h3>{post.title}</h3>
@@ -254,7 +425,19 @@ const Blog = () => {
             ) : (
               <div className="no-results">
                 <h3>Nenhum artigo encontrado</h3>
-                <p>Tente uma pesquisa diferente ou explore nossas categorias.</p>
+                {isAdmin ? (
+                  <div>
+                    <p>Comece criando seu primeiro artigo no blog!</p>
+                    <button className="admin-btn create" onClick={() => {
+                      setEditingPost({})
+                      setShowAdminPanel(true)
+                    }}>
+                      + Criar Novo Post
+                    </button>
+                  </div>
+                ) : (
+                  <p>Volte em breve para conferir nossos artigos.</p>
+                )}
               </div>
             )}
           </div>
@@ -293,6 +476,7 @@ const Blog = () => {
         </div>
       </div>
 
+      {/* Modal de leitura do post */}
       {showModal && selectedPost && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -327,31 +511,137 @@ const Blog = () => {
                 <button className="share-btn whatsapp">WhatsApp</button>
               </div>
             </div>
-            <div className="modal-related">
-              <h3>Artigos Relacionados</h3>
-              <div className="related-posts">
-                {posts
-                  .filter((post) => post.id !== selectedPost.id && post.category === selectedPost.category)
-                  .slice(0, 2)
-                  .map((post) => (
-                    <div className="related-post" key={post.id}>
-                      <div className="related-post-image">
-                        <img src={post.image || "/placeholder.svg"} alt={post.title} />
-                      </div>
-                      <div className="related-post-content">
-                        <h4
-                          onClick={() => {
-                            closeModal()
-                            setTimeout(() => handleReadMore(post), 300)
-                          }}
-                        >
-                          {post.title}
-                        </h4>
-                        <span>{post.date}</span>
-                      </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal do CMS Admin */}
+      {showAdminPanel && (
+        <div className="modal-overlay admin-modal-overlay">
+          <div className="admin-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-header">
+              <h2>{editingPost && editingPost.id ? "Editar Post" : "Criar Novo Post"}</h2>
+              <button className="modal-close" onClick={closeAdminPanel}>
+                ×
+              </button>
+            </div>
+
+            <div className="admin-modal-body">
+              {!editingPost && (
+                <div className="admin-posts-list">
+                  <h3>Posts Existentes</h3>
+                  {posts.length > 0 ? (
+                    <div className="admin-posts-grid">
+                      {posts.map((post) => (
+                        <div key={post.id} className="admin-post-item">
+                          <div className="admin-post-info">
+                            <h4>{post.title}</h4>
+                            <p>
+                              {post.category} • {post.author} • {post.date}
+                            </p>
+                          </div>
+                          <div className="admin-post-actions-list">
+                            <button className="admin-btn edit" onClick={() => handleEditPost(post)}>
+                              Editar
+                            </button>
+                            <button className="admin-btn delete" onClick={() => handleDeletePost(post.id)}>
+                              Excluir
+                            </button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-              </div>
+                  ) : (
+                    <div className="no-posts-message">
+                      <p>Nenhum post encontrado. Comece criando seu primeiro artigo!</p>
+                    </div>
+                  )}
+                  <button className="admin-btn create" onClick={() => setEditingPost({})}>
+                    + Criar Novo Post
+                  </button>
+                </div>
+              )}
+
+              {editingPost && (
+                <form className="admin-post-form" onSubmit={handleSavePost}>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Título *</label>
+                      <input
+                        type="text"
+                        value={postForm.title}
+                        onChange={(e) => setPostForm({ ...postForm, title: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Categoria *</label>
+                      <select
+                        value={postForm.category}
+                        onChange={(e) => setPostForm({ ...postForm, category: e.target.value })}
+                        required
+                      >
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Saúde">Saúde</option>
+                        <option value="Família">Família</option>
+                        <option value="Histórias">Histórias</option>
+                        <option value="Política">Política</option>
+                        <option value="Educação">Educação</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Autor *</label>
+                      <input
+                        type="text"
+                        value={postForm.author}
+                        onChange={(e) => setPostForm({ ...postForm, author: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>URL da Imagem</label>
+                      <input
+                        type="url"
+                        value={postForm.image}
+                        onChange={(e) => setPostForm({ ...postForm, image: e.target.value })}
+                        placeholder="https://exemplo.com/imagem.jpg"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Resumo *</label>
+                    <textarea
+                      value={postForm.excerpt}
+                      onChange={(e) => setPostForm({ ...postForm, excerpt: e.target.value })}
+                      rows="3"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Conteúdo *</label>
+                    <textarea
+                      value={postForm.content}
+                      onChange={(e) => setPostForm({ ...postForm, content: e.target.value })}
+                      rows="10"
+                      required
+                    />
+                  </div>
+
+                  <div className="admin-form-actions">
+                    <button type="button" className="admin-btn cancel" onClick={() => setEditingPost(null)}>
+                      Cancelar
+                    </button>
+                    <button type="submit" className="admin-btn save" disabled={isLoading}>
+                      {isLoading ? "Salvando..." : editingPost.id ? "Atualizar" : "Criar"}
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>
