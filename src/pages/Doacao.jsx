@@ -17,26 +17,35 @@ export const Doacao = () => {
   const [showQrCode, setShowQrCode] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  // Verificar autenticação (removido verificação de tipo de usuário)
+  // Estados para os modais de doação
+  const [showClothingModal, setShowClothingModal] = useState(false)
+  const [showFoodModal, setShowFoodModal] = useState(false)
+
+  // Estados para os formulários
+  const [clothingDonation, setClothingDonation] = useState({
+    type: "",
+    condition: "",
+    quantity: "",
+    size: "",
+    description: "",
+    scheduledDate: "",
+  })
+
+  const [foodDonation, setFoodDonation] = useState({
+    type: "",
+    quantity: "",
+    expirationDate: "",
+    description: "",
+    scheduledDate: "",
+  })
+
+  // Verificar autenticação
   useEffect(() => {
     const token = localStorage.getItem("usuarioToken")
     if (token) {
       setIsLoggedIn(true)
     }
   }, [])
-
-  // Número de WhatsApp fictício para demonstração
-  const whatsappNumber = "5575999999999"
-
-  // Mensagens pré-definidas para WhatsApp
-  const necessidadesMessage = encodeURIComponent(
-    "Olá! Gostaria de saber a lista de necessidades para doação de alimentos.",
-  )
-  const coletaMessage = encodeURIComponent("Olá! Gostaria de agendar uma coleta de roupas para doação.")
-
-  // Links do WhatsApp
-  const necessidadesLink = `https://wa.me/${whatsappNumber}?text=${necessidadesMessage}`
-  const coletaLink = `https://wa.me/${whatsappNumber}?text=${coletaMessage}`
 
   const handleTabChange = (tab) => {
     setActiveTab(tab)
@@ -46,30 +55,110 @@ export const Doacao = () => {
     setSelectedAmount(amount)
   }
 
-  // Função simplificada - apenas verifica se está logado
   const handleDonate = () => {
     if (!isLoggedIn) {
       alert("Você precisa estar logado para fazer doações. Redirecionando para o login...")
       window.location.href = "/Login"
       return
     }
-
     setShowQrCode(true)
   }
 
-  // Função simplificada para WhatsApp - apenas verifica se está logado
-  const handleWhatsAppClick = (link) => {
+  // Funções para abrir os modais de doação
+  const handleClothingDonation = () => {
     if (!isLoggedIn) {
-      alert("Você precisa estar logado para acessar esta funcionalidade. Redirecionando para o login...")
+      alert("Você precisa estar logado para fazer doações. Redirecionando para o login...")
       window.location.href = "/Login"
       return
     }
-
-    window.open(link, "_blank")
+    setShowClothingModal(true)
   }
 
+  const handleFoodDonation = () => {
+    if (!isLoggedIn) {
+      alert("Você precisa estar logado para fazer doações. Redirecionando para o login...")
+      window.location.href = "/Login"
+      return
+    }
+    setShowFoodModal(true)
+  }
+
+  // Funções para fechar modais
   const closeQrCode = () => {
     setShowQrCode(false)
+  }
+
+  const closeClothingModal = () => {
+    setShowClothingModal(false)
+    setClothingDonation({
+      type: "",
+      condition: "",
+      quantity: "",
+      size: "",
+      description: "",
+      scheduledDate: "",
+    })
+  }
+
+  const closeFoodModal = () => {
+    setShowFoodModal(false)
+    setFoodDonation({
+      type: "",
+      quantity: "",
+      expirationDate: "",
+      description: "",
+      scheduledDate: "",
+    })
+  }
+
+  // Funções para submeter as doações
+  const submitClothingDonation = (e) => {
+    e.preventDefault()
+
+    // Validação básica
+    if (
+      !clothingDonation.type ||
+      !clothingDonation.condition ||
+      !clothingDonation.quantity ||
+      !clothingDonation.scheduledDate
+    ) {
+      alert("Por favor, preencha todos os campos obrigatórios.")
+      return
+    }
+
+    // Aqui você adicionaria a lógica para salvar no banco de dados
+    console.log("Doação de roupa:", clothingDonation)
+
+    alert(
+      "Doação de roupa registrada com sucesso! Agendamos sua visita para " +
+        new Date(clothingDonation.scheduledDate).toLocaleDateString("pt-BR"),
+    )
+    closeClothingModal()
+  }
+
+  const submitFoodDonation = (e) => {
+    e.preventDefault()
+
+    // Validação básica
+    if (!foodDonation.type || !foodDonation.quantity || !foodDonation.scheduledDate) {
+      alert("Por favor, preencha todos os campos obrigatórios.")
+      return
+    }
+
+    // Aqui você adicionaria a lógica para salvar no banco de dados
+    console.log("Doação de alimento:", foodDonation)
+
+    alert(
+      "Doação de alimento registrada com sucesso! Agendamos sua visita para " +
+        new Date(foodDonation.scheduledDate).toLocaleDateString("pt-BR"),
+    )
+    closeFoodModal()
+  }
+
+  // Função para obter a data mínima (hoje)
+  const getMinDate = () => {
+    const today = new Date()
+    return today.toISOString().split("T")[0]
   }
 
   return (
@@ -326,7 +415,7 @@ export const Doacao = () => {
                       <span>Segunda a sexta: 8h às 17h</span>
                     </div>
                   </div>
-                  <button onClick={() => handleWhatsAppClick(necessidadesLink)} className="whatsapp-button">
+                  <button onClick={handleFoodDonation} className="donate-button">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -338,10 +427,9 @@ export const Doacao = () => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-                      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                     </svg>
-                    Ver Lista de Necessidades
+                    Doar Alimento
                   </button>
                 </div>
               )}
@@ -385,14 +473,30 @@ export const Doacao = () => {
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="whatsapp-icon"
                       >
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
                       </svg>
+                      <span>Segunda a sexta: 8h às 17h</span>
                     </div>
                   </div>
-                  <button onClick={() => handleWhatsAppClick(coletaLink)} className="whatsapp-button">
-                    Agendar Coleta
+                  <button onClick={handleClothingDonation} className="donate-button">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    Doar Roupa
                   </button>
                 </div>
               )}
@@ -500,13 +604,13 @@ export const Doacao = () => {
 
       {/* QR Code Modal */}
       {showQrCode && (
-        <div className="qr-code-modal-overlay" onClick={closeQrCode}>
-          <div className="qr-code-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay" onClick={closeQrCode}>
+          <div className="modal-content qr-code-modal" onClick={(e) => e.stopPropagation()}>
             <button className="close-modal" onClick={closeQrCode}>
               &times;
             </button>
-            <h3 className="qr-code-title">Faça sua doação via PIX</h3>
-            <p className="qr-code-description">
+            <h3 className="modal-title">Faça sua doação via PIX</h3>
+            <p className="modal-description">
               Escaneie o QR Code abaixo com o aplicativo do seu banco para fazer uma doação de{" "}
               <strong>R${selectedAmount},00</strong>
             </p>
@@ -526,6 +630,229 @@ export const Doacao = () => {
               </ol>
             </div>
             <p className="qr-code-thanks">Agradecemos sua generosidade!</p>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Doação de Roupas */}
+      {showClothingModal && (
+        <div className="modal-overlay" onClick={closeClothingModal}>
+          <div className="modal-content donation-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="close-modal" onClick={closeClothingModal}>
+              &times;
+            </button>
+            <h3 className="modal-title">Doação de Roupas</h3>
+            <p className="modal-description">Preencha as informações sobre as roupas que deseja doar</p>
+
+            <form onSubmit={submitClothingDonation} className="donation-form">
+              <div className="form-group">
+                <label htmlFor="clothingType">Tipo de Roupa *</label>
+                <select
+                  id="clothingType"
+                  value={clothingDonation.type}
+                  onChange={(e) => setClothingDonation({ ...clothingDonation, type: e.target.value })}
+                  required
+                >
+                  <option value="">Selecione o tipo</option>
+                  <option value="camiseta">Camiseta</option>
+                  <option value="calca">Calça</option>
+                  <option value="vestido">Vestido</option>
+                  <option value="blusa">Blusa</option>
+                  <option value="shorts">Shorts</option>
+                  <option value="saia">Saia</option>
+                  <option value="casaco">Casaco</option>
+                  <option value="jaqueta">Jaqueta</option>
+                  <option value="sapato">Sapato</option>
+                  <option value="tenis">Tênis</option>
+                  <option value="roupa-intima">Roupa Íntima</option>
+                  <option value="outros">Outros</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="clothingCondition">Condição *</label>
+                <select
+                  id="clothingCondition"
+                  value={clothingDonation.condition}
+                  onChange={(e) => setClothingDonation({ ...clothingDonation, condition: e.target.value })}
+                  required
+                >
+                  <option value="">Selecione a condição</option>
+                  <option value="nova">Nova (com etiqueta)</option>
+                  <option value="seminova">Seminova (pouco uso)</option>
+                  <option value="usada-bom-estado">Usada em bom estado</option>
+                </select>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="clothingQuantity">Quantidade *</label>
+                  <input
+                    type="number"
+                    id="clothingQuantity"
+                    min="1"
+                    value={clothingDonation.quantity}
+                    onChange={(e) => setClothingDonation({ ...clothingDonation, quantity: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="clothingSize">Tamanho</label>
+                  <select
+                    id="clothingSize"
+                    value={clothingDonation.size}
+                    onChange={(e) => setClothingDonation({ ...clothingDonation, size: e.target.value })}
+                  >
+                    <option value="">Selecione o tamanho</option>
+                    <option value="pp">PP</option>
+                    <option value="p">P</option>
+                    <option value="m">M</option>
+                    <option value="g">G</option>
+                    <option value="gg">GG</option>
+                    <option value="xgg">XGG</option>
+                    <option value="infantil-2">Infantil 2 anos</option>
+                    <option value="infantil-4">Infantil 4 anos</option>
+                    <option value="infantil-6">Infantil 6 anos</option>
+                    <option value="infantil-8">Infantil 8 anos</option>
+                    <option value="infantil-10">Infantil 10 anos</option>
+                    <option value="infantil-12">Infantil 12 anos</option>
+                    <option value="variados">Tamanhos variados</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="scheduledDate">Data para entrega na ONG *</label>
+                <input
+                  type="date"
+                  id="scheduledDate"
+                  min={getMinDate()}
+                  value={clothingDonation.scheduledDate}
+                  onChange={(e) => setClothingDonation({ ...clothingDonation, scheduledDate: e.target.value })}
+                  required
+                />
+                <small className="form-help">Selecione uma data para comparecer à ONG e entregar sua doação</small>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="clothingDescription">Descrição adicional</label>
+                <textarea
+                  id="clothingDescription"
+                  rows="3"
+                  placeholder="Descreva cores, marcas ou outras informações relevantes..."
+                  value={clothingDonation.description}
+                  onChange={(e) => setClothingDonation({ ...clothingDonation, description: e.target.value })}
+                ></textarea>
+              </div>
+
+              <div className="form-actions">
+                <button type="button" onClick={closeClothingModal} className="btn-secondary">
+                  Cancelar
+                </button>
+                <button type="submit" className="btn-primary">
+                  Confirmar Doação
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Doação de Alimentos */}
+      {showFoodModal && (
+        <div className="modal-overlay" onClick={closeFoodModal}>
+          <div className="modal-content donation-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="close-modal" onClick={closeFoodModal}>
+              &times;
+            </button>
+            <h3 className="modal-title">Doação de Alimentos</h3>
+            <p className="modal-description">Preencha as informações sobre os alimentos que deseja doar</p>
+
+            <form onSubmit={submitFoodDonation} className="donation-form">
+              <div className="form-group">
+                <label htmlFor="foodType">Tipo de Alimento *</label>
+                <select
+                  id="foodType"
+                  value={foodDonation.type}
+                  onChange={(e) => setFoodDonation({ ...foodDonation, type: e.target.value })}
+                  required
+                >
+                  <option value="">Selecione o tipo</option>
+                  <option value="arroz">Arroz</option>
+                  <option value="feijao">Feijão</option>
+                  <option value="macarrao">Macarrão</option>
+                  <option value="oleo">Óleo</option>
+                  <option value="acucar">Açúcar</option>
+                  <option value="sal">Sal</option>
+                  <option value="farinha">Farinha</option>
+                  <option value="leite-po">Leite em Pó</option>
+                  <option value="cafe">Café</option>
+                  <option value="sardinha">Sardinha</option>
+                  <option value="atum">Atum</option>
+                  <option value="molho-tomate">Molho de Tomate</option>
+                  <option value="biscoito">Biscoito</option>
+                  <option value="aveia">Aveia</option>
+                  <option value="outros">Outros</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="foodQuantity">Quantidade *</label>
+                <input
+                  type="text"
+                  id="foodQuantity"
+                  placeholder="Ex: 2 pacotes de 1kg, 5 latas, etc."
+                  value={foodDonation.quantity}
+                  onChange={(e) => setFoodDonation({ ...foodDonation, quantity: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="foodExpiration">Data de Validade</label>
+                  <input
+                    type="date"
+                    id="foodExpiration"
+                    value={foodDonation.expirationDate}
+                    onChange={(e) => setFoodDonation({ ...foodDonation, expirationDate: e.target.value })}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="scheduledDate">Data para entrega na ONG *</label>
+                  <input
+                    type="date"
+                    id="scheduledDate"
+                    min={getMinDate()}
+                    value={foodDonation.scheduledDate}
+                    onChange={(e) => setFoodDonation({ ...foodDonation, scheduledDate: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="foodDescription">Descrição adicional</label>
+                <textarea
+                  id="foodDescription"
+                  rows="3"
+                  placeholder="Descreva marcas, condições de armazenamento ou outras informações relevantes..."
+                  value={foodDonation.description}
+                  onChange={(e) => setFoodDonation({ ...foodDonation, description: e.target.value })}
+                ></textarea>
+              </div>
+
+              <div className="form-actions">
+                <button type="button" onClick={closeFoodModal} className="btn-secondary">
+                  Cancelar
+                </button>
+                <button type="submit" className="btn-primary">
+                  Confirmar Doação
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

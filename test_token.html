@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Token - Sistema de Doações</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #00bfa5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #00a896;
+        }
+        .resultado {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .erro {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .sucesso {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Teste de Token - Sistema de Doações</h1>
+        
+        <div>
+            <h3>Informações do Sistema:</h3>
+            <button onclick="testarSistema()">Testar Conexão</button>
+            <button onclick="testarToken()">Testar Token Atual</button>
+            <button onclick="limparStorage()">Limpar LocalStorage</button>
+        </div>
+        
+        <div>
+            <h3>Status do LocalStorage:</h3>
+            <p><strong>Token:</strong> <span id="tokenStatus">Verificando...</span></p>
+            <p><strong>Tipo Usuário:</strong> <span id="tipoStatus">Verificando...</span></p>
+        </div>
+        
+        <div id="resultado" class="resultado"></div>
+    </div>
+
+    <script>
+        // Atualizar status do localStorage
+        function atualizarStatus() {
+            const token = localStorage.getItem('usuarioToken');
+            const tipo = localStorage.getItem('tipoUsuario');
+            
+            document.getElementById('tokenStatus').textContent = token ? 'Presente' : 'Ausente';
+            document.getElementById('tipoStatus').textContent = tipo || 'Não definido';
+        }
+
+        // Testar conexão com o sistema
+        function testarSistema() {
+            mostrarResultado('Testando conexão...', 'info');
+            
+            fetch('http://localhost/backend/debug_token.php', {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                mostrarResultado(JSON.stringify(data, null, 2), 'sucesso');
+            })
+            .catch(error => {
+                mostrarResultado('Erro de conexão: ' + error.message, 'erro');
+            });
+        }
+
+        // Testar token atual
+        function testarToken() {
+            const token = localStorage.getItem('usuarioToken');
+            
+            if (!token) {
+                mostrarResultado('Nenhum token encontrado no localStorage', 'erro');
+                return;
+            }
+            
+            mostrarResultado('Testando token...', 'info');
+            
+            fetch('http://localhost/backend/debug_token.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ token: token })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const classe = data.token_valido && data.usuario_existe ? 'sucesso' : 'erro';
+                mostrarResultado(JSON.stringify(data, null, 2), classe);
+            })
+            .catch(error => {
+                mostrarResultado('Erro ao testar token: ' + error.message, 'erro');
+            });
+        }
+
+        // Limpar localStorage
+        function limparStorage() {
+            localStorage.removeItem('usuarioToken');
+            localStorage.removeItem('tipoUsuario');
+            atualizarStatus();
+            mostrarResultado('LocalStorage limpo!', 'sucesso');
+        }
+
+        // Mostrar resultado
+        function mostrarResultado(texto, tipo = 'info') {
+            const div = document.getElementById('resultado');
+            div.textContent = texto;
+            div.className = 'resultado ' + tipo;
+        }
+
+        // Inicializar
+        atualizarStatus();
+        
+        // Atualizar status a cada 2 segundos
+        setInterval(atualizarStatus, 2000);
+    </script>
+</body>
+</html>

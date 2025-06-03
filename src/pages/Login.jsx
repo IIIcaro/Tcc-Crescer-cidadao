@@ -50,9 +50,15 @@ const Login = () => {
         throw new Error(data.message || "Erro no servidor")
       }
 
-      // Armazenar dados do usuário (removido tipo de usuário)
+      // Armazenar dados do usuário incluindo is_admin
       localStorage.setItem("usuarioToken", data.token)
       localStorage.setItem("usuarioNome", data.nome)
+      localStorage.setItem("usuarioIsAdmin", data.is_admin ? "true" : "false")
+
+      // Mostrar mensagem de sucesso diferente para admin
+      if (data.is_admin) {
+        alert(`Bem-vindo, ${data.nome}! Você tem privilégios de administrador.`)
+      }
 
       navigate("/")
     } catch (error) {

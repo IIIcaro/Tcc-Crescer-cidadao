@@ -9,6 +9,7 @@ import { Doacao } from './pages/Doacao.jsx'
 import Login from './pages/Login.jsx'
 import Cadastro from './pages/Cadastro.jsx'
 import Blog from './pages/Blog.jsx'
+import Dashboard from './pages/dashboard.jsx'
 import './pages/inicial.css'
 import MeuPainellPat from './pages/MeuPainellPat.jsx'
 
@@ -47,6 +48,11 @@ const router = createBrowserRouter([ {
 {
   path: '/MeuPainellPat',
   element: <MeuPainellPat/>,
+},
+
+{
+  path: '/Dashboard',
+  element: <Dashboard/>,
 },
 
 ]);

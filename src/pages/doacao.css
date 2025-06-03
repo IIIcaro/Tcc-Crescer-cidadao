@@ -31,8 +31,7 @@ body {
 .hero-section {
   position: relative;
   height: 500px;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
-    url("/src/assets/img/heroback.png");
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url("/src/assets/img/heroback.png");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -624,45 +623,8 @@ body {
   box-shadow: 0 6px 20px rgba(0, 191, 165, 0.4);
 }
 
-/* Partners Section */
-.partners-section {
-  padding: 4rem 2rem;
-  background: #f7fafc;
-  text-align: center;
-}
-
-.partners-title {
-  font-size: 1.5rem;
-  color: #4a5568;
-  margin-bottom: 2rem;
-  font-weight: 600;
-}
-
-.partners-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.5rem;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.partner-logo {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  color: #718096;
-  font-weight: 600;
-  border: 1px solid #e2e8f0;
-  transition: all 0.3s ease;
-}
-
-.partner-logo:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* QR Code Modal */
-.qr-code-modal-overlay {
+/* Modal Styles */
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -677,7 +639,7 @@ body {
   padding: 1rem;
 }
 
-.qr-code-modal {
+.modal-content {
   background: white;
   border-radius: 16px;
   padding: 2rem;
@@ -685,6 +647,8 @@ body {
   width: 100%;
   position: relative;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .close-modal {
@@ -700,13 +664,14 @@ body {
   cursor: pointer;
   color: #4a5568;
   transition: all 0.3s ease;
+  z-index: 10;
 }
 
 .close-modal:hover {
   background: #e2e8f0;
 }
 
-.qr-code-title {
+.modal-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
   color: #1a202c;
@@ -714,12 +679,17 @@ body {
   font-weight: 700;
 }
 
-.qr-code-description {
+.modal-description {
   font-size: 1rem;
   color: #4a5568;
   margin-bottom: 1.5rem;
   text-align: center;
   line-height: 1.6;
+}
+
+/* QR Code Modal Specific Styles */
+.qr-code-modal {
+  max-width: 500px;
 }
 
 .qr-code-container {
@@ -759,6 +729,103 @@ body {
   font-weight: 600;
   color: #00bfa5;
   font-size: 1.125rem;
+}
+
+/* Donation Modal Specific Styles */
+.donation-modal {
+  max-width: 600px;
+}
+
+.donation-form {
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #00bfa5;
+  box-shadow: 0 0 0 3px rgba(0, 191, 165, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00bfa5, #00a896);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #00a896, #008f7a);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 191, 165, 0.3);
+}
+
+.btn-secondary {
+  background: #f7fafc;
+  color: #4a5568;
+  border: 2px solid #e2e8f0;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e0;
 }
 
 /* Animations */
@@ -839,6 +906,19 @@ body {
   .stats-container {
     grid-template-columns: 1fr;
   }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .modal-content {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -863,8 +943,8 @@ body {
     padding: 2rem;
   }
 
-  .qr-code-modal {
-    padding: 1.5rem;
+  .modal-content {
+    padding: 1rem;
   }
 
   .qr-code-image {
