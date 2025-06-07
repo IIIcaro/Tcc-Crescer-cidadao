@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios"
 import "./Dashboard.css"
 import Header from "../components/Header"
 import { Footer } from "../components/footer"
@@ -9,152 +10,202 @@ const Dashboard = () => {
   const [activeFilter, setActiveFilter] = useState("todos")
   const [searchTerm, setSearchTerm] = useState("")
   const [dateFilter, setDateFilter] = useState("")
+  const [clothingDonations, setClothingDonations] = useState([])
+  const [foodDonations, setFoodDonations] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  // Dados mockados para demonstração
-  const [clothingDonations] = useState([
-    {
-      id: 1,
-      doador: "Maria Silva",
-      email: "maria@email.com",
-      tipo: "Camiseta",
-      condicao: "Nova",
-      quantidade: 5,
-      tamanho: "M",
-      descricao: "Camisetas básicas variadas",
-      dataCadastro: "2024-01-14",
-      dataAgendamento: "2024-01-19",
-      status: "Pendente",
-    },
-    {
-      id: 2,
-      doador: "João Santos",
-      email: "joao@email.com",
-      tipo: "Calça",
-      condicao: "Seminova",
-      quantidade: 3,
-      tamanho: "G",
-      descricao: "Calças jeans em ótimo estado",
-      dataCadastro: "2024-01-13",
-      dataAgendamento: "2024-01-17",
-      status: "Coletado",
-    },
-    {
-      id: 3,
-      doador: "Ana Costa",
-      email: "ana@email.com",
-      tipo: "Vestido",
-      condicao: "Usada em bom estado",
-      quantidade: 2,
-      tamanho: "P",
-      descricao: "Vestidos sociais",
-      dataCadastro: "2024-01-12",
-      dataAgendamento: "2024-01-15",
-      status: "Entregue",
-    },
-    {
-      id: 4,
-      doador: "Carlos Lima",
-      email: "carlos@email.com",
-      tipo: "Casaco",
-      condicao: "Nova",
-      quantidade: 1,
-      tamanho: "GG",
-      descricao: "Casaco de inverno",
-      dataCadastro: "2024-01-11",
-      dataAgendamento: "2024-01-18",
-      status: "Pendente",
-    },
-  ])
+  // Função para garantir que o retorno seja sempre um array
+  const ensureArray = (data) => {
+    if (Array.isArray(data)) {
+      return data
+    }
+    if (data && typeof data === "object") {
+      // Se for um objeto, tenta extrair um array de uma propriedade comum
+      if (Array.isArray(data.data)) return data.data
+      if (Array.isArray(data.items)) return data.items
+      if (Array.isArray(data.results)) return data.results
+      // Se for um objeto único, coloca em um array
+      return [data]
+    }
+    return []
+  }
 
-  const [foodDonations] = useState([
-    {
-      id: 1,
-      doador: "Supermercado ABC",
-      email: "contato@abc.com",
-      tipo: "Arroz",
-      quantidade: "10 pacotes de 1kg",
-      validade: "2024-12-30",
-      descricao: "Arroz branco tipo 1",
-      dataCadastro: "2024-01-14",
-      dataAgendamento: "2024-01-21",
-      status: "Pendente",
-    },
-    {
-      id: 2,
-      doador: "Padaria Central",
-      email: "padaria@central.com",
-      tipo: "Pães",
-      quantidade: "50 unidades",
-      validade: "2024-01-15",
-      descricao: "Pães franceses do dia",
-      dataCadastro: "2024-01-14",
-      dataAgendamento: "2024-01-16",
-      status: "Coletado",
-    },
-    {
-      id: 3,
-      doador: "Família Oliveira",
-      email: "oliveira@email.com",
-      tipo: "Feijão",
-      quantidade: "5 pacotes de 1kg",
-      validade: "2024-08-29",
-      descricao: "Feijão carioca",
-      dataCadastro: "2024-01-13",
-      dataAgendamento: "2024-01-15",
-      status: "Entregue",
-    },
-    {
-      id: 4,
-      doador: "Empresa XYZ",
-      email: "rh@xyz.com",
-      tipo: "Óleo",
-      quantidade: "20 garrafas de 900ml",
-      validade: "2024-06-14",
-      descricao: "Óleo de soja",
-      dataCadastro: "2024-01-12",
-      dataAgendamento: "2024-01-19",
-      status: "Pendente",
-    },
-  ])
+  // Fetch data from API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        setError(null)
 
-  // Estatísticas calculadas
-  const totalClothingDonations = clothingDonations.length
-  const totalFoodDonations = foodDonations.length
+        // Configuração do axios para CORS
+        const axiosConfig = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          timeout: 10000, // 10 segundos de timeout
+        }
+
+        console.log("Iniciando busca de dados...")
+
+        const [clothingResponse, foodResponse] = await Promise.all([
+          axios.get("http://localhost:8080/roupass", axiosConfig),
+          axios.get("http://localhost:8080/alimentacao", axiosConfig),
+        ])
+
+        console.log("Dados de roupas:", clothingResponse.data)
+        console.log("Dados de alimentação:", foodResponse.data)
+
+        // Garantir que os dados sejam sempre arrays
+        const clothingData = ensureArray(clothingResponse.data)
+        const foodData = ensureArray(foodResponse.data)
+
+        setClothingDonations(clothingData)
+        setFoodDonations(foodData)
+      } catch (err) {
+        console.error("Erro detalhado:", err)
+
+        if (err.code === "ECONNREFUSED" || err.code === "ERR_NETWORK") {
+          setError(
+            "Não foi possível conectar ao servidor. Verifique se o backend está rodando em http://localhost:8080",
+          )
+        } else if (err.response) {
+          setError(`Erro do servidor: ${err.response.status} - ${err.response.statusText}`)
+        } else if (err.request) {
+          setError("Erro de rede: Verifique sua conexão e se o CORS está configurado no backend")
+        } else {
+          setError(`Erro inesperado: ${err.message}`)
+        }
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  // Estatísticas calculadas com verificações de segurança
+  const totalClothingDonations = Array.isArray(clothingDonations) ? clothingDonations.length : 0
+  const totalFoodDonations = Array.isArray(foodDonations) ? foodDonations.length : 0
   const totalDonations = totalClothingDonations + totalFoodDonations
-  const pendingDonations = [...clothingDonations, ...foodDonations].filter((d) => d.status === "Pendente").length
+
+  const pendingDonations = 0 // Temporário até implementar status
 
   // Filtrar doações
   const getFilteredDonations = () => {
     let filtered = []
 
     if (activeFilter === "todos" || activeFilter === "roupas") {
-      filtered = [...filtered, ...clothingDonations.map((d) => ({ ...d, categoria: "Roupa" }))]
+      const clothingData = Array.isArray(clothingDonations) ? clothingDonations : []
+      filtered = [...filtered, ...clothingData.map((d) => ({ ...d, categoria: "Roupa" }))]
     }
 
     if (activeFilter === "todos" || activeFilter === "alimentos") {
-      filtered = [...filtered, ...foodDonations.map((d) => ({ ...d, categoria: "Alimento" }))]
+      const foodData = Array.isArray(foodDonations) ? foodDonations : []
+      filtered = [...filtered, ...foodData.map((d) => ({ ...d, categoria: "Alimento" }))]
     }
 
-    // Filtro por termo de busca
+    // Filtro por termo de busca - usando campos reais
     if (searchTerm) {
-      filtered = filtered.filter(
-        (donation) =>
-          donation.doador.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          donation.tipo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          donation.email.toLowerCase().includes(searchTerm.toLowerCase()),
-      )
+      filtered = filtered.filter((donation) => {
+        const tipo_roupa = donation?.tipo_roupa || ""
+        const tipo_alimento = donation?.tipo_alimento || ""
+        const descricao = donation?.descricao || ""
+
+        return (
+          tipo_roupa.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          tipo_alimento.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          descricao.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      })
     }
 
-    // Filtro por data
+    // Filtro por data - usando data_entrega
     if (dateFilter) {
-      filtered = filtered.filter((donation) => donation.dataAgendamento === dateFilter)
+      filtered = filtered.filter((donation) => donation?.data_entrega === dateFilter)
     }
 
-    return filtered.sort((a, b) => new Date(b.dataCadastro) - new Date(a.dataCadastro))
+    return filtered.sort((a, b) => {
+      const dateA = new Date(a?.data_cadastro_roupa || a?.data_cadastro_alimento || 0)
+      const dateB = new Date(b?.data_cadastro_roupa || b?.data_cadastro_alimento || 0)
+      return dateB - dateA
+    })
   }
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("pt-BR")
+    if (!dateString) return "Data não informada"
+    try {
+      return new Date(dateString).toLocaleDateString("pt-BR")
+    } catch (error) {
+      return "Data inválida"
+    }
+  }
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="dashboard-page">
+        <Header />
+        <main className="dashboard-container">
+          <div className="loading-container">
+            <div className="loading-spinner">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="animate-spin"
+              >
+                <path d="M21 12a9 9 0 11-6.219-8.56" />
+              </svg>
+            </div>
+            <p>Carregando dados...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="dashboard-page">
+        <Header />
+        <main className="dashboard-container">
+          <div className="error-container">
+            <div className="error-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="64"
+                height="64"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <h3>Erro ao carregar dados</h3>
+            <p>{error}</p>
+            <button className="retry-button" onClick={() => window.location.reload()}>
+              Tentar novamente
+            </button>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
   }
 
   return (
@@ -167,6 +218,26 @@ const Dashboard = () => {
           <div className="dashboard-header-content">
             <h1 className="dashboard-title">Dashboard de Doações</h1>
             <p className="dashboard-subtitle">Gerencie e acompanhe todas as doações recebidas</p>
+            <button className="refresh-button" onClick={() => window.location.reload()} disabled={loading}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={loading ? "animate-spin" : ""}
+              >
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                <path d="M21 3v5h-5" />
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                <path d="M3 21v-5h5" />
+              </svg>
+              {loading ? "Carregando..." : "Atualizar"}
+            </button>
           </div>
         </section>
 
@@ -347,45 +418,53 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {getFilteredDonations().map((donation) => (
-                  <tr key={`${donation.categoria}-${donation.id}`}>
+                {getFilteredDonations().map((donation, index) => (
+                  <tr key={`${donation?.categoria || "unknown"}-${donation?.id || index}`}>
                     <td>
-                      <span className={`category-badge ${donation.categoria.toLowerCase()}`}>{donation.categoria}</span>
+                      <span className={`category-badge ${(donation?.categoria || "").toLowerCase()}`}>
+                        {donation?.categoria || "N/A"}
+                      </span>
                     </td>
                     <td>
                       <div className="donor-info">
-                        <div className="donor-name">{donation.doador}</div>
-                        <div className="donor-email">{donation.email}</div>
+                        <div className="donor-name">ID: {donation?.id || "N/A"}</div>
+                        <div className="donor-email">User ID: {donation?.id_user || "N/A"}</div>
                       </div>
                     </td>
                     <td>
-                      {donation.categoria === "Roupa" ? (
+                      {donation?.categoria === "Roupa" ? (
                         <div className="donation-details">
                           <div>
-                            <strong>Qtd:</strong> {donation.quantidade}
+                            <strong>Tipo:</strong> {donation?.tipo_roupa || "N/A"}
                           </div>
                           <div>
-                            <strong>Tamanho:</strong> {donation.tamanho}
+                            <strong>Qtd:</strong> {donation?.quantidade || "N/A"}
                           </div>
                           <div>
-                            <strong>Condição:</strong> {donation.condicao}
+                            <strong>Tamanho:</strong> {donation?.tamanho || "N/A"}
+                          </div>
+                          <div>
+                            <strong>Condição:</strong> {donation?.condicao || "N/A"}
                           </div>
                         </div>
                       ) : (
                         <div className="donation-details">
                           <div>
-                            <strong>Qtd:</strong> {donation.quantidade}
+                            <strong>Tipo:</strong> {donation?.tipo_alimento || "N/A"}
                           </div>
                           <div>
-                            <strong>Validade:</strong> {formatDate(donation.validade)}
+                            <strong>Qtd:</strong> {donation?.quantidade || "N/A"}
+                          </div>
+                          <div>
+                            <strong>Validade:</strong> {formatDate(donation?.data_validade)}
                           </div>
                         </div>
                       )}
                     </td>
-                    <td>{formatDate(donation.dataCadastro)}</td>
-                    <td>{formatDate(donation.dataAgendamento)}</td>
+                    <td>{formatDate(donation?.data_cadastro_roupa || donation?.data_cadastro_alimento)}</td>
+                    <td>{formatDate(donation?.data_entrega)}</td>
                     <td>
-                      <span className={`status-badge status-${donation.status.toLowerCase()}`}>{donation.status}</span>
+                      <span className="status-badge status-ativo">Ativo</span>
                     </td>
                     <td>
                       <div className="action-buttons">

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import "./Doacao.css"
 import Header from "../components/Header"
 import { Footer } from "../components/footer"
+import axios from "axios"
 
 // Importando os ícones/imagens
 import moedaIcon from "../assets/img/moeda.svg"
@@ -23,20 +24,20 @@ export const Doacao = () => {
 
   // Estados para os formulários
   const [clothingDonation, setClothingDonation] = useState({
-    type: "",
-    condition: "",
-    quantity: "",
-    size: "",
-    description: "",
-    scheduledDate: "",
+    tipo_roupa: "",
+    condicao: "",
+    quantidade: "",
+    tamanho: "",
+    data_entrega: "",
+    descricao: "",
   })
 
   const [foodDonation, setFoodDonation] = useState({
-    type: "",
-    quantity: "",
-    expirationDate: "",
-    description: "",
-    scheduledDate: "",
+    tipo_alimento: "",
+    quantidade: "",
+    data_validade: "",
+    descricao: "",
+    data_entrega: "",
   })
 
   // Verificar autenticação
@@ -91,68 +92,135 @@ export const Doacao = () => {
   const closeClothingModal = () => {
     setShowClothingModal(false)
     setClothingDonation({
-      type: "",
-      condition: "",
-      quantity: "",
-      size: "",
-      description: "",
-      scheduledDate: "",
+      tipo_roupa: "",
+      condicao: "",
+      quantidade: "",
+      tamanho: "",
+      data_entrega: "",
+      descricao: "",
     })
   }
 
   const closeFoodModal = () => {
     setShowFoodModal(false)
     setFoodDonation({
-      type: "",
-      quantity: "",
-      expirationDate: "",
-      description: "",
-      scheduledDate: "",
+      tipo_alimento: "",
+      quantidade: "",
+      data_validade: "",
+      descricao: "",
+      data_entrega: "",
     })
   }
 
   // Funções para submeter as doações
-  const submitClothingDonation = (e) => {
+  const submitClothingDonation = async (e) => {
     e.preventDefault()
 
     // Validação básica
     if (
-      !clothingDonation.type ||
-      !clothingDonation.condition ||
-      !clothingDonation.quantity ||
-      !clothingDonation.scheduledDate
+      !clothingDonation.tipo_roupa ||
+      !clothingDonation.condicao ||
+      !clothingDonation.quantidade ||
+      !clothingDonation.data_entrega
     ) {
       alert("Por favor, preencha todos os campos obrigatórios.")
       return
     }
 
-    // Aqui você adicionaria a lógica para salvar no banco de dados
-    console.log("Doação de roupa:", clothingDonation)
+    try {
+      // Preparar dados para envio
+      const donationData = {
+        tipo_roupa: clothingDonation.tipo_roupa,
+        condicao: clothingDonation.condicao,
+        quantidade: Number.parseInt(clothingDonation.quantidade),
+        tamanho: clothingDonation.tamanho,
+        descricao: clothingDonation.descricao,
+        data_entrega: clothingDonation.data_entrega,
+        donorToken: localStorage.getItem("usuarioToken"), // Incluir token do usuário
+        data_cadastro_roupa: new Date().toISOString().split("T")[0], // Data atual no formato YYYY-MM-DD
+      }
 
-    alert(
-      "Doação de roupa registrada com sucesso! Agendamos sua visita para " +
-        new Date(clothingDonation.scheduledDate).toLocaleDateString("pt-BR"),
-    )
-    closeClothingModal()
+      // Fazer requisição para o backend
+      const response = await axios.post("http://localhost:8080/roupass", donationData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("usuarioToken")}`,
+        },
+      })
+
+      console.log("Resposta do servidor:", response.data)
+
+      alert(
+        "Doação de roupa registrada com sucesso! Agendamos sua visita para " +
+          new Date(clothingDonation.data_entrega).toLocaleDateString("pt-BR"),
+      )
+      closeClothingModal()
+    } catch (error) {
+      console.error("Erro ao registrar doação de roupa:", error)
+
+      if (error.response) {
+        // Erro do servidor
+        alert(`Erro ao registrar doação: ${error.response.data.message || "Erro interno do servidor"}`)
+      } else if (error.request) {
+        // Erro de rede
+        alert("Erro de conexão. Verifique sua internet e tente novamente.")
+      } else {
+        // Outro tipo de erro
+        alert("Erro inesperado. Tente novamente.")
+      }
+    }
   }
 
-  const submitFoodDonation = (e) => {
+  const submitFoodDonation = async (e) => {
     e.preventDefault()
 
     // Validação básica
-    if (!foodDonation.type || !foodDonation.quantity || !foodDonation.scheduledDate) {
+    if (!foodDonation.tipo_alimento || !foodDonation.quantidade || !foodDonation.data_entrega) {
       alert("Por favor, preencha todos os campos obrigatórios.")
       return
     }
 
-    // Aqui você adicionaria a lógica para salvar no banco de dados
-    console.log("Doação de alimento:", foodDonation)
+    try {
+      // Preparar dados para envio
+      const donationData = {
+        tipo_alimento: foodDonation.tipo_alimento,
+        quantidade: foodDonation.quantidade,
+        data_validade: foodDonation.data_validade,
+        descricao: foodDonation.descricao,
+        data_entrega: foodDonation.data_entrega,
+        donorToken: localStorage.getItem("usuarioToken"), // Incluir token do usuário
+        data_cadastro_alimento: new Date().toISOString().split("T")[0], // Data atual no formato YYYY-MM-DD
+      }
 
-    alert(
-      "Doação de alimento registrada com sucesso! Agendamos sua visita para " +
-        new Date(foodDonation.scheduledDate).toLocaleDateString("pt-BR"),
-    )
-    closeFoodModal()
+      // Fazer requisição para o backend
+      const response = await axios.post("http://localhost:8080/alimentacao", donationData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("usuarioToken")}`,
+        },
+      })
+
+      console.log("Resposta do servidor:", response.data)
+
+      alert(
+        "Doação de alimento registrada com sucesso! Agendamos sua visita para " +
+          new Date(foodDonation.data_entrega).toLocaleDateString("pt-BR"),
+      )
+      closeFoodModal()
+    } catch (error) {
+      console.error("Erro ao registrar doação de alimento:", error)
+
+      if (error.response) {
+        // Erro do servidor
+        alert(`Erro ao registrar doação: ${error.response.data.message || "Erro interno do servidor"}`)
+      } else if (error.request) {
+        // Erro de rede
+        alert("Erro de conexão. Verifique sua internet e tente novamente.")
+      } else {
+        // Outro tipo de erro
+        alert("Erro inesperado. Tente novamente.")
+      }
+    }
   }
 
   // Função para obter a data mínima (hoje)
@@ -649,8 +717,8 @@ export const Doacao = () => {
                 <label htmlFor="clothingType">Tipo de Roupa *</label>
                 <select
                   id="clothingType"
-                  value={clothingDonation.type}
-                  onChange={(e) => setClothingDonation({ ...clothingDonation, type: e.target.value })}
+                  value={clothingDonation.tipo_roupa}
+                  onChange={(e) => setClothingDonation({ ...clothingDonation, tipo_roupa: e.target.value })}
                   required
                 >
                   <option value="">Selecione o tipo</option>
@@ -673,8 +741,8 @@ export const Doacao = () => {
                 <label htmlFor="clothingCondition">Condição *</label>
                 <select
                   id="clothingCondition"
-                  value={clothingDonation.condition}
-                  onChange={(e) => setClothingDonation({ ...clothingDonation, condition: e.target.value })}
+                  value={clothingDonation.condicao}
+                  onChange={(e) => setClothingDonation({ ...clothingDonation, condicao: e.target.value })}
                   required
                 >
                   <option value="">Selecione a condição</option>
@@ -691,8 +759,8 @@ export const Doacao = () => {
                     type="number"
                     id="clothingQuantity"
                     min="1"
-                    value={clothingDonation.quantity}
-                    onChange={(e) => setClothingDonation({ ...clothingDonation, quantity: e.target.value })}
+                    value={clothingDonation.quantidade}
+                    onChange={(e) => setClothingDonation({ ...clothingDonation, quantidade: e.target.value })}
                     required
                   />
                 </div>
@@ -701,8 +769,8 @@ export const Doacao = () => {
                   <label htmlFor="clothingSize">Tamanho</label>
                   <select
                     id="clothingSize"
-                    value={clothingDonation.size}
-                    onChange={(e) => setClothingDonation({ ...clothingDonation, size: e.target.value })}
+                    value={clothingDonation.tamanho}
+                    onChange={(e) => setClothingDonation({ ...clothingDonation, tamanho: e.target.value })}
                   >
                     <option value="">Selecione o tamanho</option>
                     <option value="pp">PP</option>
@@ -728,8 +796,8 @@ export const Doacao = () => {
                   type="date"
                   id="scheduledDate"
                   min={getMinDate()}
-                  value={clothingDonation.scheduledDate}
-                  onChange={(e) => setClothingDonation({ ...clothingDonation, scheduledDate: e.target.value })}
+                  value={clothingDonation.data_entrega}
+                  onChange={(e) => setClothingDonation({ ...clothingDonation, data_entrega: e.target.value })}
                   required
                 />
                 <small className="form-help">Selecione uma data para comparecer à ONG e entregar sua doação</small>
@@ -741,8 +809,8 @@ export const Doacao = () => {
                   id="clothingDescription"
                   rows="3"
                   placeholder="Descreva cores, marcas ou outras informações relevantes..."
-                  value={clothingDonation.description}
-                  onChange={(e) => setClothingDonation({ ...clothingDonation, description: e.target.value })}
+                  value={clothingDonation.descricao}
+                  onChange={(e) => setClothingDonation({ ...clothingDonation, descricao: e.target.value })}
                 ></textarea>
               </div>
 
@@ -774,8 +842,8 @@ export const Doacao = () => {
                 <label htmlFor="foodType">Tipo de Alimento *</label>
                 <select
                   id="foodType"
-                  value={foodDonation.type}
-                  onChange={(e) => setFoodDonation({ ...foodDonation, type: e.target.value })}
+                  value={foodDonation.tipo_alimento}
+                  onChange={(e) => setFoodDonation({ ...foodDonation, tipo_alimento: e.target.value })}
                   required
                 >
                   <option value="">Selecione o tipo</option>
@@ -803,8 +871,8 @@ export const Doacao = () => {
                   type="text"
                   id="foodQuantity"
                   placeholder="Ex: 2 pacotes de 1kg, 5 latas, etc."
-                  value={foodDonation.quantity}
-                  onChange={(e) => setFoodDonation({ ...foodDonation, quantity: e.target.value })}
+                  value={foodDonation.quantidade}
+                  onChange={(e) => setFoodDonation({ ...foodDonation, quantidade: e.target.value })}
                   required
                 />
               </div>
@@ -815,19 +883,19 @@ export const Doacao = () => {
                   <input
                     type="date"
                     id="foodExpiration"
-                    value={foodDonation.expirationDate}
-                    onChange={(e) => setFoodDonation({ ...foodDonation, expirationDate: e.target.value })}
+                    value={foodDonation.data_validade}
+                    onChange={(e) => setFoodDonation({ ...foodDonation, data_validade: e.target.value })}
                   />
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="scheduledDate">Data para entrega na ONG *</label>
+                  <label htmlFor="scheduledDateFood">Data para entrega na ONG *</label>
                   <input
                     type="date"
-                    id="scheduledDate"
+                    id="scheduledDateFood"
                     min={getMinDate()}
-                    value={foodDonation.scheduledDate}
-                    onChange={(e) => setFoodDonation({ ...foodDonation, scheduledDate: e.target.value })}
+                    value={foodDonation.data_entrega}
+                    onChange={(e) => setFoodDonation({ ...foodDonation, data_entrega: e.target.value })}
                     required
                   />
                 </div>
@@ -839,8 +907,8 @@ export const Doacao = () => {
                   id="foodDescription"
                   rows="3"
                   placeholder="Descreva marcas, condições de armazenamento ou outras informações relevantes..."
-                  value={foodDonation.description}
-                  onChange={(e) => setFoodDonation({ ...foodDonation, description: e.target.value })}
+                  value={foodDonation.descricao}
+                  onChange={(e) => setFoodDonation({ ...foodDonation, descricao: e.target.value })}
                 ></textarea>
               </div>
 

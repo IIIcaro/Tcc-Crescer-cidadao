@@ -1,7 +1,6 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
 import Logo from "../assets/img/logo.png"
 import googleIcon from "../assets/img/googleIcon.png"
 import "./Login.css"
@@ -27,28 +26,21 @@ const Login = () => {
     setIsLoading(true)
 
     try {
-      const response = await fetch("http://localhost/backend/login.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        "http://localhost:8080/login",
+        {
           email: email,
           senha: password,
-        }),
-      })
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        },
+      )
 
-      const responseText = await response.text()
-      if (!responseText) {
-        throw new Error("O servidor não retornou dados")
-      }
-
-      const data = JSON.parse(responseText)
-
-      if (!response.ok) {
-        throw new Error(data.message || "Erro no servidor")
-      }
+      const data = response.data
 
       // Armazenar dados do usuário incluindo is_admin
       localStorage.setItem("usuarioToken", data.token)
@@ -58,15 +50,24 @@ const Login = () => {
       // Mostrar mensagem de sucesso diferente para admin
       if (data.is_admin) {
         alert(`Bem-vindo, ${data.nome}! Você tem privilégios de administrador.`)
+      } else {
+        alert(`Bem-vindo, ${data.nome}!`)
       }
 
       navigate("/")
     } catch (error) {
       console.error("Erro detalhado:", error)
-      setError(`Erro: ${error.message}. Verifique:
-        1. XAMPP está rodando (Apache e MySQL)
-        2. Arquivos PHP estão em htdocs/backend
-        3. Não há erros no console do navegador (F12)`)
+
+      if (error.response) {
+        // Erro do servidor
+        setError(`Erro: ${error.response.data.message || "Credenciais inválidas"}`)
+      } else if (error.request) {
+        // Erro de rede
+        setError("Erro de conexão. Verifique sua internet e tente novamente.")
+      } else {
+        // Outro tipo de erro
+        setError("Erro inesperado. Tente novamente.")
+      }
     } finally {
       setIsLoading(false)
     }
