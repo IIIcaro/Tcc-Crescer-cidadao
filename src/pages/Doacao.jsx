@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import "./Doacao.css"
 import Header from "../components/Header"
 import { Footer } from "../components/footer"
+import DonationModal from "../components/DonationModal"
 
 // Importando os ícones/imagens
 import moedaIcon from "../assets/img/moeda.svg"
@@ -16,34 +17,25 @@ export const Doacao = () => {
   const [selectedAmount, setSelectedAmount] = useState("100")
   const [showQrCode, setShowQrCode] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [user, setUser] = useState(null)
 
   // Estados para os modais de doação
   const [showClothingModal, setShowClothingModal] = useState(false)
   const [showFoodModal, setShowFoodModal] = useState(false)
 
-  // Estados para os formulários
-  const [clothingDonation, setClothingDonation] = useState({
-    type: "",
-    condition: "",
-    quantity: "",
-    size: "",
-    description: "",
-    scheduledDate: "",
-  })
-
-  const [foodDonation, setFoodDonation] = useState({
-    type: "",
-    quantity: "",
-    expirationDate: "",
-    description: "",
-    scheduledDate: "",
-  })
-
   // Verificar autenticação
   useEffect(() => {
     const token = localStorage.getItem("usuarioToken")
-    if (token) {
+    const nome = localStorage.getItem("usuarioNome")
+    const userId = localStorage.getItem("usuarioId")
+    
+    if (token && nome) {
       setIsLoggedIn(true)
+      setUser({
+        token,
+        nome,
+        id: userId
+      })
     }
   }, [])
 
@@ -90,75 +82,10 @@ export const Doacao = () => {
 
   const closeClothingModal = () => {
     setShowClothingModal(false)
-    setClothingDonation({
-      type: "",
-      condition: "",
-      quantity: "",
-      size: "",
-      description: "",
-      scheduledDate: "",
-    })
   }
 
   const closeFoodModal = () => {
     setShowFoodModal(false)
-    setFoodDonation({
-      type: "",
-      quantity: "",
-      expirationDate: "",
-      description: "",
-      scheduledDate: "",
-    })
-  }
-
-  // Funções para submeter as doações
-  const submitClothingDonation = (e) => {
-    e.preventDefault()
-
-    // Validação básica
-    if (
-      !clothingDonation.type ||
-      !clothingDonation.condition ||
-      !clothingDonation.quantity ||
-      !clothingDonation.scheduledDate
-    ) {
-      alert("Por favor, preencha todos os campos obrigatórios.")
-      return
-    }
-
-    // Aqui você adicionaria a lógica para salvar no banco de dados
-    console.log("Doação de roupa:", clothingDonation)
-
-    alert(
-      "Doação de roupa registrada com sucesso! Agendamos sua visita para " +
-        new Date(clothingDonation.scheduledDate).toLocaleDateString("pt-BR"),
-    )
-    closeClothingModal()
-  }
-
-  const submitFoodDonation = (e) => {
-    e.preventDefault()
-
-    // Validação básica
-    if (!foodDonation.type || !foodDonation.quantity || !foodDonation.scheduledDate) {
-      alert("Por favor, preencha todos os campos obrigatórios.")
-      return
-    }
-
-    // Aqui você adicionaria a lógica para salvar no banco de dados
-    console.log("Doação de alimento:", foodDonation)
-
-    alert(
-      "Doação de alimento registrada com sucesso! Agendamos sua visita para " +
-        new Date(foodDonation.scheduledDate).toLocaleDateString("pt-BR"),
-    )
-    closeFoodModal()
-  }
-
-  // Função para obter a data mínima (hoje)
-  const getMinDate = () => {
-    const today = new Date()
-    return today.toISOString().split("T")[0]
   }
 
   return (
@@ -590,7 +517,7 @@ export const Doacao = () => {
               strokeLinejoin="round"
               className="quote-icon"
             >
-              <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+              <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .9-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
               <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
             </svg>
             <p className="testimonial-text">
@@ -636,225 +563,20 @@ export const Doacao = () => {
 
       {/* Modal de Doação de Roupas */}
       {showClothingModal && (
-        <div className="modal-overlay" onClick={closeClothingModal}>
-          <div className="modal-content donation-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal" onClick={closeClothingModal}>
-              &times;
-            </button>
-            <h3 className="modal-title">Doação de Roupas</h3>
-            <p className="modal-description">Preencha as informações sobre as roupas que deseja doar</p>
-
-            <form onSubmit={submitClothingDonation} className="donation-form">
-              <div className="form-group">
-                <label htmlFor="clothingType">Tipo de Roupa *</label>
-                <select
-                  id="clothingType"
-                  value={clothingDonation.type}
-                  onChange={(e) => setClothingDonation({ ...clothingDonation, type: e.target.value })}
-                  required
-                >
-                  <option value="">Selecione o tipo</option>
-                  <option value="camiseta">Camiseta</option>
-                  <option value="calca">Calça</option>
-                  <option value="vestido">Vestido</option>
-                  <option value="blusa">Blusa</option>
-                  <option value="shorts">Shorts</option>
-                  <option value="saia">Saia</option>
-                  <option value="casaco">Casaco</option>
-                  <option value="jaqueta">Jaqueta</option>
-                  <option value="sapato">Sapato</option>
-                  <option value="tenis">Tênis</option>
-                  <option value="roupa-intima">Roupa Íntima</option>
-                  <option value="outros">Outros</option>
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="clothingCondition">Condição *</label>
-                <select
-                  id="clothingCondition"
-                  value={clothingDonation.condition}
-                  onChange={(e) => setClothingDonation({ ...clothingDonation, condition: e.target.value })}
-                  required
-                >
-                  <option value="">Selecione a condição</option>
-                  <option value="nova">Nova (com etiqueta)</option>
-                  <option value="seminova">Seminova (pouco uso)</option>
-                  <option value="usada-bom-estado">Usada em bom estado</option>
-                </select>
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="clothingQuantity">Quantidade *</label>
-                  <input
-                    type="number"
-                    id="clothingQuantity"
-                    min="1"
-                    value={clothingDonation.quantity}
-                    onChange={(e) => setClothingDonation({ ...clothingDonation, quantity: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="clothingSize">Tamanho</label>
-                  <select
-                    id="clothingSize"
-                    value={clothingDonation.size}
-                    onChange={(e) => setClothingDonation({ ...clothingDonation, size: e.target.value })}
-                  >
-                    <option value="">Selecione o tamanho</option>
-                    <option value="pp">PP</option>
-                    <option value="p">P</option>
-                    <option value="m">M</option>
-                    <option value="g">G</option>
-                    <option value="gg">GG</option>
-                    <option value="xgg">XGG</option>
-                    <option value="infantil-2">Infantil 2 anos</option>
-                    <option value="infantil-4">Infantil 4 anos</option>
-                    <option value="infantil-6">Infantil 6 anos</option>
-                    <option value="infantil-8">Infantil 8 anos</option>
-                    <option value="infantil-10">Infantil 10 anos</option>
-                    <option value="infantil-12">Infantil 12 anos</option>
-                    <option value="variados">Tamanhos variados</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="scheduledDate">Data para entrega na ONG *</label>
-                <input
-                  type="date"
-                  id="scheduledDate"
-                  min={getMinDate()}
-                  value={clothingDonation.scheduledDate}
-                  onChange={(e) => setClothingDonation({ ...clothingDonation, scheduledDate: e.target.value })}
-                  required
-                />
-                <small className="form-help">Selecione uma data para comparecer à ONG e entregar sua doação</small>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="clothingDescription">Descrição adicional</label>
-                <textarea
-                  id="clothingDescription"
-                  rows="3"
-                  placeholder="Descreva cores, marcas ou outras informações relevantes..."
-                  value={clothingDonation.description}
-                  onChange={(e) => setClothingDonation({ ...clothingDonation, description: e.target.value })}
-                ></textarea>
-              </div>
-
-              <div className="form-actions">
-                <button type="button" onClick={closeClothingModal} className="btn-secondary">
-                  Cancelar
-                </button>
-                <button type="submit" className="btn-primary">
-                  Confirmar Doação
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <DonationModal
+          type="clothes"
+          user={user}
+          onClose={closeClothingModal}
+        />
       )}
 
       {/* Modal de Doação de Alimentos */}
       {showFoodModal && (
-        <div className="modal-overlay" onClick={closeFoodModal}>
-          <div className="modal-content donation-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal" onClick={closeFoodModal}>
-              &times;
-            </button>
-            <h3 className="modal-title">Doação de Alimentos</h3>
-            <p className="modal-description">Preencha as informações sobre os alimentos que deseja doar</p>
-
-            <form onSubmit={submitFoodDonation} className="donation-form">
-              <div className="form-group">
-                <label htmlFor="foodType">Tipo de Alimento *</label>
-                <select
-                  id="foodType"
-                  value={foodDonation.type}
-                  onChange={(e) => setFoodDonation({ ...foodDonation, type: e.target.value })}
-                  required
-                >
-                  <option value="">Selecione o tipo</option>
-                  <option value="arroz">Arroz</option>
-                  <option value="feijao">Feijão</option>
-                  <option value="macarrao">Macarrão</option>
-                  <option value="oleo">Óleo</option>
-                  <option value="acucar">Açúcar</option>
-                  <option value="sal">Sal</option>
-                  <option value="farinha">Farinha</option>
-                  <option value="leite-po">Leite em Pó</option>
-                  <option value="cafe">Café</option>
-                  <option value="sardinha">Sardinha</option>
-                  <option value="atum">Atum</option>
-                  <option value="molho-tomate">Molho de Tomate</option>
-                  <option value="biscoito">Biscoito</option>
-                  <option value="aveia">Aveia</option>
-                  <option value="outros">Outros</option>
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="foodQuantity">Quantidade *</label>
-                <input
-                  type="text"
-                  id="foodQuantity"
-                  placeholder="Ex: 2 pacotes de 1kg, 5 latas, etc."
-                  value={foodDonation.quantity}
-                  onChange={(e) => setFoodDonation({ ...foodDonation, quantity: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="foodExpiration">Data de Validade</label>
-                  <input
-                    type="date"
-                    id="foodExpiration"
-                    value={foodDonation.expirationDate}
-                    onChange={(e) => setFoodDonation({ ...foodDonation, expirationDate: e.target.value })}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="scheduledDate">Data para entrega na ONG *</label>
-                  <input
-                    type="date"
-                    id="scheduledDate"
-                    min={getMinDate()}
-                    value={foodDonation.scheduledDate}
-                    onChange={(e) => setFoodDonation({ ...foodDonation, scheduledDate: e.target.value })}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="foodDescription">Descrição adicional</label>
-                <textarea
-                  id="foodDescription"
-                  rows="3"
-                  placeholder="Descreva marcas, condições de armazenamento ou outras informações relevantes..."
-                  value={foodDonation.description}
-                  onChange={(e) => setFoodDonation({ ...foodDonation, description: e.target.value })}
-                ></textarea>
-              </div>
-
-              <div className="form-actions">
-                <button type="button" onClick={closeFoodModal} className="btn-secondary">
-                  Cancelar
-                </button>
-                <button type="submit" className="btn-primary">
-                  Confirmar Doação
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <DonationModal
+          type="food"
+          user={user}
+          onClose={closeFoodModal}
+        />
       )}
 
       <Footer />

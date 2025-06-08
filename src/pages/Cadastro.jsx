@@ -33,6 +33,11 @@ const Cadastro = () => {
       return
     }
 
+    if (senha.length < 6) {
+      setError("A senha deve ter pelo menos 6 caracteres")
+      return
+    }
+
     setIsLoading(true)
 
     try {
@@ -69,98 +74,99 @@ const Cadastro = () => {
   }
 
   return (
-    <div className="auth-container">
-      <button onClick={() => navigate("/")} className="home-button" aria-label="Voltar para página inicial">
-        ← Início
-      </button>
-      <div className="auth-card">
-        <div className="logo-container">
-          <img src={Logo || "/placeholder.svg"} alt="Logo" className="logo-image" />
-        </div>
-
-        <h1 className="auth-title">Criar Conta</h1>
-
-        {error && <div className="error-alert">{error}</div>}
-        {success && <div className="success-alert">{success}</div>}
-
-        <form onSubmit={handleCadastro} className="auth-form">
-          <div className="form-group">
-            <div className="input-container">
-              <img src={userIcon || "/placeholder.svg"} alt="User" className="input-icon" />
-              <input
-                type="text"
-                id="nome"
-                placeholder="Nome completo"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-                required
-                autoComplete="name"
-                className="auth-input"
-              />
-            </div>
+    <div className="cadastro-page">
+      
+      <div className="auth-container">
+        <div className="auth-card">
+          <div className="logo-container">
+            <img src={Logo || "/placeholder.svg"} alt="Logo" className="logo-image" />
           </div>
 
-          <div className="form-group">
-            <div className="input-container">
-              <img src={emailIcon || "/"} alt="Email" className="input-icon" />
-              <input
-                type="email"
-                id="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-                className="auth-input"
-              />
+          <h1 className="auth-title">Criar Conta</h1>
+
+          {error && <div className="error-alert">{error}</div>}
+          {success && <div className="success-alert">{success}</div>}
+
+          <form onSubmit={handleCadastro} className="auth-form">
+            <div className="form-group">
+              <div className="input-container">
+                <img src={userIcon || "/placeholder.svg"} alt="User" className="input-icon" />
+                <input
+                  type="text"
+                  id="nome"
+                  placeholder="Nome completo"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  required
+                  autoComplete="name"
+                  className="auth-input"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="form-group">
-            <div className="input-container">
-              <img src={keyIcon || "/placeholder.svg"} alt="Password" className="input-icon" />
-              <input
-                type="password"
-                id="senha"
-                placeholder="Senha (mínimo 6 caracteres)"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                required
-                minLength="6"
-                autoComplete="new-password"
-                className="auth-input"
-              />
+            <div className="form-group">
+              <div className="input-container">
+                <img src={emailIcon || "/placeholder.svg"} alt="Email" className="input-icon" />
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoComplete="email"
+                  className="auth-input"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="form-group">
-            <div className="input-container">
-              <img src={keyIcon || "/placeholder.svg"} alt="Confirm Password" className="input-icon" />
-              <input
-                type="password"
-                id="confirmarSenha"
-                placeholder="Confirmar senha"
-                value={confirmarSenha}
-                onChange={(e) => setConfirmarSenha(e.target.value)}
-                required
-                autoComplete="new-password"
-                className="auth-input"
-              />
+            <div className="form-group">
+              <div className="input-container">
+                <img src={keyIcon || "/placeholder.svg"} alt="Password" className="input-icon" />
+                <input
+                  type="password"
+                  id="senha"
+                  placeholder="Senha (mínimo 6 caracteres)"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  required
+                  minLength="6"
+                  autoComplete="new-password"
+                  className="auth-input"
+                />
+              </div>
             </div>
-          </div>
 
-          <button type="submit" disabled={isLoading} className="auth-button">
-            {isLoading ? "Cadastrando..." : "Cadastrar"}
-          </button>
+            <div className="form-group">
+              <div className="input-container">
+                <img src={keyIcon || "/placeholder.svg"} alt="Confirm Password" className="input-icon" />
+                <input
+                  type="password"
+                  id="confirmarSenha"
+                  placeholder="Confirmar senha"
+                  value={confirmarSenha}
+                  onChange={(e) => setConfirmarSenha(e.target.value)}
+                  required
+                  autoComplete="new-password"
+                  className="auth-input"
+                />
+              </div>
+            </div>
 
-          <div className="auth-link-container">
-            <span>Já tem uma conta?</span>
-            <button type="button" onClick={() => navigate("/Login")} className="auth-link">
-              Login
+            <button type="submit" disabled={isLoading} className="auth-button">
+              {isLoading ? "Cadastrando..." : "Cadastrar"}
             </button>
-          </div>
-        </form>
+
+            <div className="auth-link-container">
+              <span>Já tem uma conta?</span>
+              <button type="button" onClick={() => navigate("/Login")} className="auth-link">
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
+      
     </div>
   )
 }
