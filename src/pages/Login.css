@@ -149,6 +149,7 @@ body {
   position: absolute;
   left: 12px;
   color: #666;
+  z-index: 1; /* Reduzido para ficar atrás do texto */
 }
 
 .login-input {
@@ -159,6 +160,8 @@ body {
   font-size: 15px;
   transition: all 0.2s ease;
   background-color: #f9f9f9;
+  position: relative; /* Adicionado para estabelecer contexto de empilhamento */
+  z-index: 2; /* Maior que o ícone para garantir que o texto fique acima */
 }
 
 .login-input:focus {

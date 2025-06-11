@@ -142,18 +142,7 @@ export const Servicos = () => {
     <div className="services-page">
       <Header />
 
-      <section className="hero-section">
-        <div className="hero-overlay">
-          <div className="hero-content">
-            <h1>Serviços Especializados</h1>
-            <div className="hero-divider"></div>
-            <p>Conheça nossos serviços dedicados ao desenvolvimento e bem-estar de crianças e adolescentes</p>
-            <a href="#servicos" className="hero-button">
-              Conheça Nossos Serviços
-            </a>
-          </div>
-        </div>
-      </section>
+      
 
       <section id="servicos" className="services-section">
         <div className="section-header">
@@ -178,7 +167,7 @@ export const Servicos = () => {
                   </button>
                 </div>
               </div>
-              
+
               {expandedService === service.id && (
                 <div className="service-details">
                   <p>{service.description}</p>
@@ -267,15 +256,7 @@ export const Servicos = () => {
         </div>
       </section>
 
-      <section className="cta-section">
-        <div className="cta-content">
-          <h2>Agende uma Consulta</h2>
-          <p>Entre em contato conosco para agendar uma avaliação inicial ou tirar suas dúvidas sobre nossos serviços</p>
-          <a href="https://wa.me/5575988081908" className="cta-button">
-            AGENDAR AGORA
-          </a>
-        </div>
-      </section>
+      
 
       <section className="team-section">
         <div className="section-header">
@@ -293,7 +274,9 @@ export const Servicos = () => {
                 </div>
               </div>
               <div className="team-card-body">
-                <h3 className="team-role" style={{ color: member.color }}>{member.role}</h3>
+                <h3 className="team-role" style={{ color: member.color }}>
+                  {member.role}
+                </h3>
                 <h4 className="team-name">{member.name}</h4>
                 <p className="team-specialty">{member.specialty}</p>
                 <button className="team-button" style={{ color: member.color, borderColor: member.color }}>

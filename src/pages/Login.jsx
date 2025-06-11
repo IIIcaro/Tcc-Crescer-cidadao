@@ -58,7 +58,7 @@ const Login = () => {
 
         // Redirecionar baseado no tipo de usuário
         if (data.is_admin) {
-          navigate("/Dashboard")
+          navigate("/")
         } else {
           navigate("/Doacao")
         }
@@ -221,10 +221,7 @@ const Login = () => {
                   <span>ou</span>
                 </div>
 
-                <button type="button" className="google-button">
-                  <img src={googleIcon || "/placeholder.svg"} alt="Google" className="google-icon" />
-                  <span>Continuar com Google</span>
-                </button>
+                
 
                 <div className="signup-link">
                   <span>Não tem uma conta?</span>
