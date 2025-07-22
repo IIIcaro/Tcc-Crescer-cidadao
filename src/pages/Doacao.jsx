@@ -10,7 +10,7 @@ import DonationModal from "../components/DonationModal"
 import moedaIcon from "../assets/img/moeda.svg"
 import alimentosIcon from "../assets/img/abacaxi.svg"
 import roupasIcon from "../assets/img/roupa.svg"
-import qrCodePix from "../assets/img/qr-code-pix.png"
+import qrCodePix from "../assets/img/QRPIXCODE1.png"
 
 export const Doacao = () => {
   const [activeTab, setActiveTab] = useState("financeira")
@@ -18,8 +18,6 @@ export const Doacao = () => {
   const [showQrCode, setShowQrCode] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
-
-  // Estados para os modais de doação
   const [showClothingModal, setShowClothingModal] = useState(false)
   const [showFoodModal, setShowFoodModal] = useState(false)
 
@@ -28,13 +26,13 @@ export const Doacao = () => {
     const token = localStorage.getItem("usuarioToken")
     const nome = localStorage.getItem("usuarioNome")
     const userId = localStorage.getItem("usuarioId")
-    
+
     if (token && nome) {
       setIsLoggedIn(true)
       setUser({
         token,
         nome,
-        id: userId
+        id: userId,
       })
     }
   }, [])
@@ -56,7 +54,6 @@ export const Doacao = () => {
     setShowQrCode(true)
   }
 
-  // Funções para abrir os modais de doação
   const handleClothingDonation = () => {
     if (!isLoggedIn) {
       alert("Você precisa estar logado para fazer doações. Redirecionando para o login...")
@@ -75,7 +72,6 @@ export const Doacao = () => {
     setShowFoodModal(true)
   }
 
-  // Funções para fechar modais
   const closeQrCode = () => {
     setShowQrCode(false)
   }
@@ -88,10 +84,43 @@ export const Doacao = () => {
     setShowFoodModal(false)
   }
 
+  const copyPixKey = () => {
+    // Chave PIX real
+    const pixKey = "00020126360014BR.GOV.BCB.PIX0114+55759880819085204000053039865802BR5921Davi Oliveira Azevedo6009SAO PAULO62140510Tus32FwunP630487A4"
+    navigator.clipboard.writeText(pixKey).then(() => {
+      alert("Chave PIX copiada!")
+    }).catch(() => {
+      // Fallback para navegadores mais antigos
+      const textArea = document.createElement("textarea")
+      textArea.value = pixKey
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      alert("Chave PIX copiada!")
+    })
+  }
+
+  const copyPixPhone = () => {
+    // Telefone PIX alternativo
+    const pixPhone = "75988081908"
+    navigator.clipboard.writeText(pixPhone).then(() => {
+      alert("Telefone PIX copiado!")
+    }).catch(() => {
+      // Fallback para navegadores mais antigos
+      const textArea = document.createElement("textarea")
+      textArea.value = pixPhone
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      alert("Telefone PIX copiado!")
+    })
+  }
+
   return (
     <div className="doacao-page">
       <Header />
-
       <main className="doacao-container">
         {/* Hero Section */}
         <section className="hero-section">
@@ -194,7 +223,6 @@ export const Doacao = () => {
               Escolha a forma de doação que melhor se adapta a você e ajude-nos a continuar nosso trabalho
             </p>
           </div>
-
           <div className="tabs-container">
             <div className="tabs">
               <button
@@ -219,7 +247,6 @@ export const Doacao = () => {
                 Roupas
               </button>
             </div>
-
             <div className="tab-content">
               {activeTab === "financeira" && (
                 <div className="donation-card">
@@ -293,7 +320,6 @@ export const Doacao = () => {
                   </div>
                 </div>
               )}
-
               {activeTab === "alimentos" && (
                 <div className="donation-card">
                   <div className="card-icon">
@@ -360,7 +386,6 @@ export const Doacao = () => {
                   </button>
                 </div>
               )}
-
               {activeTab === "roupas" && (
                 <div className="donation-card">
                   <div className="card-icon">
@@ -437,7 +462,6 @@ export const Doacao = () => {
             <span className="section-tag">NOSSO IMPACTO</span>
             <h2 className="section-title">Seu impacto é real</h2>
           </div>
-
           <div className="stats-container">
             <div className="stat-card">
               <div className="stat-icon">
@@ -461,7 +485,6 @@ export const Doacao = () => {
               <div className="stat-number">1.200+</div>
               <div className="stat-label">Pessoas ajudadas</div>
             </div>
-
             <div className="stat-card">
               <div className="stat-icon">
                 <svg
@@ -482,7 +505,6 @@ export const Doacao = () => {
               <div className="stat-number">350+</div>
               <div className="stat-label">Cestas básicas</div>
             </div>
-
             <div className="stat-card">
               <div className="stat-icon">
                 <svg
@@ -503,7 +525,6 @@ export const Doacao = () => {
               <div className="stat-label">Peças de roupa</div>
             </div>
           </div>
-
           <div className="testimonial-card">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -529,55 +550,150 @@ export const Doacao = () => {
         </section>
       </main>
 
-      {/* QR Code Modal */}
+      {/* PIX Modal Melhorado */}
       {showQrCode && (
         <div className="modal-overlay" onClick={closeQrCode}>
-          <div className="modal-content qr-code-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal" onClick={closeQrCode}>
-              &times;
-            </button>
-            <h3 className="modal-title">Faça sua doação via PIX</h3>
-            <p className="modal-description">
-              Escaneie o QR Code abaixo com o aplicativo do seu banco para fazer uma doação de{" "}
-              <strong>R${selectedAmount},00</strong>
-            </p>
-            <div className="qr-code-container">
-              <img src={qrCodePix || "/placeholder.svg"} alt="QR Code para PIX" className="qr-code-image" />
+          <div className="pix-modal-improved" onClick={(e) => e.stopPropagation()}>
+            {/* Header do Modal */}
+            <div className="pix-modal-header">
+              <div className="pix-logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <rect width="32" height="32" rx="8" fill="#00BFA5" />
+                  <path d="M8 12h16v8H8z" fill="white" />
+                  <path d="M10 14h12v4H10z" fill="#00BFA5" />
+                </svg>
+              </div>
+              <div className="pix-header-content">
+                <h2 className="pix-modal-title">Doação via PIX</h2>
+                <p className="pix-modal-subtitle">Rápido, seguro e instantâneo</p>
+              </div>
+              <button className="pix-close-btn" onClick={closeQrCode}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
             </div>
-            <div className="qr-code-instructions">
-              <p>
-                <strong>Como usar:</strong>
-              </p>
-              <ol>
-                <li>Abra o aplicativo do seu banco</li>
-                <li>Escolha a opção de pagamento via PIX</li>
-                <li>Escaneie o QR Code acima</li>
-                <li>Confirme os dados e valor</li>
-                <li>Conclua o pagamento</li>
-              </ol>
+
+            {/* Valor da Doação */}
+            <div className="pix-amount-section">
+              <div className="pix-amount-label">Valor da doação</div>
+              <div className="pix-amount-value">R$ {selectedAmount},00</div>
+              <div className="pix-amount-description">Sua contribuição fará a diferença na vida de muitas pessoas</div>
             </div>
-            <p className="qr-code-thanks">Agradecemos sua generosidade!</p>
+
+            {/* QR Code Section */}
+            <div className="pix-qr-section">
+              <div className="pix-qr-container">
+                <div className="pix-qr-frame">
+                  <img src={qrCodePix || "/placeholder.svg"} alt="QR Code PIX" className="pix-qr-image" />
+                </div>
+                <div className="pix-qr-corners">
+                  <div className="corner corner-tl"></div>
+                  <div className="corner corner-tr"></div>
+                  <div className="corner corner-bl"></div>
+                  <div className="corner corner-br"></div>
+                </div>
+              </div>
+              <p className="pix-qr-instruction">Aponte a câmera do seu celular para o QR Code</p>
+            </div>
+
+            {/* Alternativas PIX */}
+            <div className="pix-key-section">
+              <div className="pix-divider">
+                <span>ou use uma das opções abaixo</span>
+              </div>
+              
+              {/* Chave PIX Completa */}
+              <div className="pix-key-container">
+                <div className="pix-key-label">Chave PIX Completa</div>
+                <div className="pix-key-value">
+                  <span>00020126360014BR.GOV.BCB.PIX0114+55759880819085204000053039865802BR5921Davi Oliveira Azevedo6009SAO PAULO62140510Tus32FwunP630487A4</span>
+                  <button className="pix-copy-btn" onClick={copyPixKey}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copiar
+                  </button>
+                </div>
+              </div>
+
+              {/* Telefone PIX */}
+              <div className="pix-key-container" style={{marginTop: '1rem'}}>
+                <div className="pix-key-label">Telefone PIX</div>
+                <div className="pix-key-value">
+                  <span>(75) 98808-1908</span>
+                  <button className="pix-copy-btn" onClick={copyPixPhone}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copiar
+                  </button>
+                </div>
+              </div>
+
+              {/* Beneficiário */}
+              <div className="pix-beneficiary">
+                <div className="pix-beneficiary-label">Beneficiário</div>
+                <div className="pix-beneficiary-name">Ong Crescer Cidadao</div>
+              </div>
+            </div>
+
+            {/* Instruções */}
+            <div className="pix-instructions">
+              <h3 className="pix-instructions-title">Como fazer a doação:</h3>
+              <div className="pix-steps">
+                <div className="pix-step">
+                  <div className="pix-step-number">1</div>
+                  <div className="pix-step-content">
+                    <div className="pix-step-title">Abra seu app bancário</div>
+                    <div className="pix-step-description">Acesse a área PIX do seu banco</div>
+                  </div>
+                </div>
+                <div className="pix-step">
+                  <div className="pix-step-number">2</div>
+                  <div className="pix-step-content">
+                    <div className="pix-step-title">Escaneie o QR Code</div>
+                    <div className="pix-step-description">Ou cole uma das chaves PIX copiadas</div>
+                  </div>
+                </div>
+                <div className="pix-step">
+                  <div className="pix-step-number">3</div>
+                  <div className="pix-step-content">
+                    <div className="pix-step-title">Confirme o pagamento</div>
+                    <div className="pix-step-description">Verifique os dados e finalize</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="pix-modal-footer">
+              <div className="pix-security">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span>Transação 100% segura</span>
+              </div>
+              <div className="pix-thanks">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                <span>Obrigado por fazer a diferença!</span>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
       {/* Modal de Doação de Roupas */}
-      {showClothingModal && (
-        <DonationModal
-          type="clothes"
-          user={user}
-          onClose={closeClothingModal}
-        />
-      )}
+      {showClothingModal && <DonationModal type="clothes" user={user} onClose={closeClothingModal} />}
 
       {/* Modal de Doação de Alimentos */}
-      {showFoodModal && (
-        <DonationModal
-          type="food"
-          user={user}
-          onClose={closeFoodModal}
-        />
-      )}
+      {showFoodModal && <DonationModal type="food" user={user} onClose={closeFoodModal} />}
 
       <Footer />
     </div>
